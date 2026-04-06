@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clase de Apoyo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background: radial-gradient(circle at top, #1e293b 0%, #020617 60%);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-100">
+    <main class="mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center justify-center px-6 text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
+        Bienvenidos a clase de Apoyo
+      </h1>
+
+      <section class="mt-10 rounded-2xl border border-slate-700/60 bg-slate-900/50 px-8 py-6 shadow-2xl backdrop-blur">
+        <p class="text-sm uppercase tracking-[0.2em] text-slate-300">Tiempo restante</p>
+        <p id="countdown" class="mt-3 text-6xl font-black tabular-nums sm:text-7xl">40:00</p>
+      </section>
+
+      <h2 class="mt-10 text-lg font-medium text-slate-300 sm:text-xl">
+        Las clases comienzan a las 13:00 Hs.
+      </h2>
+    </main>
+
+    <script>
+      const countdownElement = document.getElementById('countdown');
+      let remainingSeconds = 40 * 60;
+
+      function formatTime(totalSeconds) {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+
+      function updateCountdown() {
+        countdownElement.textContent = formatTime(remainingSeconds);
+
+        if (remainingSeconds <= 0) {
+          clearInterval(timer);
+          return;
+        }
+
+        remainingSeconds -= 1;
+      }
+
+      updateCountdown();
+      const timer = setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>

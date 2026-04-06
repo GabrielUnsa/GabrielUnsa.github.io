@@ -4,32 +4,101 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clase de Apoyo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Great+Vibes&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['Playfair Display', 'serif'],
+              script: ['Great Vibes', 'cursive'],
+              sans: ['DM Sans', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
     <style>
+      :root {
+        --pastel-rose: #ffdbe7;
+        --pastel-peach: #ffe9cf;
+        --pastel-sky: #dff0ff;
+        --pastel-mint: #dcf8ea;
+        --text-main: #30435a;
+      }
+
       body {
-        background: radial-gradient(circle at top, #1e293b 0%, #020617 60%);
+        background: #fff9f3;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow: 0 20px 45px -22px rgba(87, 112, 145, 0.5);
+      }
+
+      .arched-title {
+        line-height: 1.15;
+        white-space: nowrap;
+      }
+
+      .arched-title span {
+        display: inline-block;
       }
     </style>
   </head>
-  <body class="min-h-screen text-slate-100">
+  <body class="min-h-screen font-sans text-[var(--text-main)]">
     <main class="mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center justify-center px-6 text-center">
-      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
+      <h1 id="main-title" class="arched-title font-script text-5xl font-normal text-sky-900 sm:text-7xl">
         Bienvenidos a clase de Apoyo
       </h1>
 
-      <section class="mt-10 rounded-2xl border border-slate-700/60 bg-slate-900/50 px-8 py-6 shadow-2xl backdrop-blur">
-        <p class="text-sm uppercase tracking-[0.2em] text-slate-300">Tiempo restante</p>
-        <p id="countdown" class="mt-3 text-6xl font-black tabular-nums sm:text-7xl">40:00</p>
+      <section
+        class="glass-card mt-10 w-full max-w-md rounded-3xl border border-white/70 px-8 py-7 shadow-xl backdrop-blur-md"
+      >
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-sky-700/80">Tiempo restante</p>
+        <p
+          id="countdown"
+          class="mt-3 text-6xl font-bold tabular-nums text-sky-900 sm:text-7xl"
+          style="font-variant-numeric: tabular-nums;"
+        >
+          40:00
+        </p>
       </section>
 
-      <h2 class="mt-10 text-lg font-medium text-slate-300 sm:text-xl">
+      <h2 class="mt-10 text-2xl font-bold text-slate-700 sm:text-3xl">
         Las clases comienzan a las 13:00 Hs.
       </h2>
     </main>
 
     <script>
+      const mainTitleElement = document.getElementById('main-title');
       const countdownElement = document.getElementById('countdown');
       let remainingSeconds = 40 * 60;
+
+      function applyArchToTitle(titleElement, archHeight = 22) {
+        const text = titleElement.textContent;
+        titleElement.innerHTML = '';
+
+        const chars = [...text];
+        const middle = (chars.length - 1) / 2;
+
+        chars.forEach((char, index) => {
+          const span = document.createElement('span');
+          span.textContent = char === ' ' ? '\u00A0' : char;
+
+          const distance = (index - middle) / middle;
+          const yOffset = -(1 - distance * distance) * archHeight;
+          span.style.transform = `translateY(${yOffset}px)`;
+
+          titleElement.appendChild(span);
+        });
+      }
 
       function formatTime(totalSeconds) {
         const minutes = Math.floor(totalSeconds / 60);
@@ -48,6 +117,7 @@
         remainingSeconds -= 1;
       }
 
+      applyArchToTitle(mainTitleElement);
       updateCountdown();
       const timer = setInterval(updateCountdown, 1000);
     </script>

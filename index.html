@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rosco de la A a la Z - IEM Salta (UNSa)</title>
+    <title>Pasapalabras - IEM (UNSa)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- React & ReactDOM -->
@@ -248,6 +248,44 @@
         .input-fx { transition: box-shadow .3s, border-color .3s, transform .25s; }
         .input-fx:focus { transform: scale(1.02); }
 
+        /* ---------- CARTEL DEL DÍA DEL ESTUDIANTE ---------- */
+        .party-banner {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            background: linear-gradient(100deg, var(--lemon) 0%, var(--blush) 32%, var(--pastel-2) 66%, var(--mint) 100%);
+            background-size: 200% 100%;
+            animation: party-shift 7s ease-in-out infinite alternate;
+            border: 2px dashed rgba(37, 133, 67, .35);
+            box-shadow: 0 10px 28px rgba(20, 73, 44, .12);
+        }
+        @keyframes party-shift {
+            from { background-position: 0% 50%; }
+            to   { background-position: 100% 50%; }
+        }
+        .party-banner::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -60%;
+            width: 40%; height: 100%;
+            background: linear-gradient(110deg, transparent, rgba(255,255,255,.75), transparent);
+            transform: skewX(-20deg);
+            animation: party-shine 4.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes party-shine {
+            0%, 65% { left: -60%; }
+            100%    { left: 130%; }
+        }
+        .party-emoji {
+            display: inline-block;
+            animation: party-bounce 1.5s ease-in-out infinite;
+        }
+        @keyframes party-bounce {
+            0%,100% { transform: translateY(0) rotate(-8deg); }
+            50%     { transform: translateY(-10px) rotate(8deg); }
+        }
+
         /* ---------- TROFEO + CONFETI ---------- */
         .trophy-fx { animation: trophy-bounce 1.6s ease-in-out infinite; }
         @keyframes trophy-bounce {
@@ -279,6 +317,47 @@
         .pastel-scroll::-webkit-scrollbar { width: 10px; }
         .pastel-scroll::-webkit-scrollbar-track { background: var(--pastel-1); border-radius: 9999px; }
         .pastel-scroll::-webkit-scrollbar-thumb { background: var(--pastel-3); border-radius: 9999px; }
+
+        /* ---------- PIE DE PÁGINA (festivo, pero discreto) ---------- */
+        .footer-fest {
+            position: relative;
+            background: linear-gradient(100deg, rgba(255,255,255,.60), rgba(226,244,234,.55));
+            border: 2px dashed rgba(37, 133, 67, .35);
+        }
+
+        /* Guirnalda de iconos: apenas se mueve */
+        .footer-garland {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .85rem;
+            font-size: .95rem;
+            margin-bottom: .5rem;
+            opacity: .9;
+        }
+        .garland-item {
+            display: inline-block;
+            animation: garland-wave 4.5s ease-in-out infinite;
+            transition: transform .3s ease, filter .3s ease;
+        }
+        .garland-item:hover { transform: scale(1.25); filter: brightness(1.15); }
+        .garland-item:nth-child(1) { color: #258543; } /* birrete  - verde IEM */
+        .garland-item:nth-child(2) { color: #d6567a; } /* libro    - rosa      */
+        .garland-item:nth-child(3) { color: #e0921f; } /* lamparita- ámbar     */
+        .garland-item:nth-child(4) { color: #3d9ad1; } /* estrella - celeste   */
+        .garland-item:nth-child(5) { color: #7a5cc4; } /* lápiz    - violeta   */
+        @keyframes garland-wave {
+            0%,100% { transform: translateY(0); }
+            50%     { transform: translateY(-3px); }
+        }
+
+        /* Saludo del Día del Estudiante */
+        .footer-title {
+            font-weight: 800;
+            color: var(--iem-deep);
+            letter-spacing: -.01em;
+        }
 
         /* Accesibilidad: menos movimiento */
         @media (prefers-reduced-motion: reduce) {
@@ -331,7 +410,18 @@
         // PUNTAJE: todas las palabras del rosco valen exactamente lo mismo.
         // Cambiando PUNTOS_POR_LETRA se recalcula automáticamente el total.
         const PUNTOS_POR_LETRA = 10;
+        // Duración de la animación de respuesta: hasta que termina no se pasa a la siguiente pregunta
+        const DURACION_FEEDBACK = 1100;
         const PUNTAJE_MAXIMO = ROSCO_DATA.length * PUNTOS_POR_LETRA;
+
+        // Bonus por rapidez: el porcentaje de tiempo que sobró se suma sobre el puntaje base.
+        // Terminar en la mitad del tiempo = +50%; agotar el reloj = +0%.
+        const calcularPuntaje = (aciertos, tiempoRestante, tiempoTotal) => {
+            const base = aciertos * PUNTOS_POR_LETRA;
+            const porcentaje = Math.max(0, Math.round((tiempoRestante / tiempoTotal) * 100));
+            const bonus = Math.round(base * porcentaje / 100);
+            return { base, porcentaje, bonus, total: base + bonus };
+        };
 
         // Función para normalizar cadenas (quitar tildes y espacios extras)
         const cleanText = (str) => {
@@ -422,6 +512,64 @@
             );
         }
 
+        // Fanfarria de cierre para el Día del Estudiante
+        const playFanfare = (isMuted) => {
+            if (isMuted) return;
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const t0 = ctx.currentTime;
+
+                // Melodía ascendente: Do - Mi - Sol - Do agudo
+                const melodia = [
+                    { f: 523.25, t: 0.00, d: 0.20 },
+                    { f: 659.25, t: 0.17, d: 0.20 },
+                    { f: 783.99, t: 0.34, d: 0.20 },
+                    { f: 1046.50, t: 0.51, d: 0.50 }
+                ];
+                melodia.forEach(n => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(n.f, t0 + n.t);
+                    gain.gain.setValueAtTime(0.0001, t0 + n.t);
+                    gain.gain.exponentialRampToValueAtTime(0.22, t0 + n.t + 0.03);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + n.t + n.d);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(t0 + n.t);
+                    osc.stop(t0 + n.t + n.d + 0.05);
+                });
+
+                // Acorde final sostenido
+                [523.25, 659.25, 783.99, 1046.50].forEach(f => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, t0 + 1.0);
+                    gain.gain.setValueAtTime(0.0001, t0 + 1.0);
+                    gain.gain.exponentialRampToValueAtTime(0.10, t0 + 1.08);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.2);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(t0 + 1.0);
+                    osc.stop(t0 + 2.3);
+                });
+
+                setTimeout(() => { try { ctx.close(); } catch (e) {} }, 3000);
+            } catch (e) {
+                console.error("Audio error:", e);
+            }
+        };
+
+        // Frases para el cartel del Día del Estudiante
+        const FRASES_ESTUDIANTE = [
+            'Que nunca se te apague la curiosidad: preguntar es la mejor forma de aprender.',
+            'Tu esfuerzo de hoy es el camino que vas a recordar mañana. ¡A seguir!',
+            'Aprender también es equivocarse, volver a intentar y divertirse en el camino.',
+            'El aula se llena de futuro cada vez que entrás con ganas de saber más.',
+            'Sos parte de la historia del IEM: ¡que sea un año para recordar!'
+        ];
+
         function App() {
             const INITIAL_TIME = 420; // 7 minutos
             const [gameState, setGameState] = useState('PLAYING'); // 'PLAYING', 'FINISHED'
@@ -433,17 +581,21 @@
             const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
             const [isMuted, setIsMuted] = useState(false);
             const [stats, setStats] = useState({ correct: 0, wrong: 0, pending: ROSCO_DATA.length });
-            const [flash, setFlash] = useState(null); // 'correct' | 'wrong' -> animación de feedback
+            const [flash, setFlash] = useState(null);   // 'correct' | 'wrong' -> animación de feedback
+            const [isLocked, setIsLocked] = useState(false); // true mientras se muestra la animación
+            const [frase, setFrase] = useState(FRASES_ESTUDIANTE[0]);
             
             const inputRef = useRef(null);
+            const feedbackTimer = useRef(null);
+            const yaFinalizado = useRef(false); // evita cerrar el juego dos veces
 
             // Focus automático al campo de texto al cambiar de turno
             useEffect(() => {
-                if (gameState === 'PLAYING' && inputRef.current) {
+                if (gameState === 'PLAYING' && !isLocked && inputRef.current) {
                     // preventScroll evita que la página salte al campo en celulares
                     inputRef.current.focus({ preventScroll: true });
                 }
-            }, [currentIndex, gameState]);
+            }, [currentIndex, gameState, isLocked]);
 
             // Manejador del temporizador
             useEffect(() => {
@@ -470,16 +622,22 @@
                 const pendingCount = items.filter(i => i.status === 'pending').length;
 
                 setStats({ correct: correctCount, wrong: wrongCount, pending: pendingCount });
-
-                // Verificar si ya se completaron todas las preguntas
-                if (pendingCount === 0 && gameState === 'PLAYING') {
-                    finishGame();
-                }
             }, [items]);
 
+            // Limpieza del temporizador de la animación
+            useEffect(() => () => clearTimeout(feedbackTimer.current), []);
+
             const finishGame = () => {
+                if (yaFinalizado.current) return;
+                yaFinalizado.current = true;
+                setFrase(FRASES_ESTUDIANTE[Math.floor(Math.random() * FRASES_ESTUDIANTE.length)]);
                 setGameState('FINISHED');
             };
+
+            // Fanfarria al llegar a la pantalla final
+            useEffect(() => {
+                if (gameState === 'FINISHED') playFanfare(isMuted);
+            }, [gameState]);
 
             const restartGame = () => {
                 setItems(ROSCO_DATA.map(item => ({ ...item, status: 'pending', userAns: '' })));
@@ -487,15 +645,18 @@
                 setInputVal('');
                 setTimeLeft(INITIAL_TIME);
                 setFlash(null);
+                clearTimeout(feedbackTimer.current);
+                setIsLocked(false);
+                yaFinalizado.current = false;
                 setGameState('PLAYING');
             };
 
             // Encontrar el siguiente índice con estado 'pending'
-            const findNextIndex = (fromIdx) => {
-                const total = items.length;
+            const findNextIndex = (fromIdx, lista = items) => {
+                const total = lista.length;
                 for (let step = 1; step <= total; step++) {
                     const idx = (fromIdx + step) % total;
-                    if (items[idx].status === 'pending') {
+                    if (lista[idx].status === 'pending') {
                         return idx;
                     }
                 }
@@ -505,7 +666,7 @@
             // Procesar respuesta enviada
             const handleSubmit = (e) => {
                 if (e) e.preventDefault();
-                if (gameState !== 'PLAYING') return;
+                if (gameState !== 'PLAYING' || isLocked) return;
 
                 const currentItem = items[currentIndex];
                 const cleanInput = cleanText(inputVal);
@@ -532,21 +693,27 @@
 
                 playSound(isRight ? 'correct' : 'wrong', isMuted);
 
-                // Animación de feedback (se limpia sola)
+                // Se muestra la animación de feedback y se bloquea el juego mientras dura
                 setFlash(isRight ? 'correct' : 'wrong');
-                setTimeout(() => setFlash(null), 800);
+                setIsLocked(true);
 
-                const nextIdx = findNextIndex(currentIndex);
-                if (nextIdx !== -1) {
-                    setCurrentIndex(nextIdx);
-                } else {
-                    finishGame();
-                }
+                // Recién cuando termina la animación se pasa a la siguiente pregunta
+                const nextIdx = findNextIndex(currentIndex, updatedItems);
+                clearTimeout(feedbackTimer.current);
+                feedbackTimer.current = setTimeout(() => {
+                    setFlash(null);
+                    setIsLocked(false);
+                    if (nextIdx !== -1) {
+                        setCurrentIndex(nextIdx);
+                    } else {
+                        finishGame();
+                    }
+                }, DURACION_FEEDBACK);
             };
 
             // Pasar palabra
             const handlePasapalabra = () => {
-                if (gameState !== 'PLAYING') return;
+                if (gameState !== 'PLAYING' || isLocked) return;
                 
                 playSound('pasapalabra', isMuted);
                 setInputVal('');
@@ -565,6 +732,9 @@
 
             const currentItem = items[currentIndex] || items[0];
 
+            // Puntaje base + bonus por el tiempo que sobró
+            const puntaje = calcularPuntaje(stats.correct, timeLeft, INITIAL_TIME);
+
             return (
                 <div className="flex flex-col min-h-screen justify-between p-3 md:p-6 max-w-6xl mx-auto w-full">
                     
@@ -578,7 +748,7 @@
                             </div>
                             <div>
                                 <h1 className="text-xl md:text-2xl font-black tracking-tight text-emerald-900 flex items-center gap-2">
-                                    ROSCO DEL IEM SALTA
+                                    PASAPALABRA DEL I.E.M
                                     <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-200/70 text-emerald-800 border border-emerald-400/60">
                                         UNSa
                                     </span>
@@ -727,7 +897,8 @@
                                                 type="text"
                                                 value={inputVal}
                                                 onChange={(e) => setInputVal(e.target.value)}
-                                                placeholder="Escribe tu respuesta aquí..."
+                                                placeholder={isLocked ? 'Preparando la siguiente letra...' : 'Escribe tu respuesta aquí...'}
+                                                disabled={isLocked}
                                                 className="input-fx w-full bg-white border-2 border-emerald-200 focus:border-emerald-400 rounded-2xl px-5 py-4 text-emerald-900 placeholder-emerald-400/70 text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-emerald-200/80 shadow-inner"
                                                 autoComplete="off"
                                                 spellCheck="false"
@@ -737,7 +908,8 @@
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             <button
                                                 type="submit"
-                                                className="btn-fx w-full bg-gradient-to-r from-emerald-200 to-teal-200 text-emerald-900 font-extrabold py-3.5 px-6 rounded-2xl shadow-md shadow-emerald-200 border border-emerald-300 flex items-center justify-center gap-2"
+                                                disabled={isLocked}
+                                                className="btn-fx disabled:opacity-50 disabled:cursor-not-allowed w-full bg-gradient-to-r from-emerald-200 to-teal-200 text-emerald-900 font-extrabold py-3.5 px-6 rounded-2xl shadow-md shadow-emerald-200 border border-emerald-300 flex items-center justify-center gap-2"
                                             >
                                                 <i className="fa-solid fa-paper-plane"></i>
                                                 <span>Enviar Respuesta</span>
@@ -746,7 +918,8 @@
                                             <button
                                                 type="button"
                                                 onClick={handlePasapalabra}
-                                                className="btn-fx w-full bg-gradient-to-r from-amber-100 to-orange-200 text-amber-900 font-extrabold py-3.5 px-6 rounded-2xl shadow-md shadow-amber-200 border border-amber-300 flex items-center justify-center gap-2"
+                                                disabled={isLocked}
+                                                className="btn-fx disabled:opacity-50 disabled:cursor-not-allowed w-full bg-gradient-to-r from-amber-100 to-orange-200 text-amber-900 font-extrabold py-3.5 px-6 rounded-2xl shadow-md shadow-amber-200 border border-amber-300 flex items-center justify-center gap-2"
                                             >
                                                 <i className="fa-solid fa-forward-step"></i>
                                                 <span>Pasapalabra</span>
@@ -769,9 +942,27 @@
                     {/* PANTALLA FINAL DE RESULTADOS */}
                     {gameState === 'FINISHED' && (
                         <main className="my-auto py-6 max-w-4xl mx-auto w-full">
-                            {stats.correct > 0 && <Confetti pieces={stats.correct * 3 + 20} />}
+                            <Confetti pieces={110} />
                             <div className="glass-panel rounded-3xl p-6 sm:p-10 shadow-soft border border-emerald-300 text-center anim-zoom">
                                 
+                                {/* Cartel del Día del Estudiante */}
+                                <div className="party-banner rounded-3xl px-5 py-5 mb-6 anim-zoom">
+                                    <div className="text-3xl mb-1 flex justify-center gap-2">
+                                        <span className="party-emoji">🎉</span>
+                                        <span className="party-emoji" style={{ animationDelay: '.18s' }}>🎓</span>
+                                        <span className="party-emoji" style={{ animationDelay: '.36s' }}>🥳</span>
+                                    </div>
+                                    <h3 className="text-2xl sm:text-3xl font-black text-emerald-900 drop-shadow-sm">
+                                        ¡Feliz Día del Estudiante!
+                                    </h3>
+                                    <p className="text-sm sm:text-base font-semibold text-emerald-800 mt-2 max-w-xl mx-auto">
+                                        {frase}
+                                    </p>
+                                    <p className="text-[11px] uppercase tracking-widest font-bold text-emerald-700/80 mt-3">
+                                        21 de septiembre • IEM "Dr. Arturo Oñativia" — UNSa
+                                    </p>
+                                </div>
+
                                 <div className="inline-flex p-4 bg-amber-100 rounded-full text-amber-500 text-4xl mb-4 trophy-fx">
                                     <i className="fa-solid fa-trophy"></i>
                                 </div>
@@ -779,21 +970,51 @@
                                 <h2 className="text-3xl sm:text-4xl font-black text-emerald-900 mb-2 anim-in delay-1">
                                     ¡Juego Finalizado!
                                 </h2>
-                                <p className="text-emerald-700 text-sm mb-6 anim-in delay-2">
-                                    Has completado la prueba de conocimientos sobre el IEM Salta "Dr. Arturo Oñativia".
+                                <p className="text-emerald-700 text-sm sm:text-base font-semibold mb-6 anim-in delay-2 max-w-xl mx-auto">
+                                    Ser estudiante es animarse a preguntar, equivocarse y volver a intentarlo.
+                                    ¡Que la pases espectacular en tu día! 🎓🎈
                                 </p>
 
                                 {/* Resumen cuantitativo */}
-                                {/* Puntaje total obtenido */}
-                                <div className="anim-zoom inline-flex items-center gap-3 mb-7 px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-100 via-teal-100 to-emerald-100 border border-emerald-300 shadow-soft">
-                                    <i className="fa-solid fa-star text-amber-500 text-2xl"></i>
-                                    <div className="text-left">
-                                        <div className="text-[11px] uppercase font-bold tracking-wider text-emerald-700/90">Puntaje final</div>
-                                        <div className="text-3xl font-black text-emerald-800 leading-none">
-                                            {stats.correct * PUNTOS_POR_LETRA}
-                                            <span className="text-base font-bold text-emerald-600"> / {PUNTAJE_MAXIMO}</span>
+                                {/* Puntaje final con bonus por rapidez */}
+                                <div className="anim-zoom mb-7 mx-auto max-w-md px-6 py-5 rounded-3xl bg-gradient-to-r from-emerald-100 via-teal-100 to-emerald-100 border border-emerald-300 shadow-soft">
+                                    <div className="text-[11px] uppercase font-bold tracking-wider text-emerald-700/90">Puntaje final</div>
+                                    <div className="flex items-center justify-center gap-2 mt-1">
+                                        <i className="fa-solid fa-star text-amber-500 text-2xl"></i>
+                                        <span className="text-4xl font-black text-emerald-800 leading-none">{puntaje.total}</span>
+                                        <span className="text-sm font-bold text-emerald-600 self-end mb-1">puntos</span>
+                                    </div>
+
+                                    {/* Desglose */}
+                                    <div className="mt-4 pt-3 border-t border-dashed border-emerald-600/30 text-xs font-semibold text-emerald-800 space-y-1.5">
+                                        <div className="flex items-center justify-between">
+                                            <span className="flex items-center gap-1.5">
+                                                <i className="fa-solid fa-circle-check text-emerald-600"></i>
+                                                {stats.correct} aciertos × {PUNTOS_POR_LETRA} pts
+                                            </span>
+                                            <span>{puntaje.base} <span className="text-emerald-600/80 font-bold">/ {PUNTAJE_MAXIMO}</span></span>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <span className="flex items-center gap-1.5">
+                                                <i className="fa-solid fa-bolt text-amber-500"></i>
+                                                Bonus por rapidez (+{puntaje.porcentaje}%)
+                                            </span>
+                                            <span className={puntaje.bonus > 0 ? 'text-amber-600 font-black' : 'text-emerald-700/60'}>
+                                                +{puntaje.bonus}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center justify-between text-emerald-700/80 font-medium">
+                                            <span className="flex items-center gap-1.5">
+                                                <i className="fa-solid fa-stopwatch text-emerald-600"></i>
+                                                Te sobraron
+                                            </span>
+                                            <span className="font-mono font-bold">{formatTime(timeLeft)}</span>
                                         </div>
                                     </div>
+
+                                    <p className="mt-3 text-[10px] text-emerald-700/70 font-medium">
+                                        Cuanto antes termines, más porcentaje sumás sobre tu puntaje base.
+                                    </p>
                                 </div>
 
                                 <div className="grid grid-cols-3 gap-4 mb-8">
@@ -813,81 +1034,47 @@
                                     </div>
                                 </div>
 
-                                {/* Tabla de revisión de soluciones */}
-                                <div className="text-left mb-8">
-                                    <h3 className="text-lg font-bold text-emerald-900 mb-3 flex items-center gap-2">
-                                        <i className="fa-solid fa-list-check text-emerald-600"></i>
-                                        <span>Revisión de Respuestas ({ROSCO_DATA.length} letras)</span>
-                                    </h3>
-
-                                    <div className="pastel-scroll max-h-80 overflow-y-auto rounded-2xl border border-emerald-200 bg-white/80 p-2 divide-y divide-emerald-100">
-                                        {items.map((item) => (
-                                            <div key={item.letter} className="p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl hover:bg-emerald-50 transition-colors">
-                                                <div className="flex items-start gap-3">
-                                                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm shrink-0 ${
-                                                        item.status === 'correct' ? 'bg-emerald-200 text-emerald-900' : 
-                                                        item.status === 'wrong' ? 'bg-rose-200 text-rose-800' : 'bg-emerald-50 text-emerald-600 border border-emerald-200'
-                                                    }`}>
-                                                        {item.letter}
-                                                    </span>
-                                                    <div>
-                                                        <div className="text-xs font-semibold text-emerald-700/90">
-                                                            {item.type === 'EMPIEZA' ? 'Empieza con' : 'Contiene'} {item.letter} • {item.clue}
-                                                        </div>
-                                                        <div className="text-sm font-bold text-emerald-700 mt-0.5">
-                                                            Solución: {item.answer}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="text-xs text-right shrink-0 flex flex-col items-end gap-1">
-                                                    {item.status === 'correct' ? (
-                                                        <span className="text-emerald-600 font-bold flex items-center gap-1 justify-end">
-                                                            <i className="fa-solid fa-check"></i> ¡Correcto!
-                                                        </span>
-                                                    ) : item.status === 'wrong' ? (
-                                                        <span className="text-rose-500 font-medium">
-                                                            Tu respuesta: <span className="underline italic">{item.userAns || '(En blanco)'}</span>
-                                                        </span>
-                                                    ) : (
-                                                        <span className="text-amber-600 font-medium">Pasapalabra (Sin responder)</span>
-                                                    )}
-
-                                                    <span className={`px-2 py-0.5 rounded-full font-bold ${
-                                                        item.status === 'correct'
-                                                            ? 'bg-emerald-100 text-emerald-700 border border-emerald-300'
-                                                            : 'bg-emerald-50 text-emerald-600/70 border border-emerald-200'
-                                                    }`}>
-                                                        {item.status === 'correct' ? `+${PUNTOS_POR_LETRA}` : '+0'} pts
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                               
 
                                 <button
                                     onClick={restartGame}
                                     className="btn-fx bg-gradient-to-r from-emerald-200 via-teal-200 to-emerald-300 text-emerald-900 font-extrabold px-8 py-4 rounded-2xl shadow-md shadow-emerald-200 border border-emerald-300 text-lg"
                                 >
-                                    <i className="fa-solid fa-rotate-right mr-2"></i> Jugar Nuevo Rosco
+                                    <i className="fa-solid fa-rotate-right mr-2"></i> Jugar Nuevo Pasapalabra
                                 </button>
                             </div>
                         </main>
                     )}
 
-                    {/* PIE DE PÁGINA */}
-                    <footer className="text-center text-xs text-emerald-700/90 py-3 border-t border-emerald-200 mt-4 anim-in delay-3">
-                        Juego educativo interactivo sobre el Instituto de Educación Media "Dr. Arturo Oñativia" • Universidad Nacional de Salta (UNSa)
-                        <br />
-                        <a
-                            href="https://iem.unsa.edu.ar/page/2/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 mt-1.5 font-bold text-emerald-700 hover:text-amber-600 hover:scale-105 transition-all"
-                        >
-                            <i className="fa-solid fa-globe"></i> Visitá el sitio oficial del IEM
-                        </a>
+                    {/* PIE DE PÁGINA FESTIVO */}
+                    <footer className="footer-fest rounded-2xl px-4 py-4 mt-5 text-center anim-in delay-3">
+
+                        {/* Guirnalda de iconos animados */}
+                        <div className="footer-garland relative z-10" aria-hidden="true">
+                            {['fa-graduation-cap', 'fa-book-open-reader', 'fa-lightbulb',
+                              'fa-star', 'fa-pencil'
+                            ].map((icono, i) => (
+                                <i
+                                    key={icono}
+                                    className={`fa-solid ${icono} garland-item`}
+                                    style={{ animationDelay: `${i * 0.28}s` }}
+                                ></i>
+                            ))}
+                        </div>
+
+                        {/* Saludo principal */}
+                        <p className="relative z-10 text-sm sm:text-base footer-title">
+                            ¡Feliz Día del Estudiante!
+                        </p>
+                        <p className="relative z-10 text-[10px] uppercase tracking-widest font-semibold text-emerald-700/70 mt-1">
+                            21 de septiembre • ¡Que la pases espectacular!
+                        </p>
+
+                        {/* Firma institucional */}
+                        <p className="relative z-10 text-[10px] text-emerald-800/70 mt-3 pt-3 border-t border-dashed border-emerald-600/30">
+                            <i className="fa-solid fa-school text-emerald-600/70 mr-1.5"></i>
+                            Instituto de Educación Media "Dr. Arturo Oñativia" • Universidad Nacional de Salta
+                        </p>
                     </footer>
 
                 </div>

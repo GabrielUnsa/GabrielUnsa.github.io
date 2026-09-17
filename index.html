@@ -15,42 +15,261 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Favicon IEM (SVG embebido) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23258543'/%3E%3Cpath d='M50 24 14 42l36 18 26-13v17h6V42L50 24zM26 56v14c0 6 11 11 24 11s24-5 24-11V56L50 68 26 56z' fill='%23fff'/%3E%3C/svg%3E">
 
     <style>
+        :root {
+            --iem: #258543;            /* Verde institucional IEM */
+            --iem-dark: #0a2e19;
+            --iem-mid: #14572c;
+            --iem-light: #46d07f;
+            --gold: #fbbf24;
+        }
+
         body {
             font-family: 'Outfit', sans-serif;
-            background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
-            color: #f8fafc;
+            /* Degradé HORIZONTAL con el verde #258543 como color principal */
+            background: linear-gradient(90deg,
+                var(--iem-dark) 0%,
+                var(--iem-mid) 22%,
+                var(--iem) 50%,
+                var(--iem-mid) 78%,
+                var(--iem-dark) 100%);
+            background-size: 220% 100%;
+            background-attachment: fixed;
+            animation: bg-slide 24s ease-in-out infinite alternate;
+            color: #f0fdf4;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .rosco-node {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .rosco-node.active {
-            transform: scale(1.25);
-            box-shadow: 0 0 20px #fbbf24, 0 0 35px #f59e0b;
-            z-index: 30;
-        }
-
-        .pulse-active {
-            animation: pulse-glow 1.5s infinite alternate;
-        }
-
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 10px #38bdf8, 0 0 20px #0284c7; }
-            100% { box-shadow: 0 0 25px #38bdf8, 0 0 40px #0284c7; }
+        @keyframes bg-slide {
+            from { background-position: 0% 50%; }
+            to   { background-position: 100% 50%; }
         }
 
         .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(6, 40, 23, 0.62);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(70, 208, 127, 0.28);
+        }
+
+        /* ---------- ENTRADAS ANIMADAS ---------- */
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .anim-in   { animation: fade-up .75s cubic-bezier(.2,.85,.25,1) both; }
+        .delay-1   { animation-delay: .12s; }
+        .delay-2   { animation-delay: .26s; }
+        .delay-3   { animation-delay: .40s; }
+
+        @keyframes zoom-in {
+            0%   { opacity: 0; transform: scale(.75); }
+            70%  { transform: scale(1.06); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .anim-zoom { animation: zoom-in .6s cubic-bezier(.2,.9,.3,1.3) both; }
+
+        /* ---------- LOGO IEM ---------- */
+        .logo-badge {
+            position: relative;
+            background: linear-gradient(135deg, var(--iem-light) 0%, var(--iem) 55%, #0e5c30 100%);
+            box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.35);
+            animation: float 3.6s ease-in-out infinite;
+            transition: transform .35s cubic-bezier(.2,.9,.3,1.4), box-shadow .35s;
+        }
+        .logo-badge:hover {
+            transform: scale(1.14) rotate(-8deg);
+            box-shadow: 0 0 22px var(--iem-light), 0 0 42px rgba(70,208,127,.55);
+        }
+        .logo-ring {
+            position: absolute;
+            inset: -5px;
+            border: 2px dashed rgba(255,255,255,.45);
+            border-radius: 1.1rem;
+            animation: spin 9s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50%     { transform: translateY(-6px); }
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ---------- ROSCO ---------- */
+        .node-slot { animation: node-appear .5s ease-out both; }
+        @keyframes node-appear {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .rosco-node {
+            transition: transform .35s cubic-bezier(.2,.9,.3,1.5), background-color .3s, box-shadow .3s, color .3s;
+        }
+        .rosco-node.active {
+            transform: scale(1.35);
+            z-index: 30;
+        }
+        .node-pop { animation: node-pop .55s cubic-bezier(.2,.9,.3,1.6); }
+        @keyframes node-pop {
+            0%   { transform: scale(1); }
+            45%  { transform: scale(1.55) rotate(12deg); }
+            100% { transform: scale(1); }
+        }
+        .node-fail { animation: node-fail .5s ease-in-out; }
+        @keyframes node-fail {
+            0%,100% { transform: translateX(0); }
+            25%     { transform: translateX(-5px) rotate(-6deg); }
+            75%     { transform: translateX(5px) rotate(6deg); }
+        }
+
+        .pulse-active { animation: pulse-glow 1.4s infinite alternate; }
+        @keyframes pulse-glow {
+            0%   { box-shadow: 0 0 10px var(--gold), 0 0 18px rgba(251,191,36,.5); }
+            100% { box-shadow: 0 0 26px var(--gold), 0 0 46px rgba(251,191,36,.8); }
+        }
+
+        /* Aro giratorio decorativo detrás del rosco */
+        .rosco-ring {
+            position: absolute;
+            inset: 4%;
+            border-radius: 9999px;
+            border: 2px dashed rgba(70,208,127,.35);
+            animation: spin 38s linear infinite;
+            pointer-events: none;
+        }
+        .rosco-ring.reverse {
+            inset: 14%;
+            border-style: dotted;
+            border-color: rgba(251,191,36,.28);
+            animation: spin 26s linear infinite reverse;
+        }
+        .rosco-halo {
+            position: absolute;
+            inset: -8%;
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(70,208,127,.22) 0%, transparent 65%);
+            animation: breathe 5s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes breathe {
+            0%,100% { transform: scale(1);    opacity: .65; }
+            50%     { transform: scale(1.09); opacity: 1; }
+        }
+
+        /* ---------- LETRA CENTRAL ---------- */
+        .letter-flip { animation: letter-flip .55s cubic-bezier(.2,.9,.3,1.4); }
+        @keyframes letter-flip {
+            0%   { transform: rotateX(-90deg) scale(.6); opacity: 0; }
+            100% { transform: rotateX(0) scale(1); opacity: 1; }
+        }
+
+        /* ---------- FEEDBACK DE LA TARJETA ---------- */
+        .flash-correct { animation: flash-correct .7s ease-out; }
+        @keyframes flash-correct {
+            0%   { box-shadow: 0 0 0 0 rgba(74,222,128,.8); border-color: rgba(74,222,128,.9); }
+            50%  { box-shadow: 0 0 40px 10px rgba(74,222,128,.45); }
+            100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+        }
+        .flash-wrong { animation: flash-wrong .6s ease-in-out; }
+        @keyframes flash-wrong {
+            0%,100% { transform: translateX(0); }
+            15%     { transform: translateX(-11px); }
+            30%     { transform: translateX(9px); }
+            45%     { transform: translateX(-7px); }
+            60%     { transform: translateX(5px); }
+            80%     { transform: translateX(-3px); }
+        }
+
+        /* Cartel flotante de acierto / error */
+        .toast-fx {
+            position: absolute;
+            top: 12px; right: 18px;
+            font-weight: 900;
+            font-size: 1.4rem;
+            pointer-events: none;
+            animation: toast-up 1s ease-out forwards;
+            text-shadow: 0 3px 12px rgba(0,0,0,.6);
+        }
+        @keyframes toast-up {
+            0%   { opacity: 0; transform: translateY(14px) scale(.7); }
+            25%  { opacity: 1; transform: translateY(0) scale(1.15); }
+            70%  { opacity: 1; transform: translateY(-10px) scale(1); }
+            100% { opacity: 0; transform: translateY(-38px) scale(.9); }
+        }
+
+        /* ---------- BOTONES ---------- */
+        .btn-fx {
+            position: relative;
+            overflow: hidden;
+            transition: transform .2s cubic-bezier(.2,.9,.3,1.5), box-shadow .25s, filter .25s;
+        }
+        .btn-fx:hover  { transform: translateY(-4px) scale(1.03); filter: brightness(1.1); }
+        .btn-fx:active { transform: translateY(0) scale(.96); }
+        .btn-fx::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -140%;
+            width: 60%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,.55), transparent);
+            transform: skewX(-22deg);
+            transition: left .7s ease;
+        }
+        .btn-fx:hover::after { left: 150%; }
+
+        /* ---------- TIEMPO CRÍTICO ---------- */
+        .time-critical { animation: heartbeat 1s ease-in-out infinite; color: #fda4af !important; }
+        @keyframes heartbeat {
+            0%,100% { transform: scale(1); }
+            25%     { transform: scale(1.22); }
+            50%     { transform: scale(1); }
+        }
+
+        /* ---------- INPUT ---------- */
+        .input-fx { transition: box-shadow .3s, border-color .3s, transform .25s; }
+        .input-fx:focus { transform: scale(1.02); }
+
+        /* ---------- TROFEO + CONFETI ---------- */
+        .trophy-fx { animation: trophy-bounce 1.6s ease-in-out infinite; }
+        @keyframes trophy-bounce {
+            0%,100% { transform: translateY(0) rotate(-6deg); }
+            50%     { transform: translateY(-14px) rotate(6deg); }
+        }
+        .confetti {
+            position: fixed;
+            top: -12vh;
+            width: 11px; height: 16px;
+            opacity: .95;
+            z-index: 50;
+            pointer-events: none;
+            animation: confetti-fall linear forwards;
+        }
+        @keyframes confetti-fall {
+            0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(118vh) rotate(760deg); opacity: 0; }
+        }
+
+        /* Barra de progreso animada */
+        .progress-bar {
+            transition: width .6s cubic-bezier(.2,.9,.3,1);
+            background: linear-gradient(90deg, var(--iem-light), var(--gold));
+            box-shadow: 0 0 14px rgba(70,208,127,.6);
+        }
+
+        /* Accesibilidad: menos movimiento */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
         }
     </style>
 </head>
-<body class="flex flex-col justify-between min-h-screen selection:bg-indigo-500 selection:text-white">
+<body class="flex flex-col justify-between min-h-screen selection:bg-emerald-400 selection:text-emerald-950">
 
     <div id="root"></div>
 
@@ -64,7 +283,7 @@
             { letter: 'C', type: 'EMPIEZA', answer: 'CASTAÑARES', clue: 'Barrio y predio universitario en la zona norte de Salta donde funciona el IEM.' },
             { letter: 'D', type: 'EMPIEZA', answer: 'DIRECTOR', clue: 'Cargo unipersonal de máxima autoridad ejecutiva y pedagógica del instituto.' },
             { letter: 'E', type: 'EMPIEZA', answer: 'ESTUDIANTES', clue: 'Jóvenes que transitan sus 6 años de formación secundaria en las aulas del colegio.' },
-            { letter: 'F', type: 'EMPIEZA', answer: 'FORMACION', clue: 'Primera palabra clave del título de grado: Bachiller en ________ y Evaluación de Proyectos.' },
+            { letter: 'F', type: 'EMPIEZA', answer: 'FORMULACION', clue: 'Primera palabra clave del título de grado: Bachiller en ________ y Evaluación de Proyectos.' },
             { letter: 'G', type: 'EMPIEZA', answer: 'GABRIELA', clue: 'Nombre de la Vicedirectora turno tarde.' },
             { letter: 'H', type: 'EMPIEZA', answer: 'HUMANIDADES', clue: 'Área del conocimiento y orientaciones sociales destacadas en la oferta del nivel medio.' },
             { letter: 'I', type: 'EMPIEZA', answer: 'INSTITUTO', clue: 'Primera palabra que integra la sigla IEM.' },
@@ -144,8 +363,41 @@
             }
         };
 
+        // Confeti CSS para la pantalla de resultados
+        function Confetti({ pieces = 70 }) {
+            const colors = ['#46d07f', '#fbbf24', '#ffffff', '#258543', '#a3e635', '#38bdf8'];
+            const bits = React.useMemo(() => (
+                Array.from({ length: pieces }, (_, i) => ({
+                    id: i,
+                    left: Math.random() * 100,
+                    delay: Math.random() * 2.5,
+                    duration: 3 + Math.random() * 2.5,
+                    color: colors[i % colors.length],
+                    round: i % 3 === 0
+                }))
+            ), [pieces]);
+
+            return (
+                <div aria-hidden="true">
+                    {bits.map(b => (
+                        <span
+                            key={b.id}
+                            className="confetti"
+                            style={{
+                                left: b.left + 'vw',
+                                backgroundColor: b.color,
+                                animationDelay: b.delay + 's',
+                                animationDuration: b.duration + 's',
+                                borderRadius: b.round ? '50%' : '2px'
+                            }}
+                        />
+                    ))}
+                </div>
+            );
+        }
+
         function App() {
-            const INITIAL_TIME = 240; // 4 minutos
+            const INITIAL_TIME = 420; // 7 minutos
             const [gameState, setGameState] = useState('PLAYING'); // 'PLAYING', 'FINISHED'
             const [items, setItems] = useState(() => 
                 ROSCO_DATA.map(item => ({ ...item, status: 'pending', userAns: '' }))
@@ -156,6 +408,7 @@
             const [isPaused, setIsPaused] = useState(false);
             const [isMuted, setIsMuted] = useState(false);
             const [stats, setStats] = useState({ correct: 0, wrong: 0, pending: ROSCO_DATA.length });
+            const [flash, setFlash] = useState(null); // 'correct' | 'wrong' -> animación de feedback
             
             const inputRef = useRef(null);
 
@@ -208,6 +461,7 @@
                 setInputVal('');
                 setTimeLeft(INITIAL_TIME);
                 setIsPaused(false);
+                setFlash(null);
                 setGameState('PLAYING');
             };
 
@@ -251,11 +505,11 @@
                 setItems(updatedItems);
                 setInputVal('');
 
-                if (isRight) {
-                    playSound('correct', isMuted);
-                } else {
-                    playSound('wrong', isMuted);
-                }
+                playSound(isRight ? 'correct' : 'wrong', isMuted);
+
+                // Animación de feedback (se limpia sola)
+                setFlash(isRight ? 'correct' : 'wrong');
+                setTimeout(() => setFlash(null), 800);
 
                 const nextIdx = findNextIndex(currentIndex);
                 if (nextIdx !== -1) {
@@ -290,27 +544,41 @@
                 <div className="flex flex-col min-h-screen justify-between p-3 md:p-6 max-w-6xl mx-auto w-full">
                     
                     {/* BARRA SUPERIOR / ENCABEZADO */}
-                    <header className="glass-panel rounded-2xl p-4 mb-4 shadow-2xl flex flex-wrap items-center justify-between gap-4">
+                    <header className="glass-panel rounded-2xl p-4 mb-4 shadow-2xl flex flex-wrap items-center justify-between gap-4 anim-in">
                         <div className="flex items-center gap-3">
-                            <div className="bg-gradient-to-tr from-indigo-600 to-sky-400 w-12 h-12 rounded-xl flex items-center justify-center text-white text-2xl font-black shadow-lg">
-                                <i className="fa-solid font-bold text-xl">IEM</i>
-                            </div>
+                            {/* Logo del IEM: enlaza al sitio oficial */}
+                            <a
+                                href="https://iem.unsa.edu.ar/page/2/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="Ir al sitio oficial del IEM (UNSa)"
+                                className="logo-badge w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+                            >
+                                <i className="fa-solid fa-graduation-cap text-2xl text-white drop-shadow-md"></i>
+                                <span className="logo-ring"></span>
+                            </a>
                             <div>
                                 <h1 className="text-xl md:text-2xl font-black tracking-tight text-white flex items-center gap-2">
                                     ROSCO DEL IEM SALTA
-                                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 border border-indigo-500/40">
+                                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/40">
                                         UNSa
                                     </span>
                                 </h1>
-                                <p className="text-xs text-slate-400">
+                                <a
+                                    href="https://iem.unsa.edu.ar/page/2/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-emerald-200/80 hover:text-amber-300 transition-colors inline-flex items-center gap-1.5 group"
+                                >
                                     Instituto de Educación Media "Dr. Arturo Oñativia"
-                                </p>
+                                    <i className="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                                </a>
                             </div>
                         </div>
 
                         {/* Marcadores de Estadísticas */}
                         <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
-                            <div className="bg-emerald-950/60 border border-emerald-500/30 px-3 py-1.5 rounded-xl flex items-center gap-2">
+                            <div className="bg-emerald-950/60 border border-emerald-400/40 px-3 py-1.5 rounded-xl flex items-center gap-2 transition-transform hover:scale-105">
                                 <i className="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
                                 <div>
                                     <div className="text-[10px] text-emerald-300/80 uppercase font-bold tracking-wider">Aciertos</div>
@@ -318,7 +586,7 @@
                                 </div>
                             </div>
 
-                            <div className="bg-rose-950/60 border border-rose-500/30 px-3 py-1.5 rounded-xl flex items-center gap-2">
+                            <div className="bg-rose-950/60 border border-rose-500/40 px-3 py-1.5 rounded-xl flex items-center gap-2 transition-transform hover:scale-105">
                                 <i className="fa-solid fa-circle-xmark text-rose-400 text-lg"></i>
                                 <div>
                                     <div className="text-[10px] text-rose-300/80 uppercase font-bold tracking-wider">Errores</div>
@@ -326,20 +594,20 @@
                                 </div>
                             </div>
 
-                            <div className="bg-amber-950/60 border border-amber-500/30 px-3 py-1.5 rounded-xl flex items-center gap-2">
+                            <div className="bg-amber-950/60 border border-amber-500/40 px-3 py-1.5 rounded-xl flex items-center gap-2 transition-transform hover:scale-105">
                                 <i className="fa-solid fa-clock text-amber-400 text-lg"></i>
                                 <div>
                                     <div className="text-[10px] text-amber-300/80 uppercase font-bold tracking-wider">Tiempo</div>
-                                    <div className="text-lg font-black text-amber-300 font-mono leading-none">{formatTime(timeLeft)}</div>
+                                    <div className={`text-lg font-black text-amber-300 font-mono leading-none ${timeLeft <= 30 ? 'time-critical' : ''}`}>{formatTime(timeLeft)}</div>
                                 </div>
                             </div>
 
                             <button 
                                 onClick={() => setIsMuted(!isMuted)} 
-                                className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 transition"
+                                className="p-2.5 rounded-xl bg-emerald-950/70 border border-emerald-400/30 hover:bg-emerald-800/70 hover:scale-110 text-emerald-100 transition-transform duration-300"
                                 title={isMuted ? "Activar Sonido" : "Silenciar"}
                             >
-                                <i className={`fa-solid ${isMuted ? 'fa-volume-xmark text-rose-400' : 'fa-volume-high text-sky-400'}`}></i>
+                                <i className={`fa-solid ${isMuted ? 'fa-volume-xmark text-rose-400' : 'fa-volume-high text-lime-300'}`}></i>
                             </button>
                         </div>
                     </header>
@@ -350,18 +618,33 @@
                             
                             {/* COLUMNA IZQUIERDA: EL ROSCO (RUEDA CIRCULAR) */}
                             <div className="lg:col-span-6 flex justify-center items-center">
-                                <div className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[460px] md:h-[460px] flex items-center justify-center">
-                                    
+                                <div className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[460px] md:h-[460px] flex items-center justify-center anim-zoom">
+
+                                    {/* Halo y aros decorativos giratorios */}
+                                    <div className="rosco-halo"></div>
+                                    <div className="rosco-ring"></div>
+                                    <div className="rosco-ring reverse"></div>
+
                                     {/* Centro del Rosco con la Letra Actual */}
-                                    <div className="absolute w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-full glass-panel flex flex-col items-center justify-center shadow-2xl border border-indigo-500/30 p-4 text-center z-10">
-                                        <div className="text-xs uppercase font-bold tracking-widest text-sky-400 mb-1">
+                                    <div className="absolute w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-full glass-panel flex flex-col items-center justify-center shadow-2xl border border-emerald-400/40 p-4 text-center z-10">
+                                        <div className="text-xs uppercase font-bold tracking-widest text-lime-300 mb-1">
                                             {currentItem.type === 'EMPIEZA' ? 'Empieza con' : 'Contiene la'}
                                         </div>
-                                        <div className="text-5xl sm:text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-amber-300 to-amber-500 drop-shadow-md">
+                                        <div
+                                            key={currentItem.letter}
+                                            className="letter-flip text-5xl sm:text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-amber-200 to-amber-500 drop-shadow-md"
+                                        >
                                             {currentItem.letter}
                                         </div>
-                                        <div className="mt-2 text-[11px] text-slate-400 font-medium">
+                                        <div className="mt-2 text-[11px] text-emerald-200/80 font-medium">
                                             Pregunta {currentIndex + 1} de {items.length}
+                                        </div>
+                                        {/* Barra de progreso */}
+                                        <div className="mt-2 w-20 h-1.5 rounded-full bg-emerald-950/80 overflow-hidden">
+                                            <div
+                                                className="progress-bar h-full rounded-full"
+                                                style={{ width: ((stats.correct + stats.wrong) / items.length * 100) + '%' }}
+                                            ></div>
                                         </div>
                                     </div>
 
@@ -378,13 +661,16 @@
 
                                         const isActive = idx === currentIndex;
 
-                                        let bgColor = 'bg-slate-800 text-slate-300 border-slate-600';
+                                        let bgColor = 'bg-emerald-950/80 text-emerald-200 border-emerald-600/70';
+                                        let fx = '';
                                         if (item.status === 'correct') {
-                                            bgColor = 'bg-emerald-500 text-white border-emerald-300 shadow-lg shadow-emerald-500/40';
+                                            bgColor = 'bg-lime-400 text-emerald-950 border-white shadow-lg shadow-lime-400/50';
+                                            fx = 'node-pop';
                                         } else if (item.status === 'wrong') {
                                             bgColor = 'bg-rose-600 text-white border-rose-300 shadow-lg shadow-rose-600/40';
+                                            fx = 'node-fail';
                                         } else if (isActive) {
-                                            bgColor = 'bg-amber-400 text-slate-950 font-black border-white pulse-active';
+                                            bgColor = 'bg-amber-400 text-emerald-950 font-black border-white pulse-active';
                                         }
 
                                         return (
@@ -392,10 +678,15 @@
                                                 key={item.letter}
                                                 style={{
                                                     transform: `translate(${x}px, ${y}px)`,
+                                                    animationDelay: `${idx * 45}ms`
                                                 }}
-                                                className={`rosco-node absolute w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full flex items-center justify-center font-bold text-sm sm:text-base md:text-lg border-2 transition-all duration-300 select-none ${bgColor} ${isActive ? 'active' : ''}`}
+                                                className="node-slot absolute z-20"
                                             >
-                                                {item.letter}
+                                                <div
+                                                    className={`rosco-node w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full flex items-center justify-center font-bold text-sm sm:text-base md:text-lg border-2 select-none ${bgColor} ${fx} ${isActive ? 'active' : ''}`}
+                                                >
+                                                    {item.letter}
+                                                </div>
                                             </div>
                                         );
                                     })}
@@ -404,17 +695,24 @@
 
                             {/* COLUMNA DERECHA: TARJETA DE PREGUNTA Y CONTROLES */}
                             <div className="lg:col-span-6 flex flex-col justify-center">
-                                <div className="glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl border border-indigo-500/20 relative overflow-hidden">
-                                    <div className="absolute -right-10 -top-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                                <div className={`glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl border border-emerald-400/30 relative overflow-hidden anim-in delay-1 ${flash === 'correct' ? 'flash-correct' : ''} ${flash === 'wrong' ? 'flash-wrong' : ''}`}>
+                                    <div className="absolute -right-10 -top-10 w-40 h-40 bg-lime-400/15 rounded-full blur-3xl pointer-events-none"></div>
+
+                                    {/* Cartel flotante de acierto / error */}
+                                    {flash && (
+                                        <div className={`toast-fx ${flash === 'correct' ? 'text-lime-300' : 'text-rose-400'}`}>
+                                            {flash === 'correct' ? '¡BIEN! +1' : '¡UPS!'}
+                                        </div>
+                                    )}
 
                                     {/* Indicador de Tipo de Pregunta */}
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-900/50 border border-indigo-400/30 text-indigo-300 text-xs font-bold mb-4">
-                                        <i className="fa-solid fa-lightbulb text-amber-400"></i>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-900/60 border border-emerald-400/40 text-emerald-200 text-xs font-bold mb-4">
+                                        <i className="fa-solid fa-lightbulb text-amber-400 animate-pulse"></i>
                                         <span>{currentItem.type === 'EMPIEZA' ? `CON LA LETRA ${currentItem.letter}` : `CONTIENE LA LETRA ${currentItem.letter}`}</span>
                                     </div>
 
                                     {/* Enunciado de la Pista */}
-                                    <p className="text-lg sm:text-xl font-medium text-slate-100 min-h-[90px] flex items-center leading-relaxed">
+                                    <p key={currentItem.letter} className="anim-in text-lg sm:text-xl font-medium text-emerald-50 min-h-[90px] flex items-center leading-relaxed">
                                         "{currentItem.clue}"
                                     </p>
 
@@ -427,7 +725,7 @@
                                                 value={inputVal}
                                                 onChange={(e) => setInputVal(e.target.value)}
                                                 placeholder="Escribe tu respuesta aquí..."
-                                                className="w-full bg-slate-900/90 border-2 border-indigo-500/40 focus:border-amber-400 rounded-2xl px-5 py-4 text-slate-100 placeholder-slate-500 text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-amber-400/20 transition-all shadow-inner"
+                                                className="input-fx w-full bg-emerald-950/80 border-2 border-emerald-400/50 focus:border-amber-400 rounded-2xl px-5 py-4 text-emerald-50 placeholder-emerald-300/40 text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-amber-400/30 shadow-inner"
                                                 disabled={isPaused}
                                                 autoComplete="off"
                                                 spellCheck="false"
@@ -437,7 +735,7 @@
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             <button
                                                 type="submit"
-                                                className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg shadow-emerald-600/30 active:scale-95 transition flex items-center justify-center gap-2"
+                                                className="btn-fx w-full bg-gradient-to-r from-lime-400 to-emerald-500 text-emerald-950 font-extrabold py-3.5 px-6 rounded-2xl shadow-lg shadow-lime-400/40 flex items-center justify-center gap-2"
                                             >
                                                 <i className="fa-solid fa-paper-plane"></i>
                                                 <span>Enviar Respuesta</span>
@@ -446,7 +744,7 @@
                                             <button
                                                 type="button"
                                                 onClick={handlePasapalabra}
-                                                className="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-extrabold py-3.5 px-6 rounded-2xl shadow-lg shadow-amber-500/30 active:scale-95 transition flex items-center justify-center gap-2"
+                                                className="btn-fx w-full bg-gradient-to-r from-amber-400 to-orange-500 text-emerald-950 font-extrabold py-3.5 px-6 rounded-2xl shadow-lg shadow-amber-400/40 flex items-center justify-center gap-2"
                                             >
                                                 <i className="fa-solid fa-forward-step"></i>
                                                 <span>Pasapalabra</span>
@@ -455,10 +753,10 @@
                                     </form>
 
                                     {/* Botones secundarios */}
-                                    <div className="mt-6 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400">
+                                    <div className="mt-6 pt-4 border-t border-emerald-400/20 flex items-center justify-between text-xs text-emerald-200/70">
                                         <button 
                                             onClick={() => setIsPaused(!isPaused)} 
-                                            className="hover:text-slate-200 transition flex items-center gap-1.5"
+                                            className="hover:text-amber-300 hover:scale-105 transition-all flex items-center gap-1.5"
                                         >
                                             <i className={`fa-solid ${isPaused ? 'fa-play text-emerald-400' : 'fa-pause text-amber-400'}`}></i>
                                             <span>{isPaused ? 'Reanudar Tiempo' : 'Pausar Juego'}</span>
@@ -466,7 +764,7 @@
 
                                         <button 
                                             onClick={restartGame} 
-                                            className="hover:text-rose-400 transition flex items-center gap-1.5"
+                                            className="hover:text-rose-400 hover:scale-105 transition-all flex items-center gap-1.5"
                                         >
                                             <i className="fa-solid fa-rotate-right"></i>
                                             <span>Reiniciar Rosco</span>
@@ -480,59 +778,60 @@
                     {/* PANTALLA FINAL DE RESULTADOS */}
                     {gameState === 'FINISHED' && (
                         <main className="my-auto py-6 max-w-4xl mx-auto w-full">
-                            <div className="glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl border border-indigo-500/30 text-center">
+                            {stats.correct > 0 && <Confetti pieces={stats.correct * 3 + 20} />}
+                            <div className="glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl border border-emerald-400/40 text-center anim-zoom">
                                 
-                                <div className="inline-flex p-4 bg-indigo-500/20 rounded-full text-amber-400 text-4xl mb-4">
+                                <div className="inline-flex p-4 bg-emerald-400/20 rounded-full text-amber-400 text-4xl mb-4 trophy-fx">
                                     <i className="fa-solid fa-trophy"></i>
                                 </div>
 
-                                <h2 className="text-3xl sm:text-4xl font-black text-white mb-2">
+                                <h2 className="text-3xl sm:text-4xl font-black text-white mb-2 anim-in delay-1">
                                     ¡Juego Finalizado!
                                 </h2>
-                                <p className="text-slate-300 text-sm mb-6">
+                                <p className="text-emerald-100/90 text-sm mb-6 anim-in delay-2">
                                     Has completado la prueba de conocimientos sobre el IEM Salta "Dr. Arturo Oñativia".
                                 </p>
 
                                 {/* Resumen cuantitativo */}
                                 <div className="grid grid-cols-3 gap-4 mb-8">
-                                    <div className="bg-emerald-950/50 border border-emerald-500/40 p-4 rounded-2xl">
-                                        <div className="text-emerald-400 text-3xl font-black">{stats.correct}</div>
-                                        <div className="text-xs text-emerald-200 font-semibold uppercase mt-1">Aciertos</div>
+                                    <div className="bg-emerald-950/50 border border-lime-400/40 p-4 rounded-2xl anim-zoom delay-1 hover:scale-105 transition-transform">
+                                        <div className="text-lime-300 text-3xl font-black">{stats.correct}</div>
+                                        <div className="text-xs text-lime-200 font-semibold uppercase mt-1">Aciertos</div>
                                     </div>
-                                    <div className="bg-rose-950/50 border border-rose-500/40 p-4 rounded-2xl">
+                                    <div className="bg-rose-950/50 border border-rose-500/40 p-4 rounded-2xl anim-zoom delay-2 hover:scale-105 transition-transform">
                                         <div className="text-rose-400 text-3xl font-black">{stats.wrong}</div>
                                         <div className="text-xs text-rose-200 font-semibold uppercase mt-1">Errores</div>
                                     </div>
-                                    <div className="bg-indigo-950/50 border border-indigo-500/40 p-4 rounded-2xl">
-                                        <div className="text-indigo-300 text-3xl font-black">
+                                    <div className="bg-emerald-900/50 border border-amber-400/40 p-4 rounded-2xl anim-zoom delay-3 hover:scale-105 transition-transform">
+                                        <div className="text-amber-300 text-3xl font-black">
                                             {Math.round((stats.correct / ROSCO_DATA.length) * 100)}%
                                         </div>
-                                        <div className="text-xs text-indigo-200 font-semibold uppercase mt-1">Efectividad</div>
+                                        <div className="text-xs text-amber-100 font-semibold uppercase mt-1">Efectividad</div>
                                     </div>
                                 </div>
 
                                 {/* Tabla de revisión de soluciones */}
                                 <div className="text-left mb-8">
                                     <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                                        <i className="fa-solid fa-list-check text-sky-400"></i>
+                                        <i className="fa-solid fa-list-check text-lime-300"></i>
                                         <span>Revisión de Respuestas ({ROSCO_DATA.length} letras)</span>
                                     </h3>
 
-                                    <div className="max-h-80 overflow-y-auto rounded-2xl border border-slate-700 bg-slate-900/80 p-2 divide-y divide-slate-800">
+                                    <div className="max-h-80 overflow-y-auto rounded-2xl border border-emerald-400/25 bg-emerald-950/70 p-2 divide-y divide-emerald-400/15">
                                         {items.map((item) => (
-                                            <div key={item.letter} className="p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                            <div key={item.letter} className="p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl hover:bg-emerald-900/50 transition-colors">
                                                 <div className="flex items-start gap-3">
                                                     <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm shrink-0 ${
-                                                        item.status === 'correct' ? 'bg-emerald-500 text-white' : 
-                                                        item.status === 'wrong' ? 'bg-rose-600 text-white' : 'bg-slate-700 text-slate-300'
+                                                        item.status === 'correct' ? 'bg-lime-400 text-emerald-950' : 
+                                                        item.status === 'wrong' ? 'bg-rose-600 text-white' : 'bg-emerald-800 text-emerald-200'
                                                     }`}>
                                                         {item.letter}
                                                     </span>
                                                     <div>
-                                                        <div className="text-xs font-semibold text-slate-400">
+                                                        <div className="text-xs font-semibold text-emerald-200/70">
                                                             {item.type === 'EMPIEZA' ? 'Empieza con' : 'Contiene'} {item.letter} • {item.clue}
                                                         </div>
-                                                        <div className="text-sm font-bold text-emerald-400 mt-0.5">
+                                                        <div className="text-sm font-bold text-lime-300 mt-0.5">
                                                             Solución: {item.answer}
                                                         </div>
                                                     </div>
@@ -540,7 +839,7 @@
 
                                                 <div className="text-xs text-right shrink-0">
                                                     {item.status === 'correct' ? (
-                                                        <span className="text-emerald-400 font-bold flex items-center gap-1 justify-end">
+                                                        <span className="text-lime-300 font-bold flex items-center gap-1 justify-end">
                                                             <i className="fa-solid fa-check"></i> ¡Correcto!
                                                         </span>
                                                     ) : item.status === 'wrong' ? (
@@ -558,7 +857,7 @@
 
                                 <button
                                     onClick={restartGame}
-                                    className="bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-400 hover:to-sky-400 text-white font-extrabold px-8 py-4 rounded-2xl shadow-xl shadow-indigo-500/30 active:scale-95 transition text-lg"
+                                    className="btn-fx bg-gradient-to-r from-lime-400 via-emerald-500 to-emerald-600 text-emerald-950 font-extrabold px-8 py-4 rounded-2xl shadow-xl shadow-lime-400/40 text-lg"
                                 >
                                     <i className="fa-solid fa-rotate-right mr-2"></i> Jugar Nuevo Rosco
                                 </button>
@@ -567,8 +866,17 @@
                     )}
 
                     {/* PIE DE PÁGINA */}
-                    <footer className="text-center text-xs text-slate-500 py-3 border-t border-slate-800/60 mt-4">
+                    <footer className="text-center text-xs text-emerald-100/70 py-3 border-t border-emerald-400/20 mt-4 anim-in delay-3">
                         Juego educativo interactivo sobre el Instituto de Educación Media "Dr. Arturo Oñativia" • Universidad Nacional de Salta (UNSa)
+                        <br />
+                        <a
+                            href="https://iem.unsa.edu.ar/page/2/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 mt-1.5 font-bold text-lime-300 hover:text-amber-300 hover:scale-105 transition-all"
+                        >
+                            <i className="fa-solid fa-globe"></i> Visitá el sitio oficial del IEM
+                        </a>
                     </footer>
 
                 </div>

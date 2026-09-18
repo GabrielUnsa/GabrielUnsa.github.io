@@ -28,7 +28,7 @@
             --pastel-3: #9bdcb6;   /* menta pastel (centro del degradé) */
             --mint: #a9e5c3;
             --lemon: #ffeaa8;
-            --blush: #ffc9d3;
+            --peach: #ffd2a6;
             --ink: #14492c;        /* texto principal */
             --ink-soft: #3f7a58;   /* texto secundario */
         }
@@ -253,11 +253,15 @@
             position: relative;
             overflow: hidden;
             text-align: center;
-            background: linear-gradient(100deg, var(--lemon) 0%, var(--blush) 32%, var(--pastel-2) 66%, var(--mint) 100%);
+            background: linear-gradient(100deg,
+                #ffe9a3 0%,    /* amarillo */
+                #ffc266 34%,   /* naranja  */
+                #ff9448 67%,   /* naranja fuerte */
+                #f2674f 100%); /* rojo     */
             background-size: 200% 100%;
             animation: party-shift 7s ease-in-out infinite alternate;
-            border: 2px dashed rgba(37, 133, 67, .35);
-            box-shadow: 0 10px 28px rgba(20, 73, 44, .12);
+            border: 2px dashed rgba(178, 50, 24, .45);
+            box-shadow: 0 10px 28px rgba(140, 50, 20, .18);
         }
         @keyframes party-shift {
             from { background-position: 0% 50%; }
@@ -342,11 +346,11 @@
             transition: transform .3s ease, filter .3s ease;
         }
         .garland-item:hover { transform: scale(1.25); filter: brightness(1.15); }
-        .garland-item:nth-child(1) { color: #258543; } /* birrete  - verde IEM */
-        .garland-item:nth-child(2) { color: #d6567a; } /* libro    - rosa      */
-        .garland-item:nth-child(3) { color: #e0921f; } /* lamparita- ámbar     */
-        .garland-item:nth-child(4) { color: #3d9ad1; } /* estrella - celeste   */
-        .garland-item:nth-child(5) { color: #7a5cc4; } /* lápiz    - violeta   */
+        .garland-item:nth-child(1) { color: #258543; } /* birrete   - verde IEM      */
+        .garland-item:nth-child(2) { color: #e8821c; } /* libro     - naranja        */
+        .garland-item:nth-child(3) { color: #f4a33d; } /* lamparita - naranja claro  */
+        .garland-item:nth-child(4) { color: #e8821c; } /* estrella  - naranja        */
+        .garland-item:nth-child(5) { color: #258543; } /* lápiz     - verde IEM      */
         @keyframes garland-wave {
             0%,100% { transform: translateY(0); }
             50%     { transform: translateY(-3px); }
@@ -380,12 +384,12 @@
         const ROSCO_DATA = [
             { letter: 'A', type: 'EMPIEZA', answer: 'ARTURO', clue: 'Nombre del insigne médico salteño y exministro de Salud de la Nación que da nombre al IEM.' },
             { letter: 'B', type: 'EMPIEZA', answer: 'BOLIVIA', clue: 'Avenida (N° 5150) sobre la cual se ubica el predio de la UNSa donde se encuentra el colegio.' },
-            { letter: 'C', type: 'EMPIEZA', answer: 'CASTAÑARES', clue: 'Barrio y predio universitario en la zona norte de Salta donde funciona el IEM.' },
+            { letter: 'C', type: 'EMPIEZA', answer: 'CUEIEM', clue: 'Siglas del centro unico de estudiantes del IEM.' },
             { letter: 'D', type: 'EMPIEZA', answer: 'DIRECTOR', clue: 'Cargo unipersonal de máxima autoridad ejecutiva y pedagógica del instituto.' },
             { letter: 'E', type: 'EMPIEZA', answer: 'ESTUDIANTES', clue: 'Jóvenes que transitan sus 6 años de formación secundaria en las aulas del colegio.' },
             { letter: 'F', type: 'EMPIEZA', answer: 'FORMULACION', clue: 'Primera palabra clave del título de grado: Bachiller en ________ y Evaluación de Proyectos.' },
             { letter: 'G', type: 'EMPIEZA', answer: 'GABRIELA', clue: 'Nombre de la Vicedirectora turno tarde.' },
-            { letter: 'H', type: 'EMPIEZA', answer: 'HUMANIDADES', clue: 'Área del conocimiento y orientaciones sociales destacadas en la oferta del nivel medio.' },
+            { letter: 'H', type: 'EMPIEZA', answer: 'HISTORIA', clue: 'Ciencia social que estudia los hechos y procesos del pasado de las sociedades humanas a lo largo del tiempo.' },
             { letter: 'I', type: 'EMPIEZA', answer: 'INSTITUTO', clue: 'Primera palabra que integra la sigla IEM.' },
             { letter: 'J', type: 'EMPIEZA', answer: 'JOAQUIN', clue: 'Nombre del pasaje/calle donde se ubica el acceso principal al edificio del IEM.' },
             { letter: 'K', type: 'CONTIENE', answer: 'KILOMETRO', clue: 'Unidad de medida empleada para indicar la distancia entre la sede del IEM y el centro de la ciudad.' },
@@ -396,15 +400,15 @@
             { letter: 'O', type: 'EMPIEZA', answer: 'ORIENTACION', clue: 'Gabinete institucional de acompañamiento psicopedagógico y tutoría del estudiante.' },
             { letter: 'P', type: 'EMPIEZA', answer: 'PINEL', clue: 'Apellido del Vicedirector turno mañana.' },
             { letter: 'Q', type: 'EMPIEZA', answer: 'QUIMICA', clue: 'Asignatura clave del área de Ciencias Naturales dictada en los laboratorios del IEM.' },
-            { letter: 'R', type: 'EMPIEZA', answer: 'REGLAMENTO', clue: 'Normativa institucional y marco de convivencia que rige los derechos y deberes escolares.' },
+            { letter: 'R', type: 'EMPIEZA', answer: 'REGLAMENTO', clue: 'Documento del colegio donde están escritas las normas de convivencia: tus derechos, tus deberes y lo que no se puede hacer.' },
             { letter: 'S', type: 'EMPIEZA', answer: 'SERGIO', clue: 'Nombre del Director del IEM.' },
             { letter: 'T', type: 'EMPIEZA', answer: 'TARTAGAL', clue: 'Ciudad del norte provincial donde funciona la sede hermana del IEM dependiente de la UNSa.' },
             { letter: 'U', type: 'EMPIEZA', answer: 'UNSA', clue: 'Sigla de la Universidad Nacional de Salta, institución madre del colegio.' },
             { letter: 'V', type: 'EMPIEZA', answer: 'VACANTES', clue: 'Cupos o plazas disponibles para el ingreso a primer año que se asignan por sorteo público.' },
-            { letter: 'W', type: 'CONTIENE', answer: 'WEB', clue: 'Portal digital institucional (iem.unsa.edu.ar) donde se comunican noticias e inscripciones.' },
+            { letter: 'W', type: 'CONTIENE', answer: 'WEB', clue: 'Pagina ______ institucional (iem.unsa.edu.ar) donde se comunican noticias e inscripciones.' },
             { letter: 'X', type: 'CONTIENE', answer: 'EXAMEN', clue: 'Instancia formal de evaluación integradora para comprobar los aprendizajes de los estudiantes.' },
             { letter: 'Y', type: 'CONTIENE', answer: 'YODO', clue: 'Nutriente esencial agregado a la sal promovido por Oñativia para erradicar el bocio endémico.' },
-            { letter: 'Z', type: 'CONTIENE', answer: 'ORGANIZACION', clue: 'Estructura participativa y democrática que ejercen los alumnos a través del Centro de Estudiantes.' }
+            { letter: 'Z', type: 'CONTIENE', answer: 'NATURALEZA', clue: 'Todo lo que existe sin intervención humana: lo que estudia el área de Ciencias Naturales.' }
         ];
 
         // PUNTAJE: todas las palabras del rosco valen exactamente lo mismo.
@@ -481,7 +485,7 @@
 
         // Confeti CSS para la pantalla de resultados
         function Confetti({ pieces = 70 }) {
-            const colors = ['#a9e5c3', '#ffeaa8', '#ffc9d3', '#bfe8ce', '#cdeafe', '#e3d5ff'];
+            const colors = ['#a9e5c3', '#ffeaa8', '#ffd2a6', '#bfe8ce', '#cdeafe', '#e3d5ff'];
             const bits = React.useMemo(() => (
                 Array.from({ length: pieces }, (_, i) => ({
                     id: i,
@@ -952,13 +956,13 @@
                                         <span className="party-emoji" style={{ animationDelay: '.18s' }}>🎓</span>
                                         <span className="party-emoji" style={{ animationDelay: '.36s' }}>🥳</span>
                                     </div>
-                                    <h3 className="text-2xl sm:text-3xl font-black text-emerald-900 drop-shadow-sm">
+                                    <h3 className="text-2xl sm:text-3xl font-black text-red-950 drop-shadow-sm">
                                         ¡Feliz Día del Estudiante!
                                     </h3>
-                                    <p className="text-sm sm:text-base font-semibold text-emerald-800 mt-2 max-w-xl mx-auto">
+                                    <p className="text-sm sm:text-base font-semibold text-amber-950 mt-2 max-w-xl mx-auto">
                                         {frase}
                                     </p>
-                                    <p className="text-[11px] uppercase tracking-widest font-bold text-emerald-700/80 mt-3">
+                                    <p className="text-[11px] uppercase tracking-widest font-bold text-orange-950/80 mt-3">
                                         21 de septiembre • IEM "Dr. Arturo Oñativia" — UNSa
                                     </p>
                                 </div>

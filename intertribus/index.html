@@ -68,6 +68,7 @@
     border: 0; background: var(--card); width: 44px; height: 44px; border-radius: 50%;
     box-shadow: var(--shadow); font-size: 1.1rem; display: grid; place-items: center;
   }
+  .icon-btn.off { opacity: .45; }
   .menu { position: relative; }
   .menu > summary { list-style: none; }
   .menu > summary::-webkit-details-marker { display: none; }
@@ -228,8 +229,6 @@
   .history .t { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
   .history .t.rojo { background: var(--red); }
   .history .t.amarillo { background: var(--yellow); }
-  .foot { text-align: center; color: var(--muted); font-size: .8rem; margin-top: 14px; }
-  kbd { background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; font-family: inherit; }
 
   /* Confeti */
   .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
@@ -271,6 +270,7 @@
     </div>
     <nav class="levels" id="levels" role="tablist" aria-label="Categoría de edad"></nav>
     <div class="tools">
+      <button class="icon-btn" id="musicBtn" title="Activar o pausar la música" aria-label="Música">🎵</button>
       <button class="icon-btn" id="soundBtn" title="Activar o silenciar el sonido" aria-label="Sonido">🔊</button>
       <details class="menu" id="menu">
         <summary class="icon-btn" title="Opciones" aria-label="Opciones">⚙️</summary>
@@ -289,10 +289,6 @@
     <summary>Preguntas ya jugadas</summary>
     <ol id="historyList"></ol>
   </details>
-  <p class="foot">
-    Atajos: <kbd>Enter</kbd> botón principal · <kbd>1</kbd>–<kbd>4</kbd> o <kbd>A</kbd>–<kbd>D</kbd> elegir respuesta.
-    El progreso se guarda en este navegador.
-  </p>
 </div>
 
 <script>
@@ -427,7 +423,7 @@ const KEY = 'intertribus-desafio-digital-v1';
 const freshTeam = () => ({ pos: 0, cup: 0, ok: 0, tot: 0 });
 const freshLevel = () => ({ used: {}, log: [], turn: 'rojo', teams: { rojo: freshTeam(), amarillo: freshTeam() } });
 function freshState() {
-  const s = { level: 'menores', sound: true, data: {} };
+  const s = { level: 'menores', sound: true, music: true, data: {} };
   for (const lv of LEVELS) s.data[lv.id] = freshLevel();
   return s;
 }
@@ -439,6 +435,7 @@ function loadState() {
       const base = freshState();
       for (const lv of LEVELS) if (!s.data?.[lv.id]) (s.data ??= {})[lv.id] = base.data[lv.id];
       if (!LEVELS.some(l => l.id === s.level)) s.level = 'menores';
+      s.music ??= true;
       return s;
     }
   } catch (e) { /* almacenamiento no disponible: se juega sin guardar */ }
@@ -461,10 +458,15 @@ const findQ = id => QUESTIONS[state.level].find(q => q.id === id);
    SONIDO
    ============================================================ */
 let actx = null;
+function audio() {
+  actx ??= new (window.AudioContext || window.webkitAudioContext)();
+  if (actx.state === 'suspended') actx.resume();
+  return actx;
+}
 function tone(freq, dur = .12, type = 'sine', when = 0, vol = .18) {
   if (!state.sound) return;
   try {
-    actx ??= new (window.AudioContext || window.webkitAudioContext)();
+    audio();
     const t = actx.currentTime + when;
     const o = actx.createOscillator(), g = actx.createGain();
     o.type = type; o.frequency.value = freq;
@@ -482,6 +484,86 @@ const sfx = {
   win:  () => [784, 988, 1175, 1568].forEach((f, i) => tone(f, .2, 'triangle', i * .08)),
   lose: () => { tone(392, .2, 'triangle'); tone(294, .3, 'triangle', .18); },
 };
+
+/* Música de fondo: melodía chiptune en bucle, generada en el navegador.
+   Cada lista tiene 64 corcheas (8 compases); los números son notas MIDI y 0 es silencio. */
+const TUNE = {
+  bpm: 132,
+  lead: [
+    72, 76, 79, 76, 77, 76, 74, 72,   69, 72, 76, 72, 74, 72, 71, 69,
+    65, 69, 72, 74, 76, 74, 72, 69,   67, 71, 74, 77, 76, 74, 71, 67,
+    77, 76, 74, 72, 74, 76, 77,  0,   76, 74, 72, 74, 76,  0, 79,  0,
+    74, 72, 69, 72, 74, 77, 76, 74,   71, 74, 79, 77, 76, 74, 71,  0,
+  ],
+  bass: [48, 60, 43, 55, 45, 57, 40, 52, 41, 53, 36, 48, 43, 55, 38, 50,
+         41, 53, 36, 48, 48, 60, 43, 55, 38, 50, 45, 57, 43, 55, 47, 59],
+};
+const music = { timer: null, step: 0, next: 0, bus: null, noise: null };
+const midi = n => 440 * 2 ** ((n - 69) / 12);
+
+function musicNote(freq, t, dur, type, vol) {
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.setValueAtTime(0, t);
+  g.gain.linearRampToValueAtTime(vol, t + .01);
+  g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(music.bus);
+  o.start(t); o.stop(t + dur + .02);
+}
+function musicHat(t, vol) {
+  const src = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+  src.buffer = music.noise; f.type = 'highpass'; f.frequency.value = 7000;
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + .05);
+  src.connect(f).connect(g).connect(music.bus);
+  src.start(t); src.stop(t + .06);
+}
+function musicKick(t) {
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(45, t + .12);
+  g.gain.setValueAtTime(.5, t); g.gain.exponentialRampToValueAtTime(.0001, t + .16);
+  o.connect(g).connect(music.bus);
+  o.start(t); o.stop(t + .18);
+}
+function musicTick() {
+  const eighth = 60 / TUNE.bpm / 2;
+  while (music.next < actx.currentTime + .15) {
+    const i = music.step, t = music.next;
+    const n = TUNE.lead[i];
+    if (n) musicNote(midi(n), t, eighth * .9, 'square', .05);
+    if (i % 2 === 0) musicNote(midi(TUNE.bass[i / 2]), t, eighth * 1.8, 'triangle', .16);
+    if (i % 4 === 0) musicKick(t);
+    musicHat(t, i % 2 ? .05 : .025);
+    music.step = (i + 1) % TUNE.lead.length;
+    music.next += eighth;
+  }
+}
+function startMusic() {
+  if (!state.music || music.timer || document.hidden) return;
+  try {
+    audio();
+    if (!music.noise) {
+      music.noise = actx.createBuffer(1, actx.sampleRate * .1, actx.sampleRate);
+      const d = music.noise.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    }
+    music.bus = actx.createGain();
+    music.bus.gain.setValueAtTime(0, actx.currentTime);
+    music.bus.gain.linearRampToValueAtTime(.55, actx.currentTime + .8);
+    music.bus.connect(actx.destination);
+    music.next = actx.currentTime + .1;
+    music.timer = setInterval(musicTick, 25);
+    musicTick();
+  } catch (e) {}
+}
+function stopMusic() {
+  if (!music.timer) return;
+  clearInterval(music.timer); music.timer = null;
+  const bus = music.bus, t = actx.currentTime;
+  bus.gain.cancelScheduledValues(t);
+  bus.gain.setValueAtTime(bus.gain.value, t);
+  bus.gain.linearRampToValueAtTime(0, t + .3);
+  setTimeout(() => bus.disconnect(), 400);
+}
 
 /* ============================================================
    RENDER
@@ -688,6 +770,7 @@ function renderHistory() {
 function renderAll() {
   renderLevels(); renderTeams(); renderStage(); renderHistory();
   $('#soundBtn').textContent = state.sound ? '🔊' : '🔇';
+  $('#musicBtn').classList.toggle('off', !state.music);
 }
 
 /* ============================================================
@@ -799,7 +882,7 @@ function resetLevel() {
 }
 function resetAll() {
   if (!confirm('¿Reiniciar TODO el juego? Se borran los puntajes de las tres categorías.')) return;
-  const sound = state.sound; state = freshState(); state.sound = sound; save();
+  const { sound, music } = state; state = freshState(); Object.assign(state, { sound, music }); save();
   ui.phase = 'idle'; ui.current = null; ui.busy = false;
   $('#menu').open = false; renderAll();
 }
@@ -821,6 +904,15 @@ function confetti(count = 50) {
 /* ============================================================
    EVENTOS
    ============================================================ */
+$('#musicBtn').addEventListener('click', () => {
+  state.music = !state.music; save(); renderAll();
+  state.music ? startMusic() : stopMusic();
+});
+// Los navegadores solo permiten sonar después de una interacción: la música arranca con el primer toque.
+['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, e => {
+  if (!e.target.closest?.('#musicBtn')) startMusic();
+}, true));
+document.addEventListener('visibilitychange', () => (document.hidden ? stopMusic() : startMusic()));
 $('#soundBtn').addEventListener('click', () => { state.sound = !state.sound; save(); renderAll(); if (state.sound) sfx.pick(); });
 $('#resetLevel').addEventListener('click', resetLevel);
 $('#resetAll').addEventListener('click', resetAll);

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podio - Pasapalabras IEM (UNSa)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Babel compiler for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Favicon: logo del IEM -->
+    <link rel="icon" type="image/png" href="logo-iem-sin-fondo.png">
+
+    <style>
+        :root {
+            --iem: #258543;
+            --iem-deep: #14572c;
+            --pastel-1: #f1faf4;
+            --pastel-2: #cdecda;
+            --pastel-3: #9bdcb6;
+            --mint: #a9e5c3;
+            --lemon: #ffeaa8;
+            --peach: #ffd2a6;
+            --ink: #14492c;
+            --ink-soft: #3f7a58;
+            --oro: #f6c344;
+            --plata: #c3cdd6;
+            --bronce: #d68f52;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(90deg,
+                var(--pastel-1) 0%, var(--pastel-2) 22%, var(--pastel-3) 50%,
+                var(--pastel-2) 78%, var(--pastel-1) 100%);
+            background-size: 220% 100%;
+            background-attachment: fixed;
+            animation: bg-slide 24s ease-in-out infinite alternate;
+            color: var(--ink);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        @keyframes bg-slide {
+            from { background-position: 0% 50%; }
+            to   { background-position: 100% 50%; }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(37, 133, 67, 0.18);
+        }
+        .shadow-soft { box-shadow: 0 14px 38px rgba(20, 73, 44, 0.13); }
+
+        /* ---------- ENTRADAS ---------- */
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .anim-in { animation: fade-up .7s cubic-bezier(.2,.85,.25,1) both; }
+        .delay-1 { animation-delay: .12s; }
+        .delay-2 { animation-delay: .26s; }
+
+        @keyframes zoom-in {
+            0%   { opacity: 0; transform: scale(.75); }
+            70%  { transform: scale(1.06); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .anim-zoom { animation: zoom-in .55s cubic-bezier(.2,.9,.3,1.3) both; }
+
+        /* ---------- LOGO ---------- */
+        .logo-badge {
+            position: relative;
+            background: linear-gradient(135deg, #ffffff 0%, var(--pastel-2) 45%, var(--mint) 100%);
+            border: 2px solid rgba(37, 133, 67, .22);
+            box-shadow: 0 8px 20px rgba(20, 73, 44, .16), inset 0 1px 0 rgba(255,255,255,.9);
+            animation: float 3.6s ease-in-out infinite;
+        }
+        .logo-badge img { width: 76%; height: 76%; object-fit: contain; display: block; }
+        .logo-ring {
+            position: absolute; inset: -5px;
+            border: 2px dashed rgba(37, 133, 67, .40);
+            border-radius: 1.1rem;
+            animation: spin 9s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes spin  { to { transform: rotate(360deg); } }
+
+        /* ---------- BOTONES ---------- */
+        .btn-fx {
+            position: relative; overflow: hidden;
+            transition: transform .2s cubic-bezier(.2,.9,.3,1.5), box-shadow .25s, filter .25s;
+        }
+        .btn-fx:hover:not(:disabled)  { transform: translateY(-3px) scale(1.02); filter: brightness(1.05); }
+        .btn-fx:active:not(:disabled) { transform: translateY(0) scale(.97); }
+        .btn-fx::after {
+            content: ''; position: absolute; top: 0; left: -140%;
+            width: 60%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,.8), transparent);
+            transform: skewX(-22deg); transition: left .7s ease;
+        }
+        .btn-fx:hover:not(:disabled)::after { left: 150%; }
+
+        /* ---------- SUSPENSO ---------- */
+        .cuenta-regresiva {
+            font-size: clamp(5rem, 22vw, 11rem);
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(100deg, #ffe9a3, #ffc266 40%, #f2674f);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; -webkit-text-fill-color: transparent;
+            animation: cuenta-pop .8s cubic-bezier(.2,.9,.3,1.5);
+        }
+        @keyframes cuenta-pop {
+            0%   { opacity: 0; transform: scale(2.2) rotate(-8deg); }
+            55%  { opacity: 1; transform: scale(.92); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .texto-tiembla { animation: tiembla .35s ease-in-out infinite; display: inline-block; }
+        @keyframes tiembla {
+            0%,100% { transform: translate(0,0) rotate(0); }
+            25%     { transform: translate(-1.5px,1px) rotate(-.6deg); }
+            75%     { transform: translate(1.5px,-1px) rotate(.6deg); }
+        }
+        .puntos-suspenso { animation: latir 1.1s ease-in-out infinite; }
+        @keyframes latir {
+            0%,100% { transform: scale(1); opacity: .75; }
+            50%     { transform: scale(1.06); opacity: 1; }
+        }
+
+        /* ---------- PODIO ---------- */
+        .bloque-podio {
+            position: relative;
+            border-radius: 1rem 1rem .35rem .35rem;
+            animation: sube-podio .75s cubic-bezier(.2,.9,.3,1.35) both;
+            box-shadow: 0 12px 26px rgba(20, 73, 44, .18), inset 0 2px 0 rgba(255,255,255,.65);
+        }
+        @keyframes sube-podio {
+            0%   { opacity: 0; transform: translateY(85%) scaleY(.5); }
+            65%  { opacity: 1; transform: translateY(-6%) scaleY(1.04); }
+            100% { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+        .ficha-ganador { animation: entra-ficha .6s cubic-bezier(.2,.9,.3,1.5) both; animation-delay: .35s; }
+        @keyframes entra-ficha {
+            0%   { opacity: 0; transform: translateY(24px) scale(.8); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .medalla-1 { animation: brinca 1.5s ease-in-out infinite; }
+        @keyframes brinca {
+            0%,100% { transform: translateY(0) rotate(-7deg); }
+            50%     { transform: translateY(-11px) rotate(7deg); }
+        }
+        .corona {
+            animation: corona-flota 2.2s ease-in-out infinite;
+            filter: drop-shadow(0 4px 10px rgba(214, 143, 40, .5));
+        }
+        @keyframes corona-flota {
+            0%,100% { transform: translateY(0) rotate(-5deg); }
+            50%     { transform: translateY(-8px) rotate(5deg); }
+        }
+        .halo-oro {
+            position: absolute; inset: -30% -25%;
+            background: radial-gradient(circle, rgba(246,195,68,.45) 0%, rgba(246,195,68,0) 68%);
+            animation: respira 3.2s ease-in-out infinite;
+            pointer-events: none; z-index: -1;
+        }
+        @keyframes respira {
+            0%,100% { transform: scale(1);    opacity: .6; }
+            50%     { transform: scale(1.12); opacity: 1; }
+        }
+        .destello {
+            position: absolute; inset: 0; overflow: hidden;
+            border-radius: inherit; pointer-events: none;
+        }
+        .destello::after {
+            content: ''; position: absolute; top: 0; left: -60%;
+            width: 45%; height: 100%;
+            background: linear-gradient(110deg, transparent, rgba(255,255,255,.8), transparent);
+            transform: skewX(-20deg);
+            animation: pasa-destello 3.5s ease-in-out infinite;
+        }
+        @keyframes pasa-destello {
+            0%, 70% { left: -60%; }
+            100%    { left: 140%; }
+        }
+
+        /* ---------- CONFETI ---------- */
+        .confetti {
+            position: fixed; top: -12vh;
+            width: 11px; height: 16px;
+            opacity: .9; z-index: 50; pointer-events: none;
+            animation: confetti-fall linear forwards;
+        }
+        @keyframes confetti-fall {
+            0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(118vh) rotate(760deg); opacity: 0; }
+        }
+
+        /* ---------- TABLA ---------- */
+        .fila-tabla { animation: fade-up .5s ease-out both; }
+        .pastel-scroll::-webkit-scrollbar { width: 10px; }
+        .pastel-scroll::-webkit-scrollbar-track { background: var(--pastel-1); border-radius: 9999px; }
+        .pastel-scroll::-webkit-scrollbar-thumb { background: var(--pastel-3); border-radius: 9999px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-emerald-200 selection:text-emerald-900">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useMemo } = React;
+
+        const CLAVE_GUARDADO = 'iem-podio-concursantes';
+
+        /* ============================ SONIDOS ============================ */
+        // Todo se sintetiza con Web Audio: no hay archivos externos que cargar.
+        const crearContexto = () => {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            return AudioCtx ? new AudioCtx() : null;
+        };
+
+        const tono = (ctx, { freq, inicio, dur, tipo = 'triangle', vol = 0.2 }) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = tipo;
+            osc.frequency.setValueAtTime(freq, inicio);
+            gain.gain.setValueAtTime(0.0001, inicio);
+            gain.gain.exponentialRampToValueAtTime(vol, inicio + 0.03);
+            gain.gain.exponentialRampToValueAtTime(0.0001, inicio + dur);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(inicio);
+            osc.stop(inicio + dur + 0.05);
+        };
+
+        // Redoble de tambores
+        const redoble = (ctx, inicio, duracion) => {
+            const largo = Math.max(1, Math.ceil(ctx.sampleRate * duracion));
+            const buffer = ctx.createBuffer(1, largo, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < largo; i++) data[i] = (Math.random() * 2 - 1) * 0.7;
+
+            const fuente = ctx.createBufferSource();
+            fuente.buffer = buffer;
+            const filtro = ctx.createBiquadFilter();
+            filtro.type = 'lowpass';
+            filtro.frequency.setValueAtTime(700, inicio);
+            filtro.frequency.linearRampToValueAtTime(1600, inicio + duracion);
+
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.0001, inicio);
+            const paso = 0.045;
+            let t = inicio;
+            let intensidad = 0.10;
+            while (t < inicio + duracion) {
+                gain.gain.setValueAtTime(intensidad, t);
+                gain.gain.exponentialRampToValueAtTime(0.012, t + paso * 0.92);
+                intensidad = Math.min(0.30, intensidad + 0.008); // el redoble crece
+                t += paso;
+            }
+            gain.gain.exponentialRampToValueAtTime(0.0001, inicio + duracion + 0.06);
+
+            fuente.connect(filtro); filtro.connect(gain); gain.connect(ctx.destination);
+            fuente.start(inicio);
+            fuente.stop(inicio + duracion + 0.1);
+        };
+
+        // Golpe de platillo para cada revelación
+        const platillo = (ctx, inicio, vol = 0.22) => {
+            const largo = Math.ceil(ctx.sampleRate * 1.2);
+            const buffer = ctx.createBuffer(1, largo, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < largo; i++) data[i] = (Math.random() * 2 - 1);
+            const fuente = ctx.createBufferSource();
+            fuente.buffer = buffer;
+            const filtro = ctx.createBiquadFilter();
+            filtro.type = 'highpass';
+            filtro.frequency.value = 5000;
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(vol, inicio);
+            gain.gain.exponentialRampToValueAtTime(0.0001, inicio + 1.1);
+            fuente.connect(filtro); filtro.connect(gain); gain.connect(ctx.destination);
+            fuente.start(inicio);
+            fuente.stop(inicio + 1.2);
+        };
+
+        // Fanfarria del primer puesto
+        const fanfarria = (ctx, inicio) => {
+            [
+                { f: 523.25, t: 0.00, d: 0.20 },
+                { f: 659.25, t: 0.17, d: 0.20 },
+                { f: 783.99, t: 0.34, d: 0.20 },
+                { f: 1046.50, t: 0.51, d: 0.55 }
+            ].forEach(n => tono(ctx, { freq: n.f, inicio: inicio + n.t, dur: n.d, vol: 0.24 }));
+
+            [523.25, 659.25, 783.99, 1046.50].forEach(f =>
+                tono(ctx, { freq: f, inicio: inicio + 1.05, dur: 1.5, tipo: 'sine', vol: 0.11 })
+            );
+            platillo(ctx, inicio, 0.26);
+        };
+
+        /* ============================ CONFETI ============================ */
+        function Confetti({ piezas = 120 }) {
+            const colores = ['#f6c344', '#ffd2a6', '#f2674f', '#a9e5c3', '#ffeaa8', '#bfe8ce'];
+            const bits = useMemo(() => (
+                Array.from({ length: piezas }, (_, i) => ({
+                    id: i,
+                    left: Math.random() * 100,
+                    delay: Math.random() * 2.2,
+                    duration: 3 + Math.random() * 2.5,
+                    color: colores[i % colores.length],
+                    redondo: i % 3 === 0
+                }))
+            ), [piezas]);
+
+            return (
+                <div aria-hidden="true">
+                    {bits.map(b => (
+                        <span key={b.id} className="confetti" style={{
+                            left: b.left + 'vw',
+                            backgroundColor: b.color,
+                            animationDelay: b.delay + 's',
+                            animationDuration: b.duration + 's',
+                            borderRadius: b.redondo ? '50%' : '2px'
+                        }} />
+                    ))}
+                </div>
+            );
+        }
+
+        /* ============================ PODIO ============================ */
+        const ESTILOS_PUESTO = {
+            1: {
+                medalla: '🥇', alto: 'h-40 sm:h-52', etiqueta: '1er puesto',
+                bloque: 'bg-gradient-to-b from-amber-200 to-amber-400 border-amber-500/50',
+                ficha: 'bg-gradient-to-br from-amber-50 to-amber-100 border-amber-400',
+                texto: 'text-amber-900'
+            },
+            2: {
+                medalla: '🥈', alto: 'h-28 sm:h-36', etiqueta: '2do puesto',
+                bloque: 'bg-gradient-to-b from-slate-100 to-slate-300 border-slate-400/60',
+                ficha: 'bg-white border-slate-300',
+                texto: 'text-slate-700'
+            },
+            3: {
+                medalla: '🥉', alto: 'h-20 sm:h-28', etiqueta: '3er puesto',
+                bloque: 'bg-gradient-to-b from-orange-200 to-orange-400 border-orange-500/50',
+                ficha: 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300',
+                texto: 'text-orange-900'
+            }
+        };
+
+        function BloquePodio({ puesto, persona, visible }) {
+            const e = ESTILOS_PUESTO[puesto];
+            // Hueco reservado para que el podio no salte cuando aparecen los bloques
+            if (!visible || !persona) {
+                return <div className="flex-1 max-w-[190px]" aria-hidden="true"></div>;
+            }
+
+            return (
+                <div className="flex-1 max-w-[190px] flex flex-col items-center justify-end relative">
+                    {puesto === 1 && <div className="halo-oro"></div>}
+                    {puesto === 1 && (
+                        <div className="corona text-4xl sm:text-5xl mb-1">👑</div>
+                    )}
+
+                    {/* Ficha con el nombre y los puntos */}
+                    <div className={`ficha-ganador w-full rounded-2xl border-2 px-2 py-3 mb-2 shadow-soft ${e.ficha}`}>
+                        <div className={`text-3xl sm:text-4xl ${puesto === 1 ? 'medalla-1' : ''}`}>{e.medalla}</div>
+                        <div className={`font-black leading-tight mt-1 break-words ${e.texto} ${puesto === 1 ? 'text-base sm:text-lg' : 'text-sm sm:text-base'}`}>
+                            {persona.nombre}
+                        </div>
+                        <div className={`font-black ${e.texto} ${puesto === 1 ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl'}`}>
+                            {persona.puntos}
+                            <span className="text-[10px] font-bold opacity-70"> pts</span>
+                        </div>
+                    </div>
+
+                    {/* Escalón */}
+                    <div className={`bloque-podio w-full border-2 flex items-start justify-center pt-2 ${e.alto} ${e.bloque}`}>
+                        <div className="destello"></div>
+                        <span className={`text-4xl sm:text-5xl font-black opacity-40 ${e.texto}`}>{puesto}</span>
+                    </div>
+                    <div className={`text-[10px] uppercase tracking-widest font-bold mt-1.5 ${e.texto}`}>
+                        {e.etiqueta}
+                    </div>
+                </div>
+            );
+        }
+
+        /* ============================ APP ============================ */
+        function App() {
+            const leerGuardado = () => {
+                try {
+                    const crudo = localStorage.getItem(CLAVE_GUARDADO);
+                    const datos = crudo ? JSON.parse(crudo) : [];
+                    return Array.isArray(datos) ? datos : [];
+                } catch (e) {
+                    return [];
+                }
+            };
+
+            const [modo, setModo] = useState('CARGA');          // 'CARGA' | 'REVELACION'
+            const [lista, setLista] = useState(leerGuardado);
+            const [nombre, setNombre] = useState('');
+            const [puntos, setPuntos] = useState('');
+            const [mudo, setMudo] = useState(false);
+            const [paso, setPaso] = useState(0);                // 0 intro · 1 tercero · 2 segundo · 3 primero · 4 tabla
+            const [cuenta, setCuenta] = useState(null);         // 3 · 2 · 1
+
+            const nombreRef = useRef(null);
+            const temporizadores = useRef([]);
+            const audioRef = useRef(null);
+
+            // Guardado automático
+            useEffect(() => {
+                try {
+                    localStorage.setItem(CLAVE_GUARDADO, JSON.stringify(lista));
+                } catch (e) { /* modo privado o sin espacio: el juego sigue igual */ }
+            }, [lista]);
+
+            // Limpieza al desmontar
+            useEffect(() => () => {
+                temporizadores.current.forEach(clearTimeout);
+                if (audioRef.current) { try { audioRef.current.close(); } catch (e) {} }
+            }, []);
+
+            const ordenados = useMemo(
+                () => [...lista].sort((a, b) => b.puntos - a.puntos),
+                [lista]
+            );
+
+            const agregar = (e) => {
+                if (e) e.preventDefault();
+                const nom = nombre.trim();
+                if (!nom) return;
+                const pts = parseInt(puntos, 10);
+                setLista([...lista, {
+                    id: Date.now() + Math.random(),
+                    nombre: nom,
+                    puntos: Number.isFinite(pts) ? pts : 0
+                }]);
+                setNombre('');
+                setPuntos('');
+                if (nombreRef.current) nombreRef.current.focus();
+            };
+
+            const actualizarPuntos = (id, valor) => {
+                const pts = parseInt(valor, 10);
+                setLista(lista.map(p => p.id === id ? { ...p, puntos: Number.isFinite(pts) ? pts : 0 } : p));
+            };
+
+            const actualizarNombre = (id, valor) => {
+                setLista(lista.map(p => p.id === id ? { ...p, nombre: valor } : p));
+            };
+
+            const borrar = (id) => setLista(lista.filter(p => p.id !== id));
+
+            const borrarTodo = () => {
+                if (lista.length === 0) return;
+                if (window.confirm('¿Borrar la lista completa de concursantes?')) setLista([]);
+            };
+
+            /* ---------- Secuencia de revelación con suspenso ---------- */
+            const revelar = () => {
+                if (lista.length === 0) return;
+
+                temporizadores.current.forEach(clearTimeout);
+                temporizadores.current = [];
+                setModo('REVELACION');
+                setPaso(0);
+                setCuenta(3);
+
+                // El audio se crea acá porque nace de un clic del usuario
+                let ctx = null;
+                if (!mudo) {
+                    if (audioRef.current) { try { audioRef.current.close(); } catch (e) {} }
+                    ctx = crearContexto();
+                    audioRef.current = ctx;
+                }
+
+                const programar = (fn, ms) => temporizadores.current.push(setTimeout(fn, ms));
+
+                if (ctx) {
+                    const t0 = ctx.currentTime + 0.05;
+                    redoble(ctx, t0, 2.45);              // suspenso inicial
+                    tono(ctx, { freq: 440, inicio: t0 + 0.05, dur: 0.18, tipo: 'square', vol: 0.16 }); // 3
+                    tono(ctx, { freq: 494, inicio: t0 + 0.85, dur: 0.18, tipo: 'square', vol: 0.16 }); // 2
+                    tono(ctx, { freq: 554, inicio: t0 + 1.65, dur: 0.22, tipo: 'square', vol: 0.18 }); // 1
+                    platillo(ctx, t0 + 2.55, 0.20);      // 3er puesto
+                    redoble(ctx, t0 + 2.85, 1.45);
+                    platillo(ctx, t0 + 4.40, 0.22);      // 2do puesto
+                    redoble(ctx, t0 + 4.70, 1.60);
+                    fanfarria(ctx, t0 + 6.40);           // 1er puesto
+                }
+
+                programar(() => setCuenta(2), 850);
+                programar(() => setCuenta(1), 1650);
+                programar(() => setCuenta(null), 2450);
+                programar(() => setPaso(1), 2550);       // 3er puesto
+                programar(() => setPaso(2), 4400);       // 2do puesto
+                programar(() => setPaso(3), 6400);       // 1er puesto
+                programar(() => setPaso(4), 8100);       // tabla completa
+            };
+
+            const saltarSuspenso = () => {
+                temporizadores.current.forEach(clearTimeout);
+                temporizadores.current = [];
+                if (audioRef.current) {
+                    try { audioRef.current.close(); } catch (e) {}
+                    audioRef.current = null;
+                }
+                setCuenta(null);
+                setPaso(4);
+            };
+
+            const volverACargar = () => {
+                temporizadores.current.forEach(clearTimeout);
+                temporizadores.current = [];
+                if (audioRef.current) {
+                    try { audioRef.current.close(); } catch (e) {}
+                    audioRef.current = null;
+                }
+                setCuenta(null);
+                setPaso(0);
+                setModo('CARGA');
+            };
+
+            const podio = [ordenados[0], ordenados[1], ordenados[2]];
+            const resto = ordenados.slice(3);
+
+            /* ======================= PANTALLA DE CARGA ======================= */
+            if (modo === 'CARGA') {
+                return (
+                    <div className="max-w-3xl mx-auto w-full p-3 sm:p-6 flex flex-col min-h-screen">
+
+                        <header className="glass-panel rounded-2xl p-4 mb-4 shadow-soft flex items-center justify-between gap-3 anim-in">
+                            <div className="flex items-center gap-3">
+                                <div className="logo-badge w-14 h-14 rounded-2xl flex items-center justify-center shrink-0">
+                                    <img src="logo-iem-sin-fondo.png" alt="Logo del IEM" />
+                                    <span className="logo-ring"></span>
+                                </div>
+                                <div>
+                                    <h1 className="text-xl md:text-2xl font-black tracking-tight text-emerald-900">
+                                        PODIO DEL PASAPALABRAS
+                                    </h1>
+                                    <p className="text-xs text-emerald-700">
+                                        Cargá los concursantes y sus puntos
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="index.html"
+                               title="Volver al juego"
+                               className="p-2.5 rounded-xl bg-white/80 border border-emerald-300 hover:bg-emerald-100 text-emerald-700 transition-colors shrink-0">
+                                <i className="fa-solid fa-gamepad"></i>
+                            </a>
+                        </header>
+
+                        {/* Alta de concursantes */}
+                        <form onSubmit={agregar}
+                              className="glass-panel rounded-2xl p-4 shadow-soft mb-4 anim-in delay-1 flex flex-col sm:flex-row gap-3">
+                            <input
+                                ref={nombreRef}
+                                type="text"
+                                value={nombre}
+                                onChange={(e) => setNombre(e.target.value)}
+                                placeholder="Nombre del concursante"
+                                autoComplete="off"
+                                className="flex-1 bg-white border-2 border-emerald-200 focus:border-emerald-400 rounded-xl px-4 py-3 text-emerald-900 placeholder-emerald-400/70 font-semibold focus:outline-none focus:ring-4 focus:ring-emerald-200/70 transition"
+                            />
+                            <input
+                                type="number"
+                                value={puntos}
+                                onChange={(e) => setPuntos(e.target.value)}
+                                placeholder="Puntos"
+                                className="w-full sm:w-32 bg-white border-2 border-emerald-200 focus:border-emerald-400 rounded-xl px-4 py-3 text-emerald-900 placeholder-emerald-400/70 font-bold text-center focus:outline-none focus:ring-4 focus:ring-emerald-200/70 transition"
+                            />
+                            <button
+                                type="submit"
+                                disabled={!nombre.trim()}
+                                className="btn-fx bg-gradient-to-r from-emerald-200 to-teal-200 border border-emerald-300 text-emerald-900 font-extrabold px-5 py-3 rounded-xl shadow-md shadow-emerald-200 disabled:opacity-45 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            >
+                                <i className="fa-solid fa-plus"></i> Agregar
+                            </button>
+                        </form>
+
+                        {/* Listado */}
+                        <div className="glass-panel rounded-2xl p-4 shadow-soft anim-in delay-2 flex-1">
+                            <div className="flex items-center justify-between mb-3">
+                                <h2 className="font-black text-emerald-900 flex items-center gap-2">
+                                    <i className="fa-solid fa-users text-emerald-600"></i>
+                                    Concursantes
+                                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800">
+                                        {lista.length}
+                                    </span>
+                                </h2>
+                                {lista.length > 0 && (
+                                    <button onClick={borrarTodo}
+                                            className="text-xs font-bold text-rose-500 hover:text-rose-600 hover:scale-105 transition flex items-center gap-1.5">
+                                        <i className="fa-solid fa-trash"></i> Borrar todo
+                                    </button>
+                                )}
+                            </div>
+
+                            {lista.length === 0 ? (
+                                <p className="text-sm text-emerald-700/80 text-center py-10">
+                                    <i className="fa-solid fa-clipboard-list text-3xl block mb-3 text-emerald-600/50"></i>
+                                    Todavía no cargaste a nadie.<br />
+                                    Escribí un nombre y sus puntos para empezar.
+                                </p>
+                            ) : (
+                                <div className="pastel-scroll max-h-[45vh] overflow-y-auto pr-1 space-y-2">
+                                    {lista.map((p) => {
+                                        const puesto = ordenados.findIndex(o => o.id === p.id) + 1;
+                                        const medalla = puesto === 1 ? '🥇' : puesto === 2 ? '🥈' : puesto === 3 ? '🥉' : null;
+                                        return (
+                                            <div key={p.id}
+                                                 className="flex items-center gap-2 bg-white/80 border border-emerald-200 rounded-xl px-2.5 py-2">
+                                                <span className="w-8 h-8 shrink-0 rounded-lg bg-emerald-100 border border-emerald-200 flex items-center justify-center font-black text-sm text-emerald-800">
+                                                    {medalla || puesto}
+                                                </span>
+                                                <input
+                                                    type="text"
+                                                    value={p.nombre}
+                                                    onChange={(e) => actualizarNombre(p.id, e.target.value)}
+                                                    className="flex-1 min-w-0 bg-transparent font-bold text-emerald-900 focus:outline-none focus:bg-emerald-50 rounded px-1 py-1"
+                                                />
+                                                <input
+                                                    type="number"
+                                                    value={p.puntos}
+                                                    onChange={(e) => actualizarPuntos(p.id, e.target.value)}
+                                                    className="w-20 shrink-0 bg-white border border-emerald-200 rounded-lg px-2 py-1 font-black text-center text-emerald-800 focus:outline-none focus:border-emerald-400"
+                                                />
+                                                <button onClick={() => borrar(p.id)}
+                                                        title="Quitar"
+                                                        className="w-8 h-8 shrink-0 rounded-lg text-rose-400 hover:bg-rose-50 hover:text-rose-600 transition">
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Acciones */}
+                        <div className="mt-4 flex flex-col sm:flex-row items-center gap-3">
+                            <button
+                                onClick={revelar}
+                                disabled={lista.length === 0}
+                                className="btn-fx w-full sm:flex-1 bg-gradient-to-r from-amber-200 via-orange-200 to-orange-300 border border-orange-300 text-orange-900 font-black text-lg px-6 py-4 rounded-2xl shadow-md shadow-orange-200 disabled:opacity-45 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            >
+                                <i className="fa-solid fa-trophy"></i> Revelar el podio
+                            </button>
+                            <button
+                                onClick={() => setMudo(!mudo)}
+                                title={mudo ? 'Activar sonido' : 'Silenciar'}
+                                className="p-4 rounded-2xl bg-white/80 border border-emerald-300 hover:bg-emerald-100 text-emerald-700 transition-colors"
+                            >
+                                <i className={`fa-solid ${mudo ? 'fa-volume-xmark text-rose-500' : 'fa-volume-high text-emerald-600'}`}></i>
+                            </button>
+                        </div>
+
+                        <p className="text-center text-[11px] text-emerald-700/70 mt-4">
+                            La lista se guarda en este navegador, así que podés cerrar la página sin perderla.
+                        </p>
+                    </div>
+                );
+            }
+
+            /* ===================== PANTALLA DE REVELACIÓN ===================== */
+            return (
+                <div className="max-w-4xl mx-auto w-full p-3 sm:p-6 flex flex-col min-h-screen justify-center">
+
+                    {paso >= 3 && <Confetti piezas={130} />}
+
+                    {/* Suspenso inicial */}
+                    {paso === 0 && (
+                        <div className="text-center py-16">
+                            <p className="text-lg sm:text-2xl font-black text-emerald-800 texto-tiembla">
+                                <i className="fa-solid fa-drum text-orange-500 mr-2"></i>
+                                Redoble de tambores...
+                            </p>
+                            {cuenta !== null && (
+                                <div key={cuenta} className="cuenta-regresiva mt-4">{cuenta}</div>
+                            )}
+                            <p className="text-sm font-semibold text-emerald-700/80 mt-4 puntos-suspenso">
+                                {lista.length} {lista.length === 1 ? 'concursante' : 'concursantes'} en juego
+                            </p>
+                        </div>
+                    )}
+
+                    {/* Podio */}
+                    {paso >= 1 && (
+                        <div className="glass-panel rounded-3xl p-5 sm:p-8 shadow-soft anim-in">
+                            <h2 className="text-center text-xl sm:text-2xl font-black text-emerald-900 mb-6">
+                                {paso >= 3 ? '🏆 ¡Tenemos ganador o ganadora!' : 'Revelando el podio...'}
+                            </h2>
+
+                            <div className="flex items-end justify-center gap-2 sm:gap-4">
+                                <BloquePodio puesto={2} persona={podio[1]} visible={paso >= 2} />
+                                <BloquePodio puesto={1} persona={podio[0]} visible={paso >= 3} />
+                                <BloquePodio puesto={3} persona={podio[2]} visible={paso >= 1} />
+                            </div>
+
+                            {/* Resto de la tabla */}
+                            {paso >= 4 && resto.length > 0 && (
+                                <div className="mt-8 pt-5 border-t border-dashed border-emerald-600/25">
+                                    <h3 className="text-sm font-black text-emerald-900 mb-3 flex items-center gap-2">
+                                        <i className="fa-solid fa-list-ol text-emerald-600"></i>
+                                        Resto de la tabla
+                                    </h3>
+                                    <div className="pastel-scroll max-h-60 overflow-y-auto space-y-1.5 pr-1">
+                                        {resto.map((p, i) => (
+                                            <div key={p.id}
+                                                 className="fila-tabla flex items-center justify-between gap-3 bg-white/80 border border-emerald-200 rounded-xl px-3 py-2"
+                                                 style={{ animationDelay: `${i * 0.07}s` }}>
+                                                <span className="flex items-center gap-2.5 min-w-0">
+                                                    <span className="w-7 h-7 shrink-0 rounded-lg bg-emerald-100 border border-emerald-200 flex items-center justify-center font-black text-xs text-emerald-800">
+                                                        {i + 4}
+                                                    </span>
+                                                    <span className="font-bold text-emerald-900 truncate">{p.nombre}</span>
+                                                </span>
+                                                <span className="font-black text-emerald-700 shrink-0">
+                                                    {p.puntos}<span className="text-[10px] font-bold opacity-70"> pts</span>
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Controles */}
+                    <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+                        {paso < 4 && (
+                            <button onClick={saltarSuspenso}
+                                    className="text-xs font-bold text-emerald-700/80 hover:text-emerald-900 hover:scale-105 transition flex items-center gap-1.5">
+                                <i className="fa-solid fa-forward"></i> Saltar el suspenso
+                            </button>
+                        )}
+                        {paso >= 4 && (
+                            <React.Fragment>
+                                <button onClick={revelar}
+                                        className="btn-fx bg-gradient-to-r from-amber-200 to-orange-200 border border-orange-300 text-orange-900 font-extrabold px-5 py-3 rounded-2xl shadow-md shadow-orange-200 flex items-center gap-2">
+                                    <i className="fa-solid fa-rotate-right"></i> Repetir revelación
+                                </button>
+                                <button onClick={volverACargar}
+                                        className="btn-fx bg-gradient-to-r from-emerald-200 to-teal-200 border border-emerald-300 text-emerald-900 font-extrabold px-5 py-3 rounded-2xl shadow-md shadow-emerald-200 flex items-center gap-2">
+                                    <i className="fa-solid fa-pen-to-square"></i> Editar concursantes
+                                </button>
+                            </React.Fragment>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

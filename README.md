@@ -32,8 +32,18 @@ La experiencia profesional se edita en la sección `#experiencia` de `index.html
 
 ```text
 index.html                   Portada y secciones
-assets/styles.css            Diseño visual, animaciones y adaptación a distintos tamaños de pantalla
-assets/app.js                Búsquedas, filtros, pestañas y fichas
+assets/styles.css            Punto de entrada CSS (@import de módulos)
+assets/css/tokens.css        Variables de diseño, tipografía, base, botones y etiquetas
+assets/css/layout.css        Lienzo espacial, cabecera, navegación, progreso y pie
+assets/css/sections.css      Portada, proyectos destacados, experiencia, perfil e IA
+assets/css/catalog.css       Archivos desplegables, catálogos, formación, repositorios y diálogos
+assets/css/animations.css    Inclinación 3D, revelados al scroll, media queries e impresión
+assets/app.js                Punto de entrada JS e inicialización general
+assets/js/utils.js           Funciones compartidas, categorías y plantilla de tarjetas
+assets/js/dialog.js          Controlador del modal de detalle de proyectos
+assets/js/projects.js        Búsqueda, filtrado, ordenamiento y atajos del catálogo
+assets/js/repositories.js    Explorador de repositorios, pestañas e índice de archivos
+assets/js/learning.js        Formación continua, prácticas e investigación
 assets/motion.js             Entradas al scroll, inclinación 3D, navegación activa y apertura por enlaces
 assets/projects.json         Descripciones curadas de proyectos y prácticas
 assets/learning.json         Cursos, actividades, publicaciones y referencias a investigaciones
@@ -119,6 +129,11 @@ El sitio se sirve directamente desde la raíz de `main`, con `.nojekyll`. No req
 Comprobación de sintaxis:
 
 ```bash
+node --check assets/js/utils.js
+node --check assets/js/dialog.js
+node --check assets/js/projects.js
+node --check assets/js/repositories.js
+node --check assets/js/learning.js
 node --check assets/app.js
 node --check assets/motion.js
 node --check assets/catalog.js

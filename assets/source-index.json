@@ -416,6 +416,56 @@
   },
   {
     "repo": "GabrielUnsa.github.io",
+    "path": "assets/css/animations.css",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/css/animations.css"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/css/catalog.css",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/css/catalog.css"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/css/layout.css",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/css/layout.css"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/css/sections.css",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/css/sections.css"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/css/tokens.css",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/css/tokens.css"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/js/dialog.js",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/js/dialog.js"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/js/learning.js",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/js/learning.js"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/js/projects.js",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/js/projects.js"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/js/repositories.js",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/js/repositories.js"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
+    "path": "assets/js/utils.js",
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/js/utils.js"
+  },
+  {
+    "repo": "GabrielUnsa.github.io",
     "path": "assets/motion.js",
     "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/blob/main/assets/motion.js"
   },

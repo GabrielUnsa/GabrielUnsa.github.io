@@ -108,3 +108,78 @@
   .ai-card { background: #fff; break-inside: avoid; }
   .ai-card p { color: #333; }
 }
+
+/* Continuing education and research. */
+.training-section { padding-top: 65px; padding-bottom: 72px; border-top: 1px solid var(--line); }
+.section-heading > .learning-intro { flex: 0 1 335px; }
+.learning-intro > p { font-size: 12px; line-height: 1.9; color: var(--muted); margin: 0 0 14px; }
+.learning-intro .text-link { color: var(--accent); font-size: 11px; }
+.training-summary { display: flex; gap: 40px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; margin-bottom: 26px; }
+.training-summary > div { display: flex; align-items: center; gap: 12px; }
+.training-summary strong { font: 500 29px var(--heading); color: var(--accent); }
+.training-summary span { font-size: 11px; color: var(--muted); max-width: 130px; }
+.training-toolbar { display: flex; align-items: center; gap: 12px; }
+.training-toolbar .search-box { max-width: none; }
+.training-row { display: grid; grid-template-columns: 130px minmax(0, 1fr) 160px; align-items: start; gap: 24px; padding: 24px 6px; border-bottom: 1px solid var(--line); }
+.training-date { font-size: 11px; color: var(--muted); padding-top: 2px; }
+.training-info h3 { font: 500 14px/1.6 var(--heading); margin: 0 0 7px; overflow-wrap: anywhere; }
+.training-info p { font-size: 11px; line-height: 1.8; color: var(--muted); margin: 0; }
+.training-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 3px; }
+.training-status { font-size: 9px; line-height: 1.7; padding: 2px 8px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); white-space: nowrap; }
+.status-in-progress { color: var(--accent); border-color: var(--accent); }
+.training-meta a { font-size: 10px; color: var(--accent); text-align: right; }
+.training-meta a:hover { text-decoration: underline; }
+.training-note { color: var(--muted); font-size: 10px; line-height: 1.9; margin: 22px 0 0; }
+.learning-subheading { margin-top: 43px; margin-bottom: 25px; }
+.learning-subheading h3 { font: 500 20px/1.5 var(--heading); letter-spacing: -.4px; margin: 0 0 8px; }
+.learning-subheading p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.9; }
+.research-section { border-top: 1px solid var(--line); padding-top: 65px; padding-bottom: 76px; }
+.publication-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.publication-card { display: flex; flex-direction: column; padding: 29px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.publication-card h3 { font: 600 20px/1.55 var(--heading); letter-spacing: -.5px; margin: 0 0 18px; }
+.publication-venue { color: var(--accent); font-size: 11px; line-height: 1.9; margin: 0 0 10px; }
+.publication-authors { color: var(--muted); font-size: 10px; line-height: 1.9; margin: 0 0 17px; }
+.publication-description { color: var(--muted); font-size: 12px; line-height: 1.9; margin: 0 0 25px; }
+.publication-actions { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); display: flex; align-items: flex-start; flex-direction: column; gap: 14px; }
+.publication-actions .text-link { font-size: 11px; color: var(--accent); }
+.publication-actions button { border: 0; background: none; padding: 0; text-align: left; }
+@media (max-width: 1100px) {
+  .wordmark > span:last-child { display: none; }
+}
+@media (max-width: 800px) {
+  .site-header nav { gap: 13px; }
+  .site-header nav a[href="#sobre-mi"] { display: none; }
+  .training-summary { gap: 25px; }
+  .training-row { grid-template-columns: 105px minmax(0, 1fr) 130px; gap: 18px; }
+  .training-toolbar { flex-wrap: wrap; }
+  .training-toolbar .search-box { flex-basis: 100%; }
+  .publication-card { padding: 23px; }
+  .publication-card h3 { font-size: 17px; }
+}
+@media (max-width: 600px) {
+  .site-header nav { gap: 8px; }
+  .site-header .nav-repositories { display: none; }
+  .training-section, .research-section { padding-top: 45px; padding-bottom: 45px; }
+  .learning-intro > p { margin-top: 20px; }
+  .training-summary { gap: 20px; justify-content: space-between; }
+  .training-summary > div { flex-direction: column; align-items: flex-start; gap: 5px; }
+  .training-summary strong { font-size: 27px; }
+  .training-summary span { font-size: 10px; max-width: 100px; }
+  .training-toolbar select { flex: 1; min-width: 0; padding-right: 20px; }
+  .training-row { grid-template-columns: minmax(0, 1fr) auto; gap: 9px 12px; padding: 21px 0; }
+  .training-date { grid-column: 1; grid-row: 1; font-size: 10px; }
+  .training-info { grid-column: 1 / -1; grid-row: 2; }
+  .training-info h3 { font-size: 13px; }
+  .training-meta { grid-column: 2; grid-row: 1; padding-top: 0; flex-direction: row; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+  .training-meta a { font-size: 9px; }
+  .learning-subheading h3 { font-size: 19px; }
+  .publication-grid { grid-template-columns: 1fr; }
+  .publication-card { padding: 24px; }
+  .publication-card h3 { font-size: 18px; }
+}
+@media print {
+  .training-toolbar, .training-section .load-more-wrap { display: none; }
+  .training-row, .publication-card { break-inside: avoid; }
+  .publication-card { background: white; color: #111; }
+  .publication-description, .publication-authors { color: #333; }
+}

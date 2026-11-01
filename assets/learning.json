@@ -1,0 +1,484 @@
+{
+  "courses": [
+    {
+      "id": "course-01",
+      "title": "Desinformación y fake news",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2026-07",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-02",
+      "title": "Delitos informáticos",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2026-07",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-03",
+      "title": "Conceptos fundamentales sobre ciberseguridad",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2026-07",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-04",
+      "title": "Diseño centrado en las personas",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2026-05",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-05",
+      "title": "Introducción a la accesibilidad web",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2026-05",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-06",
+      "title": "Introducción a la IA generativa",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2026-05",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-07",
+      "title": "Prevención en el ámbito educativo",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2026-05",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "activity-49",
+      "title": "Docentes que diseñan: arquitectura pedagógica con IA",
+      "institution": "Ministerio de Educación y Cultura de Salta",
+      "date": "2026-05",
+      "status": "participation",
+      "kind": "Actividad de actualización"
+    },
+    {
+      "id": "activity-50",
+      "title": "El futuro de la IA en la educación",
+      "institution": "Ministerio de Educación y Cultura de Salta",
+      "date": "2026-05",
+      "status": "participation",
+      "kind": "Actividad de actualización"
+    },
+    {
+      "id": "activity-51",
+      "title": "Diálogos con la IA",
+      "institution": "Ministerio de Educación y Cultura de Salta",
+      "date": "2026-05",
+      "status": "participation",
+      "kind": "Actividad de actualización"
+    },
+    {
+      "id": "sadio-cybersecurity",
+      "title": "Ciberseguridad para Infraestructuras TI",
+      "institution": "SADIO · Sociedad Argentina de Informática e Investigación Operativa",
+      "date": "2026",
+      "status": "in-progress",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-08",
+      "title": "Data Analysis with Python",
+      "institution": "IBM Developer Skills Network",
+      "date": "2025-09",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/DataScience/tree/main/Python"
+    },
+    {
+      "id": "course-09",
+      "title": "Python 101 for Data Science",
+      "institution": "IBM Developer Skills Network",
+      "date": "2025-09",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/DataScience/tree/main/Python"
+    },
+    {
+      "id": "course-10",
+      "title": "Moodle: entorno educativo para el aprendizaje virtual de docentes y estudiantes",
+      "institution": "Ministerio de Educación, Cultura, Ciencia y Tecnología",
+      "date": "2025-09",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-11",
+      "title": "Curso de Ingeniería de prompts",
+      "institution": "Código Facilito",
+      "date": "2025-09",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-12",
+      "title": "Curso Apps de Inteligencia Artificial with C# y Azure",
+      "institution": "Código Facilito",
+      "date": "2025-09",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-13",
+      "title": "Curso a fondo de GitHub",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-14",
+      "title": "Curso de Bases y conceptos de la Ciencia de Datos",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-15",
+      "title": "Curso de despliegue de aplicaciones web en Azure",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-16",
+      "title": "Curso de Estructura de Datos en Python - Básico",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-17",
+      "title": "Curso de GitHub Actions",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-18",
+      "title": "Curso de Introducción a DevOps Bases y Conceptos",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-19",
+      "title": "Curso de metodologías para solución de problemas",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-20",
+      "title": "Curso de Python Profesional",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-21",
+      "title": "Curso profesional de C++",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-22",
+      "title": "Curso Profesional de Docker",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-23",
+      "title": "Curso profesional de Git",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-24",
+      "title": "Curso profesional de JavaScript",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-25",
+      "title": "Curso Profesional de TypeScript",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-26",
+      "title": "Introducción a Figma y diseño de interfaces",
+      "institution": "Código Facilito",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-27",
+      "title": "Storytelling",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2025-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "activity-52",
+      "title": "Inmersión IA con Google Gemini",
+      "institution": "Alura",
+      "date": "2025-08",
+      "status": "participation",
+      "kind": "Actividad de actualización"
+    },
+    {
+      "id": "course-28",
+      "title": "Fundamentos de la Computación Física (Robótica)",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2025-07",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-29",
+      "title": "Prevención en el ámbito educativo",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2025-07",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-30",
+      "title": "Resolución de Problemas",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2025-07",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-31",
+      "title": "Herramientas en acción: \"Trello para gestión de proyectos ágiles\"",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2024-11",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-32",
+      "title": "Educación y videojuegos",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2024-11",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-33",
+      "title": "Principios básicos de diseño gráfico",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2024-11",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-34",
+      "title": "Evaluación y Big Data",
+      "institution": "Jefatura de Gabinete de Ministros - Secretaría de Innovación, Ciencia y Tecnología",
+      "date": "2024-10",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "activity-53",
+      "title": "Inmersión Dev con JavaScript",
+      "institution": "Alura Latam",
+      "date": "2024-09",
+      "status": "participation",
+      "kind": "Actividad de actualización"
+    },
+    {
+      "id": "course-35",
+      "title": "Análisis estadístico de Datos para Business Analytics",
+      "institution": "Facultad de Ciencias Económicas, Jurídicas y Sociales - UNSa",
+      "date": "2022-12",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-37",
+      "title": "Expediente Electrónico Integrado - SUDOCU",
+      "institution": "UNSa",
+      "date": "2022-11",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-36",
+      "title": "Maquetado Avanzado: HTML5 y SAS",
+      "institution": "EducaciónIT",
+      "date": "2022-02",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-38",
+      "title": "Bootcamp Full Stack with Node.js",
+      "institution": "EducaciónIT · Digit@lers · Telecom",
+      "date": "2021-11",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/"
+    },
+    {
+      "id": "course-39",
+      "title": "Introducción al Paradigma de Objetos",
+      "institution": "EducaciónIT",
+      "date": "2021-10",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-40",
+      "title": "ReactJS",
+      "institution": "EducaciónIT",
+      "date": "2021-10",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/15.Reactjs"
+    },
+    {
+      "id": "course-41",
+      "title": "JavaScript AWP",
+      "institution": "EducaciónIT",
+      "date": "2021-08",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-42",
+      "title": "Node.js y Mongo DB",
+      "institution": "EducaciónIT",
+      "date": "2021-08",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/11.Mooongose"
+    },
+    {
+      "id": "course-43",
+      "title": "JavaScript Desarrollador Avanzado",
+      "institution": "EducaciónIT",
+      "date": "2021-07",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/TPs"
+    },
+    {
+      "id": "course-44",
+      "title": "Mongo DB Fundamentos",
+      "institution": "EducaciónIT",
+      "date": "2021-07",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/11.Mooongose"
+    },
+    {
+      "id": "course-45",
+      "title": "Git: Desarrollo Colaborativo",
+      "institution": "EducaciónIT",
+      "date": "2021-06",
+      "status": "completed",
+      "kind": "Curso"
+    },
+    {
+      "id": "course-46",
+      "title": "JavaScript desde cero",
+      "institution": "EducaciónIT",
+      "date": "2021-06",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/0.JS%20Lenguaje%20de%20la%20Web"
+    },
+    {
+      "id": "course-47",
+      "title": "HTML5: Fundamentos Web",
+      "institution": "EducaciónIT",
+      "date": "2021-04",
+      "status": "completed",
+      "kind": "Curso",
+      "material": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/TPs/Clase_01/app"
+    },
+    {
+      "id": "course-48",
+      "title": "Curso Postgrado \"Programación paralela con OpenMP y MPI y herramientas de análisis de rendimiento\"",
+      "institution": "UNSa Facultad de Ciencias Exactas",
+      "date": "2018-08",
+      "status": "completed",
+      "kind": "Curso"
+    }
+  ],
+  "publications": [
+    {
+      "id": "rebuilding-2019",
+      "title": "Rebuilding the Story of a Hero: Information Extraction in Ancient Argentinian Texts",
+      "year": "2019",
+      "type": "Artículo de congreso",
+      "venue": "AGRANDA · 48 JAIIO · pp. 28–37",
+      "authors": "Eduardo Xamena, Walter Gabriel Marmanillo y Ana Lidia Mechaca",
+      "description": "Aplicación de procesamiento de lenguaje natural, minería de textos y visualización a documentos históricos argentinos. El trabajo aborda la normalización de texto obtenido por OCR y una exploración temática de volúmenes de Güemes Documentado.",
+      "url": "https://sedici.unlp.edu.ar/handle/10915/87809",
+      "sourceLabel": "Leer en SEDICI · UNLP",
+      "projectId": "gdgt"
+    },
+    {
+      "id": "gamificacion-2024",
+      "title": "Viviendo la evaluación como una experiencia inclusiva, de la gamificación para el aprendizaje digital",
+      "year": "2024",
+      "type": "Comunicación educativa",
+      "venue": "XV Jornadas de Enseñanza Media Universitaria · Libro de resúmenes · p. 240",
+      "authors": "Walter Gabriel Marmanillo, Claudia Susana Ibarra y Arnaldo Miguel Vilte",
+      "description": "Experiencia de Informática en el I.E.M. sobre el uso de actividades lúdicas en la evaluación. Explora la inclusión, la participación y la autoevaluación mediante propuestas individuales y grupales en entornos digitales.",
+      "url": "https://jemu2024.unsa.edu.ar/wp-content/uploads/2024/11/JEMU.pdf",
+      "sourceLabel": "Leer libro de resúmenes · UNSa"
+    }
+  ],
+  "researchProjectIds": [
+    "gdgt",
+    "memetico",
+    "hea",
+    "seq2seq",
+    "emociones",
+    "paralelismo",
+    "gcp-teoria"
+  ],
+  "studyProjectIds": [
+    "edx",
+    "tensorflow",
+    "gemini"
+  ]
+}

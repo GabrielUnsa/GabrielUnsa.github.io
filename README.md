@@ -16,6 +16,8 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 - Diseño adaptable, navegación por teclado, enlaces para saltar al contenido y soporte de movimiento reducido.
 - Selector de tema claro y oscuro en la cabecera: adopta la preferencia del sistema y recuerda la elección manual en el navegador.
 - Apartado de IA aplicada al desarrollo con Codex, Claude y Antigravity y un flujo de contexto, propuesta, revisión y verificación.
+- Formación continua: 48 cursos realizados, cinco actividades de actualización y un curso en progreso, con búsqueda por nombre o institución y filtros por año y estado.
+- Investigación: siete trabajos de desarrollo y experimentación, y dos publicaciones con enlaces a SEDICI (UNLP) y al libro de resúmenes de las XV JEMU (UNSa).
 
 Las descripciones se basan en la documentación de los proyectos. Se distinguen sistemas, prototipos, material histórico y ejercicios de aprendizaje. Las ilustraciones de los sistemas destacados son esquemas conceptuales, no capturas de sus interfaces.
 
@@ -27,6 +29,7 @@ assets/styles.css            Diseño y adaptación a distintos tamaños de panta
 assets/app.js                Búsquedas, filtros, pestañas y fichas
 assets/theme.js              Tema inicial, selector y persistencia de la preferencia
 assets/projects.json         Descripciones curadas de proyectos y prácticas
+assets/learning.json         Cursos, actividades, publicaciones y referencias a investigaciones
 assets/repositories.json     Descripciones y metadatos de repositorios
 assets/source-index.json     Índice de archivos públicos
 assets/catalog.js            Datos estáticos generados para el navegador
@@ -65,6 +68,20 @@ Editar `assets/projects.json` y regenerar `assets/catalog.js` con uno de los com
 ```
 
 Categorías: `sistemas`, `web`, `ia`, `investigacion`, `scripts`, `ejercicios` y `juegos`. Se pueden añadir `detail` para ampliar la descripción, `featured` para priorizar la entrada y `demo` para una página ejecutable. Los proyectos privados usan `private: true` y omiten `repo`, `source` y `demo` si no hay acceso público. La descripción general del repositorio se edita en `assets/repositories.json`.
+
+## Actualizar formación e investigación
+
+Editar `assets/learning.json`. `courses` contiene títulos, instituciones, fechas y estados: `completed` (curso realizado), `participation` (actividad de actualización) o `in-progress` (en curso). La fecha puede ser `AAAA-MM` o `AAAA` cuando el registro solo indica el año. `material` es un enlace opcional a prácticas relacionadas; no representa un certificado.
+
+`publications` conserva las referencias y los enlaces institucionales. `researchProjectIds` y `studyProjectIds` reutilizan las fichas de `assets/projects.json`, de modo que cada descripción se mantiene en un solo lugar. Las publicaciones se presentan como artículo de congreso o comunicación educativa; los proyectos y experimentos se muestran por separado.
+
+Para regenerar el sitio después de un cambio editorial, sin consultar de nuevo los repositorios:
+
+```bash
+python3 scripts/update-catalog.py --cached
+```
+
+Ese modo conserva el último índice de archivos públicos verificado. Si se crean archivos de código o cambian los repositorios públicos, usar `--github`.
 
 ## Actualizar el índice público
 

@@ -3,6 +3,7 @@
 
 Usage: python3 scripts/update-catalog.py --local-root ..
        python3 scripts/update-catalog.py --github
+       python3 scripts/update-catalog.py --cached
 No tokens or private repository contents are required or collected.
 """
 import argparse
@@ -52,10 +53,12 @@ def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--local-root', type=Path, help='Directory containing public repository checkouts')
     group.add_argument('--github', action='store_true', help='Refresh all public repositories from the GitHub API')
+    group.add_argument('--cached', action='store_true', help='Rebuild curated content using the last verified source index')
     args = parser.parse_args()
     repositories = load('repositories.json')
     projects = load('projects.json')
-    inventory = []
+    learning = load('learning.json')
+    inventory = load('source-index.json') if args.cached else []
     if args.github:
         current = github_repositories()
         known = {r['name']: r for r in repositories}
@@ -66,7 +69,7 @@ def main():
             public.append(r)
         # Preserve only manually curated private summaries, never their file trees.
         repositories = public + [r for r in repositories if not r['public'] and r['name'] not in {p['name'] for p in public}]
-    for repo in repositories:
+    for repo in ([] if args.cached else repositories):
         if not repo['public']:
             continue
         if repo['name'].lower() == f'{USER}.github.io'.lower():
@@ -90,7 +93,7 @@ def main():
             url = f'https://github.com/{USER}/{repo["name"]}/blob/{urllib.parse.quote(repo["branch"], safe="")}/{urllib.parse.quote(path, safe="/")}'
             inventory.append({'repo': repo['name'], 'path': path, 'url': url})
     inventory.sort(key=lambda item: (item['repo'].casefold(), item['path'].casefold()))
-    catalog = {'updated': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d'), 'projects': projects, 'repositories': repositories, 'files': inventory}
+    catalog = {'updated': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d'), 'projects': projects, 'repositories': repositories, 'files': inventory, 'learning': learning}
     # Write only after all reads/API requests succeed, avoiding a partial catalog.
     (ASSETS / 'repositories.json').write_text(json.dumps(repositories, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     (ASSETS / 'source-index.json').write_text(json.dumps(inventory, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')

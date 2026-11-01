@@ -1,9 +1,14 @@
 (() => {
   'use strict';
   const root = document.documentElement;
+  root.dataset.theme = 'light';
+  try { localStorage.removeItem('gabriel-portfolio-theme'); } catch { /* Ignore storage restrictions. */ }
+
   const header = document.querySelector('.site-header');
+  const desktopNav = document.querySelector('.desktop-nav');
   const backToTop = document.querySelector('.back-to-top');
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia?.('(pointer: fine)');
   const requestFrame = window.requestAnimationFrame?.bind(window) || (callback => setTimeout(callback, 16));
 
   // Expand full archives when reached through a link, including existing shared URLs.
@@ -30,36 +35,104 @@
     requestFrame(() => target?.scrollIntoView?.({ block: 'start' }));
   }
 
-  // Reveal only presentation content; text stays visible without observer support.
+  // Distinct scroll reveal choreographies without zero-area clip-paths so sections never appear empty.
+  const trackedRevealElements = [];
+  function checkVisibleReveals() {
+    if (!trackedRevealElements.length) return;
+    const triggerBottom = window.innerHeight * 0.96;
+    for (let i = trackedRevealElements.length - 1; i >= 0; i--) {
+      const el = trackedRevealElements[i];
+      if (el.classList.contains('is-visible')) {
+        trackedRevealElements.splice(i, 1);
+        continue;
+      }
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= triggerBottom && rect.bottom >= -40) {
+        el.classList.add('is-visible');
+        trackedRevealElements.splice(i, 1);
+      }
+    }
+  }
+
   if ('IntersectionObserver' in window && !reducedMotion?.matches) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
-    const elements = document.querySelectorAll('.section-heading, .featured-card, .experience-card, .about-intro, .skills-list > div, .ai-card, .publication-card, .course-preview > article');
-    elements.forEach((element, index) => {
-      element.dataset.reveal = '';
-      element.style.setProperty('--reveal-delay', `${(index % 3) * 65}ms`);
-      observer.observe(element);
+    }, { threshold: 0.01, rootMargin: '0px 0px -12px 0px' });
+
+    const revealGroups = [
+      { selector: '.section-heading, .about-intro', mode: 'curtain' },
+      { selector: '.featured-card, .experience-card, .ai-card, .publication-card, .course-preview > article', mode: 'unfold' },
+      { selector: '.skills-list > div, .ai-method li, .training-summary > div', mode: 'sweep' }
+    ];
+    revealGroups.forEach(({ selector, mode }) => {
+      document.querySelectorAll(selector).forEach((element, index) => {
+        element.dataset.reveal = mode;
+        element.style.setProperty('--reveal-delay', `${(index % 4) * 60}ms`);
+        trackedRevealElements.push(element);
+        observer.observe(element);
+      });
     });
     root.classList.add('motion-ready');
+    checkVisibleReveals();
     reducedMotion?.addEventListener?.('change', event => {
       if (event.matches) { root.classList.remove('motion-ready'); observer.disconnect(); }
     });
   }
 
-  // One animation frame per scroll update keeps progress and navigation in sync.
+  // Morphing Navigation Pill Indicator
+  let hoveredNavLink = null;
+  function syncNavPill() {
+    if (!desktopNav) return;
+    const target = hoveredNavLink || desktopNav.querySelector('a[aria-current="location"]');
+    if (!target) {
+      desktopNav.style.setProperty('--pill-opacity', '0');
+      return;
+    }
+    const navRect = desktopNav.getBoundingClientRect();
+    const linkRect = target.getBoundingClientRect();
+    desktopNav.style.setProperty('--pill-x', `${(linkRect.left - navRect.left).toFixed(1)}px`);
+    desktopNav.style.setProperty('--pill-w', `${linkRect.width.toFixed(1)}px`);
+    desktopNav.style.setProperty('--pill-opacity', '1');
+  }
+  desktopNav?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('pointerenter', () => { hoveredNavLink = link; syncNavPill(); });
+    link.addEventListener('focus', () => { hoveredNavLink = link; syncNavPill(); });
+  });
+  desktopNav?.addEventListener('pointerleave', () => { hoveredNavLink = null; syncNavPill(); });
+  desktopNav?.addEventListener('focusout', event => {
+    if (!desktopNav.contains(event.relatedTarget)) { hoveredNavLink = null; syncNavPill(); }
+  });
+
+  // One animation frame per scroll update keeps progress, subtle skew, and navigation in sync.
   const navGroups = [...document.querySelectorAll('.desktop-nav, .mobile-nav nav')].map(nav =>
     [...nav.querySelectorAll('a[href^="#"]')].map(link => ({ link, section: document.getElementById(link.getAttribute('href').slice(1)) })).filter(item => item.section)
   );
   let scheduled = false;
+  let lastScrollY = window.scrollY || 0;
+  let skewResetTimer = null;
+
   function updatePosition() {
     scheduled = false;
+    checkVisibleReveals();
     const scroll = Math.max(0, window.scrollY || 0);
     const distance = Math.max(1, root.scrollHeight - window.innerHeight);
     const atBottom = root.scrollHeight > window.innerHeight && distance - scroll < 8;
     root.style.setProperty('--scroll-progress', String(Math.min(1, scroll / distance)));
+
+    if (!reducedMotion?.matches) {
+      const delta = scroll - lastScrollY;
+      const clampedSkew = Math.max(-1.4, Math.min(1.4, delta * 0.03));
+      root.style.setProperty('--scroll-skew', `${clampedSkew.toFixed(2)}deg`);
+      clearTimeout(skewResetTimer);
+      skewResetTimer = setTimeout(() => root.style.setProperty('--scroll-skew', '0deg'), 120);
+    }
+    lastScrollY = scroll;
+
     header?.classList.toggle('is-scrolled', scroll > 16);
     const showTop = scroll > 600;
     if (backToTop) {
@@ -74,12 +147,13 @@
         const top = item.section.getBoundingClientRect().top;
         if (top <= 165 && top > closest) { active = item.link; closest = top; }
       });
-      if (atBottom) active = items.find(item => item.section.id === 'contacto')?.link || active;
+      if (atBottom) active = items[items.length - 1]?.link || active;
       items.forEach(({ link }) => {
         if (link === active) link.setAttribute('aria-current', 'location');
         else link.removeAttribute('aria-current');
       });
     });
+    syncNavPill();
   }
   function scheduleUpdate() {
     if (!scheduled) { scheduled = true; requestFrame(updatePosition); }
@@ -89,4 +163,73 @@
   document.addEventListener('toggle', scheduleUpdate, true);
   document.fonts?.ready?.then(scheduleUpdate);
   updatePosition();
+
+  // Interactive Pointer Field: Subtle 3D Card Tilt, Pastel Border Spotlight & Magnetic Pull
+  if (finePointer?.matches && !reducedMotion?.matches) {
+    const TILT_SELECTOR = '.featured-card, .experience-card, .ai-card, .project-card, .publication-card, .profile-panel';
+    const MAGNETIC_SELECTOR = '.button, .header-contact, .back-to-top';
+    let activeCard = null;
+    let activeMagnetic = null;
+    let pointerFrame = false;
+    let pointerX = window.innerWidth * 0.5;
+    let pointerY = window.innerHeight * 0.3;
+
+    function resetCard(card) {
+      if (!card) return;
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+      card.style.setProperty('--card-glow', '0');
+    }
+
+    function resetMagnetic(el) {
+      if (!el) return;
+      el.style.setProperty('--mag-x', '0px');
+      el.style.setProperty('--mag-y', '0px');
+    }
+
+    document.addEventListener('pointermove', event => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (pointerFrame) return;
+      pointerFrame = true;
+      requestFrame(() => {
+        pointerFrame = false;
+        root.style.setProperty('--cursor-x', `${pointerX.toFixed(0)}px`);
+        root.style.setProperty('--cursor-y', `${pointerY.toFixed(0)}px`);
+
+        const target = document.elementFromPoint(pointerX, pointerY);
+        const card = target?.closest?.(TILT_SELECTOR) || null;
+        if (activeCard && activeCard !== card) resetCard(activeCard);
+        activeCard = card;
+        if (card) {
+          const rect = card.getBoundingClientRect();
+          const relX = pointerX - rect.left;
+          const relY = pointerY - rect.top;
+          const normX = (relX / Math.max(1, rect.width)) - 0.5;
+          const normY = (relY / Math.max(1, rect.height)) - 0.5;
+          const maxTilt = card.classList.contains('profile-panel') ? 3.2 : 2.6;
+          card.style.setProperty('--card-x', `${relX.toFixed(0)}px`);
+          card.style.setProperty('--card-y', `${relY.toFixed(0)}px`);
+          card.style.setProperty('--card-glow', '1');
+          card.style.setProperty('--tilt-x', `${(-normY * maxTilt).toFixed(2)}deg`);
+          card.style.setProperty('--tilt-y', `${(normX * maxTilt).toFixed(2)}deg`);
+        }
+
+        const mag = target?.closest?.(MAGNETIC_SELECTOR) || null;
+        if (activeMagnetic && activeMagnetic !== mag) resetMagnetic(activeMagnetic);
+        activeMagnetic = mag;
+        if (mag) {
+          const rect = mag.getBoundingClientRect();
+          const relX = pointerX - rect.left;
+          const relY = pointerY - rect.top;
+          const pullX = (relX - rect.width * 0.5) * 0.16;
+          const pullY = (relY - rect.height * 0.5) * 0.2;
+          mag.style.setProperty('--btn-x', `${relX.toFixed(0)}px`);
+          mag.style.setProperty('--btn-y', `${relY.toFixed(0)}px`);
+          mag.style.setProperty('--mag-x', `${pullX.toFixed(1)}px`);
+          mag.style.setProperty('--mag-y', `${pullY.toFixed(1)}px`);
+        }
+      });
+    }, { passive: true });
+  }
 })();

@@ -6,7 +6,7 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 
 ## Contenido
 
-- Portada profesional con especialidad, tecnologías principales y contacto directo.
+- Portada profesional con especialidad y tecnologías principales.
 - Lectura orientada a reclutadores: proyectos seleccionados, experiencia y perfil técnico antes del archivo completo.
 - Experiencia como desarrollador, profesor de Informática y técnico, con responsabilidades, períodos y proyectos relacionados.
 - Tres sistemas destacados: Seguimiento Estudiantil, Servicio de Orientación y SANeCIEM.
@@ -17,9 +17,9 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 - Acceso a los juegos existentes en `intertribus/` y `pasapalabras/`.
 - Diseño adaptable, navegación por teclado, enlaces para saltar al contenido y soporte de movimiento reducido.
 - Cabecera fija, navegación activa, menú móvil, progreso de lectura y acceso para volver al inicio.
-- Animaciones de entrada al hacer scroll, transiciones de tarjetas y fichas, y estados interactivos. El contenido se mantiene visible si no hay soporte de animación.
+- Animaciones de entrada al hacer scroll, inclinación 3D e iluminación perimetral reactiva en tarjetas, microinteracciones magnéticas y transiciones de vista. El contenido se mantiene visible si no hay soporte de animación.
 - Archivos completos de proyectos, formación, investigación y repositorios desplegables; los enlaces directos abren el catálogo correspondiente.
-- Selector de tema claro y oscuro en la cabecera: adopta la preferencia del sistema y recuerda la elección manual en el navegador.
+- Interfaz moderna con fondo blanco cálido y tipografía en esquema de colores complementarios divididos.
 - Apartado de IA aplicada al desarrollo con Codex, Claude y Antigravity y un flujo de contexto, propuesta, revisión y verificación.
 - Formación continua: 48 cursos realizados, cinco actividades de actualización y un curso en progreso, con búsqueda por nombre o institución y filtros por año y estado.
 - Investigación: siete trabajos de desarrollo y experimentación, y dos publicaciones con enlaces a SEDICI (UNLP) y al libro de resúmenes de las XV JEMU (UNSa).
@@ -32,10 +32,9 @@ La experiencia profesional se edita en la sección `#experiencia` de `index.html
 
 ```text
 index.html                   Portada y secciones
-assets/styles.css            Diseño y adaptación a distintos tamaños de pantalla
+assets/styles.css            Diseño visual, animaciones y adaptación a distintos tamaños de pantalla
 assets/app.js                Búsquedas, filtros, pestañas y fichas
-assets/theme.js              Tema inicial, selector y persistencia de la preferencia
-assets/motion.js             Entradas al scroll, navegación activa y apertura por enlaces
+assets/motion.js             Entradas al scroll, inclinación 3D, navegación activa y apertura por enlaces
 assets/projects.json         Descripciones curadas de proyectos y prácticas
 assets/learning.json         Cursos, actividades, publicaciones y referencias a investigaciones
 assets/repositories.json     Descripciones y metadatos de repositorios
@@ -121,7 +120,6 @@ Comprobación de sintaxis:
 
 ```bash
 node --check assets/app.js
-node --check assets/theme.js
 node --check assets/motion.js
 node --check assets/catalog.js
 python3 -m py_compile scripts/update-catalog.py

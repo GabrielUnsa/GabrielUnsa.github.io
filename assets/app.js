@@ -35,8 +35,14 @@
     const count = key === 'all' ? data.projects.length : data.projects.filter(p => p.category === key).length;
     return `<button type="button" data-filter="${key}" aria-pressed="${key === category}">${c.label}<span>${count}</span></button>`;
   }).join('');
-  function projectCard(p) {
-    return `<article class="project-card"><div class="project-card-top"><span class="project-icon" aria-hidden="true">${escape(categories[p.category].icon)}</span><span class="project-status">${escape(p.status)}</span></div><h3>${escape(p.title)}</h3><p>${escape(p.description)}</p><div class="tags">${p.tags.map(t => `<span>${escape(t)}</span>`).join('')}</div><button class="card-action" type="button" data-project="${escape(p.id)}" aria-label="Ver descripción de ${escape(p.title)}"><span class="project-category">${categories[p.category].label}</span>Ver proyecto <span aria-hidden="true">↗</span></button></article>`;
+  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const transition = callback => {
+    if (document.startViewTransition && !reducedMotion?.matches) document.startViewTransition(callback);
+    else callback();
+  };
+  function projectCard(p, index = 0) {
+    const delay = ` style="animation-delay:${(index % 6) * 45}ms"`;
+    return `<article class="project-card"${delay}><div class="project-card-top"><span class="project-icon" aria-hidden="true">${escape(categories[p.category].icon)}</span><span class="project-status">${escape(p.status)}</span></div><h3>${escape(p.title)}</h3><p>${escape(p.description)}</p><div class="tags">${p.tags.map(t => `<span>${escape(t)}</span>`).join('')}</div><button class="card-action" type="button" data-project="${escape(p.id)}" aria-label="Ver descripción de ${escape(p.title)}"><span class="project-category">${categories[p.category].label}</span>Ver proyecto <span aria-hidden="true">↗</span></button></article>`;
   }
   function renderProjects() {
     const words = normalize($('project-search').value).split(/\s+/).filter(Boolean);
@@ -56,10 +62,10 @@
     if (!button) return;
     category = button.dataset.filter;
     projectLimit = 12;
-    renderProjects();
+    transition(renderProjects);
   });
   $('project-search').addEventListener('input', () => { projectLimit = 12; renderProjects(); });
-  $('project-sort').addEventListener('change', renderProjects);
+  $('project-sort').addEventListener('change', () => transition(renderProjects));
   $('load-more').addEventListener('click', () => {
     const before = $('project-grid').querySelectorAll('.project-card').length;
     projectLimit += 12;
@@ -103,8 +109,10 @@
   $('more-files').addEventListener('click', () => { const before = document.querySelectorAll('.file-row').length; fileLimit += 40; renderFiles(); document.querySelectorAll('.file-row')[before]?.querySelector('a')?.focus({ preventScroll: true }); });
   const tabs = [$('tab-repos'), $('tab-files')];
   function activateTab(tab) {
-    tabs.forEach(t => { const active = t === tab; t.setAttribute('aria-selected', active); t.tabIndex = active ? 0 : -1; $(t.getAttribute('aria-controls')).hidden = !active; });
-    if (tab.id === 'tab-files') renderFiles();
+    transition(() => {
+      tabs.forEach(t => { const active = t === tab; t.setAttribute('aria-selected', active); t.tabIndex = active ? 0 : -1; $(t.getAttribute('aria-controls')).hidden = !active; });
+      if (tab.id === 'tab-files') renderFiles();
+    });
   }
   tabs.forEach(tab => {
     tab.addEventListener('click', () => activateTab(tab));

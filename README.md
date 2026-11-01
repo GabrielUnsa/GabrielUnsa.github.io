@@ -14,6 +14,8 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 - Explorador de archivos de código y ejercicios públicos, con búsqueda, filtro por repositorio y acceso directo a GitHub.
 - Acceso a los juegos existentes en `intertribus/` y `pasapalabras/`.
 - Diseño adaptable, navegación por teclado, enlaces para saltar al contenido y soporte de movimiento reducido.
+- Selector de tema claro y oscuro en la cabecera: adopta la preferencia del sistema y recuerda la elección manual en el navegador.
+- Apartado de IA aplicada al desarrollo con Codex, Claude y Antigravity y un flujo de contexto, propuesta, revisión y verificación.
 
 Las descripciones se basan en la documentación de los proyectos. Se distinguen sistemas, prototipos, material histórico y ejercicios de aprendizaje. Las ilustraciones de los sistemas destacados son esquemas conceptuales, no capturas de sus interfaces.
 
@@ -23,6 +25,7 @@ Las descripciones se basan en la documentación de los proyectos. Se distinguen 
 index.html                   Portada y secciones
 assets/styles.css            Diseño y adaptación a distintos tamaños de pantalla
 assets/app.js                Búsquedas, filtros, pestañas y fichas
+assets/theme.js              Tema inicial, selector y persistencia de la preferencia
 assets/projects.json         Descripciones curadas de proyectos y prácticas
 assets/repositories.json     Descripciones y metadatos de repositorios
 assets/source-index.json     Índice de archivos públicos
@@ -93,6 +96,7 @@ Comprobación de sintaxis:
 
 ```bash
 node --check assets/app.js
+node --check assets/theme.js
 node --check assets/catalog.js
 python3 -m py_compile scripts/update-catalog.py
 ```

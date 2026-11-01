@@ -1,0 +1,148 @@
+[
+  {
+    "name": "C",
+    "subtitle": "Fundamentos y compiladores",
+    "description": "Ejercicios de C, estructuras de datos, MPI y análisis léxico y sintáctico.",
+    "tags": [
+      "C",
+      "MPI"
+    ],
+    "url": "https://github.com/GabrielUnsa/C",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "DataScience",
+    "subtitle": "Datos y optimización",
+    "description": "Prácticas de análisis de datos en Python y modelos de optimización GLPK.",
+    "tags": [
+      "Python",
+      "GLPK"
+    ],
+    "url": "https://github.com/GabrielUnsa/DataScience",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "GabrielUnsa.github.io",
+    "subtitle": "Porfolio y juegos educativos",
+    "description": "Este porfolio, el juego Intertribus y Pasapalabras.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "url": "https://github.com/GabrielUnsa/GabrielUnsa.github.io",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "Java",
+    "subtitle": "Concurrencia y simulación",
+    "description": "Hilos, semáforos, modelo probabilístico de CPU y búsqueda de tweets.",
+    "tags": [
+      "Java",
+      "Swing"
+    ],
+    "url": "https://github.com/GabrielUnsa/Java",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "Packet-Tracer-Exercises",
+    "subtitle": "Redes de computadoras",
+    "description": "Escenarios de red y configuraciones de enrutamiento y DHCP.",
+    "tags": [
+      "Packet Tracer",
+      "Redes"
+    ],
+    "url": "https://github.com/GabrielUnsa/Packet-Tracer-Exercises",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "Paradigms",
+    "subtitle": "Paradigmas de programación",
+    "description": "Programación funcional, lógica y orientada a objetos.",
+    "tags": [
+      "Haskell",
+      "Prolog",
+      "Python"
+    ],
+    "url": "https://github.com/GabrielUnsa/Paradigms",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "Pascal",
+    "subtitle": "Programación numérica",
+    "description": "Conversión de bases, normalización y precisión numérica.",
+    "tags": [
+      "Pascal",
+      "Lazarus"
+    ],
+    "url": "https://github.com/GabrielUnsa/Pascal",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "Python",
+    "subtitle": "Machine learning e IA",
+    "description": "Notebooks de TensorFlow, aprendizaje automático, Gemini y agentes.",
+    "tags": [
+      "Python",
+      "TensorFlow"
+    ],
+    "url": "https://github.com/GabrielUnsa/Python",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "SQL-Queries",
+    "subtitle": "Bases de datos",
+    "description": "Consultas, funciones, disparadores y ejercicios de PostgreSQL.",
+    "tags": [
+      "SQL",
+      "PostgreSQL"
+    ],
+    "url": "https://github.com/GabrielUnsa/SQL-Queries",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "Web",
+    "subtitle": "Desarrollo e investigación web",
+    "description": "SANeCIEM, GDGT, Tu Lugar en Salta y material de formación web.",
+    "tags": [
+      "React",
+      "Django",
+      "PHP",
+      "TypeScript"
+    ],
+    "url": "https://github.com/GabrielUnsa/Web",
+    "branch": "main",
+    "public": true
+  },
+  {
+    "name": "Private",
+    "subtitle": "Sistemas, investigación y herramientas",
+    "description": "Sistemas institucionales, aplicaciones web, investigación y automatización. Descripciones disponibles en este porfolio.",
+    "tags": [
+      "TypeScript",
+      "Python",
+      "PostgreSQL"
+    ],
+    "public": false
+  },
+  {
+    "name": "juntaelectoral-iem.github.io",
+    "subtitle": "Portal institucional",
+    "description": "Sitio estático de la Junta Electoral del I.E.M. con documentación y herramientas de consulta.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "public": false
+  }
+]

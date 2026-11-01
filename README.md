@@ -1,75 +1,100 @@
-# GabrielUnsa.github.io
+# Gabriel Marmanillo · Porfolio
 
-Portfolio personal de **Walter Gabriel Marmanillo** — Analista de Sistemas, desarrollador
-full-stack y docente de informática (Salta, Argentina).
+Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y JavaScript, sin frameworks ni proceso de compilación.
 
-🔗 **https://gabrielunsa.github.io**
+**Sitio:** https://gabrielunsa.github.io/
 
-## Sobre el sitio
+## Contenido
 
-Una sola página, sin frameworks ni proceso de build: HTML, CSS y JavaScript puro.
-Se sirve directamente desde GitHub Pages.
+- Portada y presentación profesional.
+- Tres sistemas destacados: Seguimiento Estudiantil, Servicio de Orientación y SANeCIEM.
+- Catálogo de 62 proyectos y grupos de prácticas en siete categorías, con descripciones, tecnologías, búsqueda sin distinción de tildes, filtros y ordenamiento.
+- Fichas de descripción con enlaces al código público o indicación de código privado.
+- Los 10 repositorios públicos de GabrielUnsa, más dos repositorios locales presentados mediante descripciones.
+- Explorador de archivos de código y ejercicios públicos, con búsqueda, filtro por repositorio y acceso directo a GitHub.
+- Acceso a los juegos existentes en `intertribus/` y `pasapalabras/`.
+- Diseño adaptable, navegación por teclado, enlaces para saltar al contenido y soporte de movimiento reducido.
 
-### Características
-
-- Fondo animado con gradientes en movimiento y luz que sigue al cursor
-- Animaciones de entrada al hacer scroll (`IntersectionObserver`)
-- Efecto máquina de escribir en los roles del encabezado
-- Grilla de proyectos filtrable por categoría con transiciones
-- Sección de perfil técnico con fortalezas, áreas a fortalecer y nivel estimado por área
-- Contadores animados, barra de progreso de lectura y navegación con sección activa
-- Tema claro / oscuro persistente (respeta la preferencia del sistema)
-- Diseño responsive y soporte de `prefers-reduced-motion`
+Las descripciones se basan en la documentación de los proyectos. Se distinguen sistemas, prototipos, material histórico y ejercicios de aprendizaje. Las ilustraciones de los sistemas destacados son esquemas conceptuales, no capturas de sus interfaces.
 
 ## Estructura
 
+```text
+index.html                   Portada y secciones
+assets/styles.css            Diseño y adaptación a distintos tamaños de pantalla
+assets/app.js                Búsquedas, filtros, pestañas y fichas
+assets/projects.json         Descripciones curadas de proyectos y prácticas
+assets/repositories.json     Descripciones y metadatos de repositorios
+assets/source-index.json     Índice de archivos públicos
+assets/catalog.js            Datos estáticos generados para el navegador
+assets/favicon.svg           Identidad gráfica
+assets/social.svg / .png     Imagen para compartir
+scripts/update-catalog.py    Actualización del catálogo
+intertribus/                  Juego existente
+pasapalabras/                Juego existente y podio
 ```
-index.html            Portfolio completo (estilos y scripts incluidos)
-clase-de-apoyo.html   Página anterior del repositorio, conservada
-README.md
-```
-
-## Agregar un proyecto
-
-Los proyectos viven en el array `PROJECTS`, dentro del `<script>` al final de `index.html`.
-Copiá un objeto existente y editalo:
-
-```js
-{ t:"Nombre del proyecto", ico:"🚀", cat:"web", year:"2026",
-  star:true,          // opcional: lo marca como destacado
-  repo:"NombreRepo",  // enlaza a github.com/GabrielUnsa/NombreRepo
-  priv:true,          // o marcalo como privado (sin enlace)
-  d:"Descripción del proyecto.",
-  tags:["React","Node.js"] }
-```
-
-Categorías disponibles: `web`, `ia`, `sistemas`, `fundamentos`.
-Los contadores de cada filtro se calculan solos.
-
-## Ajustar el perfil técnico
-
-La evaluación por área vive en el array `LEVELS`, junto a `PROJECTS`:
-
-```js
-{ tier:3, area:"Backend y APIs", v:2.9, tag:"Semi-Senior",
-  ev:"Texto que aparece al pasar el cursor sobre la barra." }
-```
-
-`v` es el valor en la escala 1–4 (Trainee, Junior, Semi-Senior, Senior) y define
-el largo de la barra. `tier` (1–4) elige el escalón de color y se declara aparte
-para que el color y la etiqueta nunca se contradigan.
-
-Los colores salen de una rampa ordinal de un solo tono, validada para que los
-pasos sean monótonos y el extremo más cercano al fondo supere 2:1 de contraste
-en ambos temas. Si cambiás los tonos, mantené esa propiedad.
 
 ## Desarrollo local
 
+Se necesita Python 3 para servir el sitio:
+
 ```bash
 python3 -m http.server 8000
-# → http://localhost:8000
 ```
 
-## Licencia
+Abrir `http://localhost:8000`. El porfolio no necesita backend, credenciales ni llamadas a la API durante la navegación. Las fuentes tipográficas se cargan desde Google Fonts con alternativas del sistema.
 
-MIT
+## Actualizar proyectos
+
+Editar `assets/projects.json` y regenerar `assets/catalog.js` con uno de los comandos de la siguiente sección. Cada objeto contiene:
+
+```json
+{
+  "id": "identificador-unico",
+  "title": "Nombre del proyecto",
+  "category": "web",
+  "description": "Descripción breve y comprobable.",
+  "tags": ["React", "TypeScript"],
+  "status": "Proyecto",
+  "repo": "Web",
+  "source": "https://github.com/GabrielUnsa/Web"
+}
+```
+
+Categorías: `sistemas`, `web`, `ia`, `investigacion`, `scripts`, `ejercicios` y `juegos`. Se pueden añadir `detail` para ampliar la descripción, `featured` para priorizar la entrada y `demo` para una página ejecutable. Los proyectos privados usan `private: true` y omiten `repo`, `source` y `demo` si no hay acceso público. La descripción general del repositorio se edita en `assets/repositories.json`.
+
+## Actualizar el índice público
+
+Desde la raíz del repositorio, con acceso a Internet:
+
+```bash
+python3 scripts/update-catalog.py --github
+```
+
+La herramienta pagina los repositorios públicos y consulta sus árboles de archivos. No requiere token, no consulta repositorios privados ni descarga contenidos de archivos. Conserva las descripciones curadas; los repositorios públicos nuevos se incorporan con su descripción de GitHub. El porfolio se indexa desde el checkout local para que sus enlaces correspondan al estado que se va a publicar.
+
+Como alternativa sin red, cuando todos los repositorios públicos están clonados en el directorio superior:
+
+```bash
+python3 scripts/update-catalog.py --local-root ..
+```
+
+Ese modo indexa los archivos versionados en las copias locales, que podrían contener cambios aún no publicados. Para verificar los enlaces públicos se recomienda `--github`.
+
+Se excluyen dependencias, entornos virtuales, datasets, archivos de entorno, padrones, respaldos y algunos recursos de terceros. Los repositorios privados aportan solamente las descripciones seleccionadas en este porfolio; no se copian sus archivos. El catálogo es una instantánea: no cambia automáticamente al crear otro repositorio.
+
+## Publicación en GitHub Pages
+
+El sitio se sirve directamente desde la raíz de `main`, con `.nojekyll`. No requiere instalación de dependencias. Después de actualizar los datos, subir los cambios a la rama configurada para Pages. Los juegos mantienen sus rutas originales.
+
+## Verificación
+
+Comprobación de sintaxis:
+
+```bash
+node --check assets/app.js
+node --check assets/catalog.js
+python3 -m py_compile scripts/update-catalog.py
+```
+
+Las interacciones del catálogo se verificaron en un DOM simulado: búsquedas con y sin tildes, filtros, ordenamiento, paginación, fichas públicas y privadas, pestañas y enlaces de juegos. La revisión visual en navegador requiere un entorno con vista previa disponible.

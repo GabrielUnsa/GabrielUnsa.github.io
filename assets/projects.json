@@ -1,0 +1,917 @@
+[
+  {
+    "id": "seguimiento",
+    "title": "Seguimiento Estudiantil",
+    "category": "sistemas",
+    "description": "Asistencias, trabajos prácticos y calificaciones en un mismo sistema. Genera informes cuatrimestrales y alertas de inasistencia.",
+    "tags": [
+      "React",
+      "Express",
+      "PostgreSQL",
+      "WhatsApp API"
+    ],
+    "status": "Proyecto",
+    "featured": true,
+    "private": true,
+    "detail": "Desarrollado para el I.E.M. «Dr. Arturo Oñativia» de la UNSa. Organiza el seguimiento por materia y facilita la comunicación mediante alertas. El proyecto incluye pruebas con Jest y Vitest."
+  },
+  {
+    "id": "orientacion-python",
+    "title": "Servicio de Orientación · Python",
+    "category": "sistemas",
+    "description": "Gestión de legajos, grupos familiares, formularios, turnos y documentación. Interfaz Next.js con reglas de negocio en FastAPI.",
+    "tags": [
+      "Next.js",
+      "FastAPI",
+      "PostgreSQL",
+      "SQLAlchemy"
+    ],
+    "status": "Proyecto",
+    "featured": true,
+    "private": true,
+    "detail": "Una plataforma para acompañar el trabajo de orientación institucional. Incluye calificaciones, informes, roles y consultas compartidas de lectura. La variante Python mantiene su propia configuración, migraciones y pruebas."
+  },
+  {
+    "id": "saneciem",
+    "title": "SANeCIEM",
+    "category": "sistemas",
+    "description": "Administración de netbooks: inventario, préstamos, devoluciones, reparaciones y actas PDF con historial y auditoría.",
+    "tags": [
+      "Django",
+      "Python",
+      "PostgreSQL"
+    ],
+    "status": "Proyecto",
+    "featured": true,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/django_enviroment/SANeCIEM",
+    "detail": "Sistema de administración de netbooks del I.E.M. Gestiona personas, tutores, equipos, cargadores y carros. Usa restricciones en la base y transacciones para controlar las entregas vigentes, e incorpora roles, importación CSV y reportes."
+  },
+  {
+    "id": "moodle",
+    "title": "Migrador de Cursos Moodle",
+    "category": "sistemas",
+    "description": "Automatiza cursos, categorías y matrículas por ciclo lectivo. Combina un motor de terminal con una plataforma web de operación y auditoría.",
+    "tags": [
+      "FastAPI",
+      "Next.js",
+      "Moodle API",
+      "PostgreSQL"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true,
+    "detail": "La plataforma incorpora usuarios y roles de administrador, operador y auditor; prueba de conexión, configuración de migraciones, ejecución del motor y consulta de registros. El cliente genera sus tipos desde OpenAPI."
+  },
+  {
+    "id": "transcriptor",
+    "title": "Transcriptor de Clases",
+    "category": "ia",
+    "description": "Convierte grabaciones en texto desde una interfaz web local. Permite elegir idioma y calidad, y descargar TXT con marcas de tiempo opcionales.",
+    "tags": [
+      "Python",
+      "FastAPI",
+      "faster-whisper",
+      "uv"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true,
+    "detail": "El procesamiento se realiza en el equipo donde se ejecuta la aplicación. Integra una cola en memoria y descarga de transcripciones, sin requerir una base de datos relacional."
+  },
+  {
+    "id": "pedidos-medicos",
+    "title": "Personal y Pedidos Médicos",
+    "category": "sistemas",
+    "description": "Digitaliza solicitudes y licencias de personal docente y nodocente, genera resoluciones PDF y envía avisos a directivos.",
+    "tags": [
+      "React",
+      "Express",
+      "PostgreSQL",
+      "Twilio"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "orientacion-node",
+    "title": "Servicio de Orientación · Node.js",
+    "category": "sistemas",
+    "description": "Variante del sistema de legajos, formularios, agenda y documentos con backend Node.js, autenticación y persistencia en PostgreSQL.",
+    "tags": [
+      "Next.js",
+      "Prisma",
+      "PostgreSQL",
+      "Auth.js"
+    ],
+    "status": "Variante",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "entrevistas-iem",
+    "title": "Sistema de Entrevista",
+    "category": "sistemas",
+    "description": "Primera versión de formularios y agenda de orientación institucional, con turnos y reprogramación en lote.",
+    "tags": [
+      "React",
+      "Express",
+      "MongoDB",
+      "Node-Cron"
+    ],
+    "status": "Versión histórica",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "junta",
+    "title": "Portal de Junta Electoral",
+    "category": "web",
+    "description": "Portal institucional con cronograma, normativa y consulta de padrones. Incluye herramientas para preparar los datos de consulta.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true,
+    "detail": "Sitio estático para las elecciones de representantes ante el Consejo Asesor del I.E.M. Publica documentación y permite consultar información electoral; no implementa votación en línea."
+  },
+  {
+    "id": "art",
+    "title": "Formulario ART",
+    "category": "web",
+    "description": "Maqueta de un formulario de denuncia, conservada como material institucional. Su alcance es la interfaz, sin envío ni persistencia.",
+    "tags": [
+      "HTML",
+      "CSS"
+    ],
+    "status": "Maqueta",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "consultas-ia",
+    "title": "Ordenador de Consultas a IAs",
+    "category": "web",
+    "description": "Archivo de preguntas y respuestas de distintos proveedores, organizado por etiquetas y favoritas, con búsqueda y previsualización Markdown.",
+    "tags": [
+      "Next.js",
+      "FastAPI",
+      "TypeScript",
+      "PostgreSQL"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true,
+    "detail": "Permite registrar consultas a Gemini, Claude, Grok, Perplexity, DeepSeek y ChatGPT, y copiar prompts o respuestas. Incluye migraciones, contrato OpenAPI y pruebas de API e interfaz."
+  },
+  {
+    "id": "carrito",
+    "title": "Carrito de Compras",
+    "category": "web",
+    "description": "Aplicación de comercio electrónico con catálogo, carrito, pedidos, administración y chat. Incluye un flujo de pagos simulados.",
+    "tags": [
+      "React",
+      "Express",
+      "MongoDB",
+      "Socket.IO"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "entrevistas-empresas",
+    "title": "Entrevistas para Empresas",
+    "category": "web",
+    "description": "Plataforma para practicar desafíos técnicos con filtros por empresa, nivel, categoría y dificultad. Ofrece datos locales y servidor opcional.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Express",
+      "MongoDB"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "plan-egreso",
+    "title": "Tablero de Egreso",
+    "category": "web",
+    "description": "Planificación académica de la Licenciatura en Análisis de Sistemas. Tablero HTML que guarda el progreso en el navegador.",
+    "tags": [
+      "HTML",
+      "JavaScript",
+      "localStorage"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "tu-lugar",
+    "title": "Tu Lugar en Salta",
+    "category": "web",
+    "description": "Presentación de alojamientos con departamentos, carruseles, información de servicios, ubicación y contacto.",
+    "tags": [
+      "React",
+      "Bootstrap",
+      "EmailJS"
+    ],
+    "status": "Proyecto web",
+    "featured": false,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/tulugarensalta"
+  },
+  {
+    "id": "gdgt",
+    "title": "Ground Truth · Güemes Documentado",
+    "category": "investigacion",
+    "description": "Entorno para revisar y corregir texto OCR por tomo, capítulo, página y línea. Trabajo como estudiante colaborador en investigación del CIUNSa.",
+    "tags": [
+      "PHP",
+      "PDO",
+      "JavaScript",
+      "SQL"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/php_environment/gdgt",
+    "detail": "Colaboración en el proyecto «Metodologías y Herramientas automáticas e interactivas para la Recuperación de Información mediante Esquemas de Relevancia». El entorno conserva texto OCR, sugerencias, correcciones y usuario asociado."
+  },
+  {
+    "id": "intertribus",
+    "title": "Intertribus",
+    "category": "juegos",
+    "description": "Juego web de competencia por equipos para actividades educativas del I.E.M. Disponible desde este mismo sitio.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "status": "Juego web",
+    "featured": false,
+    "repo": "GabrielUnsa.github.io",
+    "source": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/tree/main/intertribus",
+    "demo": "intertribus/"
+  },
+  {
+    "id": "pasapalabras",
+    "title": "Pasapalabras",
+    "category": "juegos",
+    "description": "Juego educativo de palabras con pantalla de podio. Una experiencia interactiva para actividades de aula.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "status": "Juego web",
+    "featured": false,
+    "repo": "GabrielUnsa.github.io",
+    "source": "https://github.com/GabrielUnsa/GabrielUnsa.github.io/tree/main/pasapalabras",
+    "demo": "pasapalabras/"
+  },
+  {
+    "id": "ahorcado",
+    "title": "Hangman · Ahorcado",
+    "category": "juegos",
+    "description": "Prototipo de juego dividido en servicios de usuarios, palabras y enrutamiento, realizado durante la formación Digit@lers.",
+    "tags": [
+      "Node.js",
+      "Express",
+      "Redis"
+    ],
+    "status": "Prototipo",
+    "featured": false,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/14.Hangman"
+  },
+  {
+    "id": "tienda-react",
+    "title": "Tienda en React",
+    "category": "web",
+    "description": "Prácticas de componentes, catálogo y barra de búsqueda. Material del proceso de formación en desarrollo frontend.",
+    "tags": [
+      "React",
+      "JavaScript",
+      "CSS"
+    ],
+    "status": "Prácticas",
+    "featured": false,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/15.Reactjs"
+  },
+  {
+    "id": "modelo-web",
+    "title": "Modelo Probabilístico · Web",
+    "category": "web",
+    "description": "Prototipo para cargar procesos, probabilidad de entrada/salida, duración y llegada, y calcular una tabla de resultados.",
+    "tags": [
+      "TypeScript",
+      "Bootstrap"
+    ],
+    "status": "Prototipo",
+    "featured": false,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Probabilistic%20Model"
+  },
+  {
+    "id": "memetico",
+    "title": "Coloración de Grafos · Algoritmo Memético",
+    "category": "investigacion",
+    "description": "Experimentación con algoritmos meméticos para el Graph Coloring Problem, instancias DIMACS y análisis de convergencia.",
+    "tags": [
+      "Python",
+      "NetworkX",
+      "NumPy",
+      "Matplotlib"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true,
+    "detail": "Combina búsqueda evolutiva y mejora local para estudiar el problema de coloración de grafos. Incluye visualización, análisis estadístico y herramientas de comparación sobre benchmarks."
+  },
+  {
+    "id": "hea",
+    "title": "Coloración de Grafos · MA / HEA",
+    "category": "investigacion",
+    "description": "Variantes de metaheurísticas híbridas con motores base y optimizado, estructuras auxiliares y herramientas de comparación.",
+    "tags": [
+      "Python",
+      "Optimización",
+      "Grafos"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "seq2seq",
+    "title": "Corrección Ortográfica Seq2Seq",
+    "category": "investigacion",
+    "description": "Modelos de secuencia a secuencia para corrección ortográfica, con preparación de corpus, tokenización y redes recurrentes.",
+    "tags": [
+      "TensorFlow",
+      "Python",
+      "LSTM",
+      "GRU"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "emociones",
+    "title": "Reconocimiento de Emociones Faciales",
+    "category": "investigacion",
+    "description": "Experimentos con redes convolucionales para clasificar expresiones faciales a partir de imágenes.",
+    "tags": [
+      "Python",
+      "TensorFlow",
+      "CNN"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "paralelismo",
+    "title": "Computación Paralela",
+    "category": "investigacion",
+    "description": "Cuadernos de experimentación sobre paralelismo, procesamiento de datos y optimización en Python.",
+    "tags": [
+      "Python",
+      "Jupyter",
+      "Paralelismo"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "gcp-teoria",
+    "title": "GCP y Complejidad Computacional",
+    "category": "investigacion",
+    "description": "Documento académico en LaTeX sobre la demostración y reducción del problema de coloración de grafos a NP-Hard.",
+    "tags": [
+      "LaTeX",
+      "Complejidad",
+      "Grafos"
+    ],
+    "status": "Documento académico",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "tensorflow",
+    "title": "Machine Learning con TensorFlow",
+    "category": "ia",
+    "description": "Notebooks de regresión, clasificación, redes convolucionales, transferencia de aprendizaje, texto y series temporales.",
+    "tags": [
+      "Python",
+      "TensorFlow",
+      "Keras",
+      "Jupyter"
+    ],
+    "status": "Aprendizaje",
+    "featured": false,
+    "repo": "Python",
+    "source": "https://github.com/GabrielUnsa/Python/tree/main/Machine%20Learning"
+  },
+  {
+    "id": "tensorflow-basics",
+    "title": "Fundamentos de TensorFlow",
+    "category": "ia",
+    "description": "Operaciones con tensores, matrices, CPU y GPU, y preparación de conjuntos de datos con tf.data.",
+    "tags": [
+      "Python",
+      "TensorFlow",
+      "NumPy"
+    ],
+    "status": "Ejercicios",
+    "featured": false,
+    "repo": "Python",
+    "source": "https://github.com/GabrielUnsa/Python/tree/main/jupyter-notebooks/tensorFlow"
+  },
+  {
+    "id": "edx",
+    "title": "Prácticas de TensorFlow · Cursos",
+    "category": "ia",
+    "description": "Regresión lineal, clasificación Iris y MNIST, convoluciones, filtros y mapas de características en notebooks independientes.",
+    "tags": [
+      "Python",
+      "TensorFlow",
+      "SciPy"
+    ],
+    "status": "Ejercicios",
+    "featured": false,
+    "repo": "Python",
+    "source": "https://github.com/GabrielUnsa/Python/tree/main/jupyter-notebooks/edx"
+  },
+  {
+    "id": "gemini",
+    "title": "Gemini y Agentes de IA",
+    "category": "ia",
+    "description": "Notebooks de introducción a la API de Gemini y experimentos de agentes con CrewAI.",
+    "tags": [
+      "Python",
+      "Gemini",
+      "CrewAI",
+      "Jupyter"
+    ],
+    "status": "Aprendizaje",
+    "featured": false,
+    "repo": "Python",
+    "source": "https://github.com/GabrielUnsa/Python/tree/main/API%27s%20IA%20Learning"
+  },
+  {
+    "id": "web-ia",
+    "title": "IA en el Navegador",
+    "category": "ia",
+    "description": "Apuntes y pruebas con WebLLM, Transformers.js, WebGPU, Whisper en workers y APIs de traducción y resumen.",
+    "tags": [
+      "JavaScript",
+      "WebGPU",
+      "WebLLM"
+    ],
+    "status": "Apuntes y prototipos",
+    "featured": false,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/Notes%20Learning"
+  },
+  {
+    "id": "sorteo",
+    "title": "Asignación Aleatoria de Ingresantes",
+    "category": "scripts",
+    "description": "Utilidad de distribución aleatoria de ingresantes en grupos a partir de archivos de trabajo.",
+    "tags": [
+      "Python",
+      "Automatización"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "editorial",
+    "title": "Estructura Editorial I.E.M.",
+    "category": "scripts",
+    "description": "Script para trabajar con la estructura de directorios del material editorial institucional.",
+    "tags": [
+      "Python",
+      "Archivos"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "sala",
+    "title": "Preparación de Sala de Informática",
+    "category": "scripts",
+    "description": "Utilidades Bash para preparar y administrar equipos de la sala de informática.",
+    "tags": [
+      "Bash",
+      "Linux"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "servicios",
+    "title": "Aprovisionamiento de Servicios",
+    "category": "scripts",
+    "description": "Scripts de preparación de servicios institucionales, conservados con sus procedimientos y requisitos.",
+    "tags": [
+      "Bash",
+      "Linux",
+      "Servidores"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "auditorias",
+    "title": "Auditorías de Infraestructura",
+    "category": "scripts",
+    "description": "Relevamientos técnicos sobre estado, almacenamiento, seguridad y carga de servidores institucionales.",
+    "tags": [
+      "Linux",
+      "Infraestructura"
+    ],
+    "status": "Documentación técnica",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "mikrotik",
+    "title": "Administración de Redes",
+    "category": "scripts",
+    "description": "Apuntes de configuración y administración de routers MikroTik y reglas de red.",
+    "tags": [
+      "MikroTik",
+      "RouterOS",
+      "Redes"
+    ],
+    "status": "Apuntes técnicos",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "instaladores",
+    "title": "Instaladores y Dotfiles GNU/Linux",
+    "category": "scripts",
+    "description": "Preparación de Debian y Ubuntu, configuración de shell, editores Vim/Neovim y alias de Git.",
+    "tags": [
+      "Bash",
+      "Linux",
+      "Vim",
+      "Git"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "agentes",
+    "title": "Guías para Asistentes de Programación",
+    "category": "scripts",
+    "description": "Instrucciones reutilizables de arquitectura y convenciones para proyectos MERN, PERN y Python/Next.js.",
+    "tags": [
+      "Markdown",
+      "MERN",
+      "PERN",
+      "FastAPI"
+    ],
+    "status": "Guías",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "recordatorio",
+    "title": "Recordatorio por Terminal",
+    "category": "scripts",
+    "description": "Utilidad Bash que muestra mensajes predefinidos de forma aleatoria o como listado completo.",
+    "tags": [
+      "Bash",
+      "Terminal"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "imagenes-odt",
+    "title": "Imágenes a Documento ODT",
+    "category": "scripts",
+    "description": "Genera documentos editables con imágenes organizadas por carpetas. Permite exportar después a PDF desde Writer.",
+    "tags": [
+      "Python",
+      "Bash",
+      "ODT"
+    ],
+    "status": "Proyecto",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "cv-latex",
+    "title": "Currículum en LaTeX",
+    "category": "scripts",
+    "description": "Documento profesional modular con secciones de formación, experiencia e investigación.",
+    "tags": [
+      "LaTeX"
+    ],
+    "status": "Documento",
+    "featured": false,
+    "private": true
+  },
+  {
+    "id": "cpu-java",
+    "title": "Visualizador de Procesos · Java",
+    "category": "ejercicios",
+    "description": "Aplicación Swing para explorar un modelo probabilístico de CPU, cargar procesos y exportar resultados a texto.",
+    "tags": [
+      "Java",
+      "Swing",
+      "Sistemas operativos"
+    ],
+    "status": "Proyecto académico",
+    "featured": false,
+    "repo": "Java",
+    "source": "https://github.com/GabrielUnsa/Java/tree/main/Sistemas%20Operativos/Visualizador%20de%20Planificadores%20de%20CPU"
+  },
+  {
+    "id": "filosofos",
+    "title": "Filósofos Hambrientos",
+    "category": "ejercicios",
+    "description": "Solución al problema de concurrencia con cinco hilos y semáforos, registro de eventos e informe por filósofo.",
+    "tags": [
+      "Java",
+      "Hilos",
+      "Semáforos"
+    ],
+    "status": "Proyecto académico",
+    "featured": false,
+    "repo": "Java",
+    "source": "https://github.com/GabrielUnsa/Java/tree/main/Sistemas%20Operativos/Problema%20Filosofos%20Hambrientos"
+  },
+  {
+    "id": "tweets",
+    "title": "Buscador de Tweets",
+    "category": "ejercicios",
+    "description": "Material de búsqueda de tweets con Twitter4J y OAuth. Conservado como práctica histórica de integración con APIs.",
+    "tags": [
+      "Java",
+      "Twitter4J",
+      "OAuth"
+    ],
+    "status": "Práctica histórica",
+    "featured": false,
+    "repo": "Java",
+    "source": "https://github.com/GabrielUnsa/Java/tree/main/Buscador%20de%20Tweets"
+  },
+  {
+    "id": "c-basics",
+    "title": "Programación Estructurada en C",
+    "category": "ejercicios",
+    "description": "Ejercicios de consola, registros, punteros, agendas y operaciones con estructuras compuestas.",
+    "tags": [
+      "C",
+      "Algoritmos"
+    ],
+    "status": "Ejercicios",
+    "featured": false,
+    "repo": "C",
+    "source": "https://github.com/GabrielUnsa/C/tree/main/Introduction%20to%20C/Programas%20Simples%20en%20C"
+  },
+  {
+    "id": "c-tad",
+    "title": "Tipos Abstractos de Datos",
+    "category": "ejercicios",
+    "description": "Módulos de alumnos y listas, operaciones con nodos, búsqueda, ordenamiento y recursión.",
+    "tags": [
+      "C",
+      "TAD",
+      "Listas"
+    ],
+    "status": "Ejercicios",
+    "featured": false,
+    "repo": "C",
+    "source": "https://github.com/GabrielUnsa/C/tree/main/Introduction%20to%20C"
+  },
+  {
+    "id": "c-mpi",
+    "title": "Comunicación entre Procesos",
+    "category": "ejercicios",
+    "description": "Prácticas de comunicación bloqueante y no bloqueante con MPI.",
+    "tags": [
+      "C",
+      "MPI",
+      "Paralelismo"
+    ],
+    "status": "Ejercicios",
+    "featured": false,
+    "repo": "C",
+    "source": "https://github.com/GabrielUnsa/C/tree/main/Introduction%20to%20C/Programas%20Simples%20en%20C"
+  },
+  {
+    "id": "transversal",
+    "title": "Analizador Léxico y Sintáctico",
+    "category": "ejercicios",
+    "description": "Proyecto transversal sobre una gramática de conjuntos, con análisis léxico y borradores de análisis sintáctico.",
+    "tags": [
+      "C",
+      "Compiladores",
+      "Gramáticas"
+    ],
+    "status": "Proyecto académico",
+    "featured": false,
+    "repo": "C",
+    "source": "https://github.com/GabrielUnsa/C/tree/main/Transversal"
+  },
+  {
+    "id": "haskell",
+    "title": "Programación Funcional",
+    "category": "ejercicios",
+    "description": "Recursión, listas, quicksort, búsqueda, teoría de números, Horner y funciones de orden superior.",
+    "tags": [
+      "Haskell",
+      "Recursión"
+    ],
+    "status": "Ejercicios",
+    "featured": false,
+    "repo": "Paradigms",
+    "source": "https://github.com/GabrielUnsa/Paradigms/tree/main/Haskell"
+  },
+  {
+    "id": "prolog",
+    "title": "Programación Lógica",
+    "category": "ejercicios",
+    "description": "Bases de conocimiento, parentesco, reglas, listas y recorridos de grafos con costos.",
+    "tags": [
+      "Prolog",
+      "Grafos"
+    ],
+    "status": "Ejercicios",
+    "featured": false,
+    "repo": "Paradigms",
+    "source": "https://github.com/GabrielUnsa/Paradigms/tree/main/Prolog"
+  },
+  {
+    "id": "poo-python",
+    "title": "Orientación a Objetos en Python",
+    "category": "ejercicios",
+    "description": "Ejemplos de clases, atributos, métodos y herencia realizados durante el estudio de paradigmas.",
+    "tags": [
+      "Python",
+      "POO"
+    ],
+    "status": "Ejercicios",
+    "featured": false,
+    "repo": "Paradigms",
+    "source": "https://github.com/GabrielUnsa/Paradigms/tree/main/Python/POO%20with%20Python"
+  },
+  {
+    "id": "cesar",
+    "title": "Cifrado César y Matrices Ralas",
+    "category": "ejercicios",
+    "description": "Trabajos de equipo en Python sobre cifrado César, manejo de archivos y representación de matrices ralas.",
+    "tags": [
+      "Python",
+      "POO",
+      "Matrices"
+    ],
+    "status": "Trabajos prácticos",
+    "featured": false,
+    "repo": "Paradigms",
+    "source": "https://github.com/GabrielUnsa/Paradigms/tree/main/Team%203%20-%20Exercises"
+  },
+  {
+    "id": "pascal",
+    "title": "Conversión de Bases y Normalización",
+    "category": "ejercicios",
+    "description": "Conversor entre bases de 2 a 16 y material de normalización, punto flotante, truncamiento y redondeo.",
+    "tags": [
+      "Pascal",
+      "Lazarus",
+      "Cálculo numérico"
+    ],
+    "status": "Proyecto académico",
+    "featured": false,
+    "repo": "Pascal",
+    "source": "https://github.com/GabrielUnsa/Pascal/tree/main/Numerical%20Calculus"
+  },
+  {
+    "id": "sql-funciones",
+    "title": "Funciones y Disparadores SQL",
+    "category": "ejercicios",
+    "description": "Funciones PL/pgSQL, validación de datos, stock, totales derivados y auditoría sobre bases de ejemplo.",
+    "tags": [
+      "SQL",
+      "PostgreSQL",
+      "PL/pgSQL"
+    ],
+    "status": "Trabajos prácticos",
+    "featured": false,
+    "repo": "SQL-Queries",
+    "source": "https://github.com/GabrielUnsa/SQL-Queries"
+  },
+  {
+    "id": "sql-ventanas",
+    "title": "Consultas Analíticas y Administración",
+    "category": "ejercicios",
+    "description": "Funciones de ventana, acumulados, promedios, rankings y ejercicios de administración y rendimiento.",
+    "tags": [
+      "SQL",
+      "PostgreSQL"
+    ],
+    "status": "Trabajos prácticos",
+    "featured": false,
+    "repo": "SQL-Queries",
+    "source": "https://github.com/GabrielUnsa/SQL-Queries"
+  },
+  {
+    "id": "datos",
+    "title": "Análisis y Modelado de Datos",
+    "category": "ejercicios",
+    "description": "Introducción a pandas y apuntes de limpieza, análisis exploratorio, regresión y evaluación de modelos.",
+    "tags": [
+      "Python",
+      "pandas",
+      "scikit-learn"
+    ],
+    "status": "Apuntes y ejercicios",
+    "featured": false,
+    "repo": "DataScience",
+    "source": "https://github.com/GabrielUnsa/DataScience/tree/main/Python"
+  },
+  {
+    "id": "glpk",
+    "title": "Optimización Matemática con GLPK",
+    "category": "ejercicios",
+    "description": "Modelos de programación lineal, entera y por metas, con variantes y reportes de sensibilidad.",
+    "tags": [
+      "GLPK",
+      "MathProg",
+      "Optimización"
+    ],
+    "status": "Trabajos prácticos",
+    "featured": false,
+    "repo": "DataScience",
+    "source": "https://github.com/GabrielUnsa/DataScience/tree/main/GLPK"
+  },
+  {
+    "id": "redes",
+    "title": "Laboratorios de Redes",
+    "category": "ejercicios",
+    "description": "Escenarios de Cisco Packet Tracer y prácticas de enrutamiento estático, DHCP y retransmisión entre subredes.",
+    "tags": [
+      "Packet Tracer",
+      "Routing",
+      "DHCP"
+    ],
+    "status": "Prácticas de redes",
+    "featured": false,
+    "repo": "Packet-Tracer-Exercises",
+    "source": "https://github.com/GabrielUnsa/Packet-Tracer-Exercises"
+  },
+  {
+    "id": "digitalers",
+    "title": "Bootcamp Digit@lers",
+    "category": "ejercicios",
+    "description": "Primeras páginas, DOM, formularios, asincronía, promesas, APIs, Express, WebSockets y React.",
+    "tags": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Express"
+    ],
+    "status": "Formación",
+    "featured": false,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/mern_enviroment/Bootcamp%20Digitalers/Digitalers/"
+  },
+  {
+    "id": "css",
+    "title": "Experimentos de Interfaz Web",
+    "category": "ejercicios",
+    "description": "Animación de escritura con CSS, maquetación, prácticas SPA y primeras interacciones en el navegador.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "status": "Prácticas",
+    "featured": false,
+    "repo": "Web",
+    "source": "https://github.com/GabrielUnsa/Web/tree/main/Notes%20Learning/TypewriterCSS"
+  }
+]

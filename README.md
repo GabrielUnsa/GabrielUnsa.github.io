@@ -7,6 +7,7 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 ## Contenido
 
 - Portada y presentación profesional.
+- Experiencia como desarrollador, profesor de Informática y técnico, con responsabilidades, proyectos relacionados y cronología de cargos en el I.E.M.
 - Tres sistemas destacados: Seguimiento Estudiantil, Servicio de Orientación y SANeCIEM.
 - Catálogo de 62 proyectos y grupos de prácticas en siete categorías, con descripciones, tecnologías, búsqueda sin distinción de tildes, filtros y ordenamiento.
 - Fichas de descripción con enlaces al código público o indicación de código privado.
@@ -20,6 +21,8 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 - Investigación: siete trabajos de desarrollo y experimentación, y dos publicaciones con enlaces a SEDICI (UNLP) y al libro de resúmenes de las XV JEMU (UNSa).
 
 Las descripciones se basan en la documentación de los proyectos. Se distinguen sistemas, prototipos, material histórico y ejercicios de aprendizaje. Las ilustraciones de los sistemas destacados son esquemas conceptuales, no capturas de sus interfaces.
+
+La experiencia profesional se edita en la sección `#experiencia` de `index.html`. Los cargos y períodos proceden del registro curricular: Auxiliar Docente desde agosto de 2023, contratación en Aprender Conectados entre 2022 y septiembre de 2023, y beca de formación entre 2019 y 2021. La experiencia en desarrollo se presenta mediante proyectos, sin atribuirle una antigüedad laboral no documentada.
 
 ## Estructura
 

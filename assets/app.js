@@ -134,6 +134,13 @@
     if (event.target === $('project-dialog') && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) $('project-dialog').close();
   });
   $('project-dialog').addEventListener('close', () => { document.body.style.overflow = ''; dialogTrigger?.focus({ preventScroll: true }); });
+  const mobileNav = document.querySelector('.mobile-nav');
+  mobileNav?.addEventListener('click', event => {
+    if (event.target.closest('a')) mobileNav.open = false;
+  });
+  mobileNav?.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && mobileNav.open) { mobileNav.open = false; mobileNav.querySelector('summary').focus(); }
+  });
   renderProjects();
   if (data.learning) {
     const learning = data.learning;

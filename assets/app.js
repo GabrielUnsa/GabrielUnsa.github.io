@@ -71,7 +71,9 @@
   });
   document.addEventListener('keydown', event => {
     if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && !$('project-dialog').open) {
-      event.preventDefault(); $('project-search').focus();
+      event.preventDefault();
+      $('proyectos').querySelector('.archive-panel').open = true;
+      $('project-search').focus();
     }
   });
   const external = ' target="_blank" rel="noopener noreferrer"';
@@ -149,6 +151,9 @@
     $('training-summary').innerHTML = [
       ['completed', 'cursos realizados'], ['participation', 'actividades de actualización'], ['in-progress', 'en curso']
     ].map(([status, label]) => `<div><strong>${learning.courses.filter(c => c.status === status).length}</strong><span>${label}</span></div>`).join('');
+    const selectedCourses = ['Bootcamp Full Stack', 'Data Analysis with Python', 'Introducción a la IA generativa']
+      .map(title => learning.courses.find(c => c.title.includes(title))).filter(Boolean);
+    $('course-preview').innerHTML = selectedCourses.map(c => `<article><time datetime="${escape(c.date)}">${escape(c.date.slice(0, 4))}</time><h3>${escape(c.title)}</h3><p>${escape(c.institution)}</p></article>`).join('');
     [...new Set(learning.courses.map(c => c.date.slice(0, 4)))].sort().reverse().forEach(year => {
       const option = document.createElement('option'); option.value = year; option.textContent = year; $('training-year').appendChild(option);
     });

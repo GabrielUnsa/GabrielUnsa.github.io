@@ -59,6 +59,8 @@ def main():
     projects = load('projects.json')
     learning = load('learning.json')
     inventory = load('source-index.json') if args.cached else []
+    if args.cached:
+        inventory = [item for item in inventory if item['repo'].lower() != f'{USER}.github.io'.lower()]
     if args.github:
         current = github_repositories()
         known = {r['name']: r for r in repositories}
@@ -69,8 +71,10 @@ def main():
             public.append(r)
         # Preserve only manually curated private summaries, never their file trees.
         repositories = public + [r for r in repositories if not r['public'] and r['name'] not in {p['name'] for p in public}]
-    for repo in ([] if args.cached else repositories):
+    for repo in repositories:
         if not repo['public']:
+            continue
+        if args.cached and repo['name'].lower() != f'{USER}.github.io'.lower():
             continue
         if repo['name'].lower() == f'{USER}.github.io'.lower():
             # Index the exact portfolio checkout being published, including new files.

@@ -13,7 +13,7 @@
   function apply(theme) {
     root.dataset.theme = theme;
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = theme === 'dark' ? '#101815' : '#f7f9f5';
+    if (meta) meta.content = theme === 'dark' ? '#0c1110' : '#f7f9f5';
     const button = document.getElementById('theme-toggle');
     if (!button) return;
     const target = theme === 'dark' ? 'claro' : 'oscuro';

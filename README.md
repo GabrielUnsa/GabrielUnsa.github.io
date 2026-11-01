@@ -6,8 +6,9 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 
 ## Contenido
 
-- Portada y presentación profesional.
-- Experiencia como desarrollador, profesor de Informática y técnico, con responsabilidades, proyectos relacionados y cronología de cargos en el I.E.M.
+- Portada profesional con especialidad, tecnologías principales y contacto directo.
+- Lectura orientada a reclutadores: proyectos seleccionados, experiencia y perfil técnico antes del archivo completo.
+- Experiencia como desarrollador, profesor de Informática y técnico, con responsabilidades, períodos y proyectos relacionados.
 - Tres sistemas destacados: Seguimiento Estudiantil, Servicio de Orientación y SANeCIEM.
 - Catálogo de 62 proyectos y grupos de prácticas en siete categorías, con descripciones, tecnologías, búsqueda sin distinción de tildes, filtros y ordenamiento.
 - Fichas de descripción con enlaces al código público o indicación de código privado.
@@ -15,6 +16,9 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 - Explorador de archivos de código y ejercicios públicos, con búsqueda, filtro por repositorio y acceso directo a GitHub.
 - Acceso a los juegos existentes en `intertribus/` y `pasapalabras/`.
 - Diseño adaptable, navegación por teclado, enlaces para saltar al contenido y soporte de movimiento reducido.
+- Cabecera fija, navegación activa, menú móvil, progreso de lectura y acceso para volver al inicio.
+- Animaciones de entrada al hacer scroll, transiciones de tarjetas y fichas, y estados interactivos. El contenido se mantiene visible si no hay soporte de animación.
+- Archivos completos de proyectos, formación, investigación y repositorios desplegables; los enlaces directos abren el catálogo correspondiente.
 - Selector de tema claro y oscuro en la cabecera: adopta la preferencia del sistema y recuerda la elección manual en el navegador.
 - Apartado de IA aplicada al desarrollo con Codex, Claude y Antigravity y un flujo de contexto, propuesta, revisión y verificación.
 - Formación continua: 48 cursos realizados, cinco actividades de actualización y un curso en progreso, con búsqueda por nombre o institución y filtros por año y estado.
@@ -22,7 +26,7 @@ Porfolio en español de Walter Gabriel Marmanillo, desarrollado con HTML, CSS y 
 
 Las descripciones se basan en la documentación de los proyectos. Se distinguen sistemas, prototipos, material histórico y ejercicios de aprendizaje. Las ilustraciones de los sistemas destacados son esquemas conceptuales, no capturas de sus interfaces.
 
-La experiencia profesional se edita en la sección `#experiencia` de `index.html`. Los cargos y períodos proceden del registro curricular: Auxiliar Docente desde agosto de 2023, contratación en Aprender Conectados entre 2022 y septiembre de 2023, y beca de formación entre 2019 y 2021. La experiencia en desarrollo se presenta mediante proyectos, sin atribuirle una antigüedad laboral no documentada.
+La experiencia profesional se edita en la sección `#experiencia` de `index.html`. Los períodos proceden del registro curricular y se presentan dentro de las fichas de cada área. La experiencia en desarrollo se presenta mediante proyectos, sin atribuirle una antigüedad laboral no documentada. Se quitó el bloque separado de recorrido institucional.
 
 ## Estructura
 
@@ -31,6 +35,7 @@ index.html                   Portada y secciones
 assets/styles.css            Diseño y adaptación a distintos tamaños de pantalla
 assets/app.js                Búsquedas, filtros, pestañas y fichas
 assets/theme.js              Tema inicial, selector y persistencia de la preferencia
+assets/motion.js             Entradas al scroll, navegación activa y apertura por enlaces
 assets/projects.json         Descripciones curadas de proyectos y prácticas
 assets/learning.json         Cursos, actividades, publicaciones y referencias a investigaciones
 assets/repositories.json     Descripciones y metadatos de repositorios
@@ -84,7 +89,7 @@ Para regenerar el sitio después de un cambio editorial, sin consultar de nuevo 
 python3 scripts/update-catalog.py --cached
 ```
 
-Ese modo conserva el último índice de archivos públicos verificado. Si se crean archivos de código o cambian los repositorios públicos, usar `--github`.
+Ese modo conserva el último índice verificado de los demás repositorios públicos y actualiza los archivos del propio porfolio desde el checkout. Para consultar cambios externos o incorporar nuevos repositorios públicos, usar `--github`.
 
 ## Actualizar el índice público
 
@@ -117,6 +122,7 @@ Comprobación de sintaxis:
 ```bash
 node --check assets/app.js
 node --check assets/theme.js
+node --check assets/motion.js
 node --check assets/catalog.js
 python3 -m py_compile scripts/update-catalog.py
 ```
